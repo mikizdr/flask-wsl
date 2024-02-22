@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}{% endblock %}</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    {% block style %}{% endblock %}
+</head>
+
+{% if url_for(request.endpoint) in ['/auth/register', '/auth/login'] %}
+
+<body class="flex items-center justify-center h-screen text-white">
+    {% else %}
+
+    <body>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+
+        {% block script %}{% endblock %}
+    </body>
+
+</html>

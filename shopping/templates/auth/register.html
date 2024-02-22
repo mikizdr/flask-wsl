@@ -1,99 +1,102 @@
-<!DOCTYPE html>
-<html class="dark">
+{% extends 'base.html' %}
 
-<head>
-    <title>Registration Page</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #1a202c;
-        }
+{% block title %}Registration{% endblock %}
 
-        input:invalid {
-            border-color: red;
-        }
+{% block style %}
+<style>
+    body {
+        background-color: #1a202c;
+    }
 
-        .error-message {
-            color: darkorange;
-            display: none;
-        }
+    input:invalid {
+        border-color: red;
+    }
 
-        .error-message.active {
-            display: block;
-        }
-    </style>
-</head>
+    .error-message {
+        color: red;
+        display: none;
+    }
 
-<body class="flex items-center justify-center h-screen text-white">
-    <div class="bg-gray-800 p-10 rounded-lg shadow-2xl w-2/3">
-        <h2 class="text-3xl mb-8 text-center">Registration Form</h2>
+    .error-message.active {
+        display: block;
+    }
+</style>
+{% endblock %}
 
-        <form id="registrationForm" novalidate method="post" action="{{ url_for('auth.register') }}">
-            <div class="mb-5">
-                <label for="username" class="block mb-2">Username:</label>
-                <input type="text" id="username" name="username" minlength="3" placeholder="Enter your username"
-                    class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                    required>
-                <div class="error-message" id="usernameError">
-                    Username is required and must be at least 3 characters.
-                </div>
+{% block content %}
+
+<!-- <body class="flex items-center justify-center h-screen text-white"> -->
+<div class="bg-gray-800 p-10 rounded-lg shadow-2xl w-2/3">
+    <h2 class="text-3xl mb-8 text-center">Registration Form</h2>
+
+    <form id="registrationForm" novalidate method="post" action="{{ url_for('auth.register') }}">
+        <div class="mb-5">
+            <label for="username" class="block mb-2">Username:</label>
+            <input type="text" id="username" name="username" minlength="3" placeholder="Enter your username"
+                class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                required>
+            <div class="error-message" id="usernameError">
+                Username is required and must be at least 3 characters.
             </div>
-            <div class="mb-5">
-                <label for="email" class="block mb-2">Email:</label>
-                <input type="email" id="email" name="email" placeholder="Enter your email"
-                    class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                    required>
-                <div class="error-message" id="emailError">
-                    A valid email is required.
-                </div>
+        </div>
+        <div class="mb-5">
+            <label for="email" class="block mb-2">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email"
+                class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                required>
+            <div class="error-message" id="emailError">
+                A valid email is required.
             </div>
-            <div class="mb-5">
-                <label for="password" class="block mb-2">Password:</label>
-                <input type="password" id="password" name="password" minlength="8" placeholder="Enter your password"
-                    class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                    required>
-                <div class="error-message" id="passwordError">
-                    Password is required and must be at least 8 characters.
-                </div>
+        </div>
+        <div class="mb-5">
+            <label for="password" class="block mb-2">Password:</label>
+            <input type="password" id="password" name="password" minlength="8" placeholder="Enter your password"
+                class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                required>
+            <div class="error-message" id="passwordError">
+                Password is required and must be at least 8 characters.
             </div>
-            <div class="mb-5">
-                <label for="passwordConfirmation" class="block mb-2">Password Confirmation:</label>
-                <input type="password" id="passwordConfirmation" name="passwordConfirmation" minlength="8"
-                    placeholder="Re-enter your password"
-                    class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                    required>
-                <div class="error-message" id="passwordConfirmationError">
-                    The confirmed password must be the same as the password you previously entered.
-                </div>
+        </div>
+        <div class="mb-5">
+            <label for="passwordConfirmation" class="block mb-2">Password Confirmation:</label>
+            <input type="password" id="passwordConfirmation" name="passwordConfirmation" minlength="8"
+                placeholder="Re-enter your password"
+                class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                required>
+            <div class="error-message" id="passwordConfirmationError">
+                The confirmed password must be the same as the password you previously entered.
             </div>
-            <input type="submit" value="Register"
-                class="w-full mt-6 px-3 py-2 text-white bg-blue-500 rounded hover:bg-blue-400">
-        </form>
-    </div>
+        </div>
+        <input type="submit" value="Register"
+            class="w-full mt-6 px-3 py-2 text-white bg-blue-500 rounded hover:bg-blue-400">
+    </form>
+</div>
 
-    <script>
-        document.getElementById('registrationForm').addEventListener('submit', event => {
-            const username = document.getElementById('username');
-            const email = document.getElementById('email');
-            const password = document.getElementById('password');
-            const passwordConfirmation = document.getElementById('passwordConfirmation');
+{% block script %}
+<script>
+    document.getElementById('registrationForm').addEventListener('submit', event => {
+        const username = document.getElementById('username');
+        const email = document.getElementById('email');
+        const password = document.getElementById('password');
+        const passwordConfirmation = document.getElementById('passwordConfirmation');
 
-            const addRemoveError = (id, condition) => {
-                if (condition) {
-                    event.preventDefault();
-                    document.getElementById(id).classList.add('active');
-                } else {
-                    document.getElementById(id).classList.remove('active');
-                }
-            };
+        const addRemoveError = (id, condition) => {
+            if (condition) {
+                event.preventDefault();
+                document.getElementById(id).classList.add('active');
+            } else {
+                document.getElementById(id).classList.remove('active');
+            }
+        };
 
-            addRemoveError('usernameError', username.validity.valueMissing || username.validity.tooShort);
-            addRemoveError('emailError', email.validity.valueMissing || email.validity.typeMismatch);
-            addRemoveError('passwordError', password.validity.valueMissing || password.validity.tooShort);
-            addRemoveError('passwordConfirmationError', passwordConfirmation.validity.valueMissing || password.validity.tooShort || password.value !== passwordConfirmation.value);
+        addRemoveError('usernameError', username.validity.valueMissing || username.validity.tooShort);
+        addRemoveError('emailError', email.validity.valueMissing || email.validity.typeMismatch);
+        addRemoveError('passwordError', password.validity.valueMissing || password.validity.tooShort);
+        addRemoveError('passwordConfirmationError', passwordConfirmation.validity.valueMissing || password.validity.tooShort
+            || password.value !== passwordConfirmation.value);
 
-        });
-    </script>
-</body>
-
-</html>
+    });
+</script>
+{% endblock %}
+<!-- </body> -->
+{% endblock %}
