@@ -1,3 +1,5 @@
+{% from 'components/macros/input.html' import input with context %}
+
 {% extends 'base.html' %}
 
 {% block title %}Registration{% endblock %}
@@ -24,79 +26,63 @@
 {% endblock %}
 
 {% block content %}
-
-<!-- <body class="flex items-center justify-center h-screen text-white"> -->
 <div class="bg-gray-800 p-10 rounded-lg shadow-2xl w-2/3">
     <h2 class="text-3xl mb-8 text-center">Registration Form</h2>
 
     <form id="registrationForm" novalidate method="post" action="{{ url_for('auth.register') }}">
-        <div class="mb-5">
-            <label for="username" class="block mb-2">Username:</label>
-            <input type="text" id="username" name="username" minlength="3" placeholder="Enter your username"
-                class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                required>
-            <div class="error-message" id="usernameError">
-                Username is required and must be at least 3 characters.
-            </div>
-        </div>
-        <div class="mb-5">
-            <label for="email" class="block mb-2">Email:</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email"
-                class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                required>
-            <div class="error-message" id="emailError">
-                A valid email is required.
-            </div>
-        </div>
-        <div class="mb-5">
-            <label for="password" class="block mb-2">Password:</label>
-            <input type="password" id="password" name="password" minlength="8" placeholder="Enter your password"
-                class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                required>
-            <div class="error-message" id="passwordError">
-                Password is required and must be at least 8 characters.
-            </div>
-        </div>
-        <div class="mb-5">
-            <label for="passwordConfirmation" class="block mb-2">Password Confirmation:</label>
-            <input type="password" id="passwordConfirmation" name="passwordConfirmation" minlength="8"
-                placeholder="Re-enter your password"
-                class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                required>
-            <div class="error-message" id="passwordConfirmationError">
-                The confirmed password must be the same as the password you previously entered.
-            </div>
-        </div>
+        {{ input(name='username', label='Username', error='Username is required and must be at least 3 characters.' ) }}
+        {{ input(name='email', label='Email', error='A valid email is required.', type='email', minlength=5,
+        maxlength=30) }}
+        {{ input(name='password', label='Password', error='Password is required and must be at least 8 characters.',
+        type='password',
+        minlength=8, maxlength=30) }}
+        {{ input(name='passwordConfirmation', label='Confirm Password', error='The confirmed password must be the same
+        as
+        the password you
+        previously entered.', type='password', minlength=8, maxlength=30) }}
+
         <input type="submit" value="Register"
             class="w-full mt-6 px-3 py-2 text-white bg-blue-500 rounded hover:bg-blue-400">
     </form>
 </div>
+{% endblock %}
 
 {% block script %}
 <script>
-    document.getElementById('registrationForm').addEventListener('submit', event => {
-        const username = document.getElementById('username');
-        const email = document.getElementById('email');
-        const password = document.getElementById('password');
-        const passwordConfirmation = document.getElementById('passwordConfirmation');
+    const form = document.getElementById('registrationForm');
+    const username = document.getElementById('username');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const passwordConfirmation = document.getElementById('passwordConfirmation');
 
-        const addRemoveError = (id, condition) => {
-            if (condition) {
-                event.preventDefault();
-                document.getElementById(id).classList.add('active');
-            } else {
-                document.getElementById(id).classList.remove('active');
-            }
-        };
+    /**
+     * Add or remove error message based on the condition
+     * @param {string} id - The id of the error message
+     * @param {boolean} condition - The condition to check
+     * @param {boolean} submit - Whether to prevent the form submission
+     */
+    const addRemoveError = (id, condition, submit = true) => {
+        if (condition) {
+            submit && event.preventDefault();
+            document.getElementById(id).classList.add('active');
+        } else {
+            document.getElementById(id).classList.remove('active');
+        }
+    };
 
+    // validation on input
+    username.addEventListener('input', () => addRemoveError('usernameError', username.validity.valueMissing || username.validity.tooShort, false));
+    email.addEventListener('input', () => addRemoveError('emailError', email.validity.valueMissing || email.validity.typeMismatch, false));
+    password.addEventListener('input', () => addRemoveError('passwordError', password.validity.valueMissing || password.validity.tooShort, false));
+    passwordConfirmation.addEventListener('input', () => addRemoveError('passwordConfirmationError', passwordConfirmation.validity.valueMissing || password.validity.tooShort || password.value !== passwordConfirmation.value, false));
+
+    // validation on form submit
+    form.addEventListener('submit', event => {
         addRemoveError('usernameError', username.validity.valueMissing || username.validity.tooShort);
         addRemoveError('emailError', email.validity.valueMissing || email.validity.typeMismatch);
         addRemoveError('passwordError', password.validity.valueMissing || password.validity.tooShort);
         addRemoveError('passwordConfirmationError', passwordConfirmation.validity.valueMissing || password.validity.tooShort
             || password.value !== passwordConfirmation.value);
-
     });
 </script>
-{% endblock %}
-<!-- </body> -->
 {% endblock %}
