@@ -7,7 +7,7 @@
 
     <title>{% block title %}{% endblock %}</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
     {% block style %}{% endblock %}
@@ -15,10 +15,15 @@
 
 {% if url_for(request.endpoint) in ['/auth/register', '/auth/login'] %}
 
-<body class="flex items-center justify-center h-screen text-white">
+<body class="bg-gray-50 dark:bg-gray-900">
+    <!-- <body class="flex items-center justify-center h-screen text-white"> -->
     {% else %}
 
     <body>
+        {% endif %}
+
+        {% if url_for(request.endpoint) not in ['/auth/register', '/auth/login'] %}
+        {% include 'partials/navbar.html' %}
         {% endif %}
 
         {% block content %}{% endblock %}
