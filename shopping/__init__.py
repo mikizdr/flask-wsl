@@ -11,8 +11,10 @@ db = SQLAlchemy(app)
 from .models import user
 
 from .routes import auth
+from .routes import dashboard
 
 app.register_blueprint(auth.bp)
+app.register_blueprint(dashboard.bp)
 
 # push context manually to app
 with app.app_context():

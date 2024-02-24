@@ -90,7 +90,7 @@ def login() -> str:
         else:
             session.clear()
             session['user_id'] = user.id
-            return redirect(url_for("home.home"))
+            return redirect(url_for("dashboard.home"))
 
         flash(error)
 
@@ -99,4 +99,4 @@ def login() -> str:
 @bp.route('/logout')
 def logout() -> Response:
     session.clear()
-    return redirect(url_for('home.index'))
+    return redirect(url_for('dashboard.index'))
