@@ -48,9 +48,9 @@ def register() -> Union[Response, str]:
         elif password != confirm_password:
             error = "Passwords do not match"
         elif User.query.filter_by(email=email).first() is not None:
-            error = f"User {email} is already registered"
+            error = f"Email address {email} is already registered"
         elif User.query.filter_by(username=username).first() is not None:
-            error = f"User {username} is already registered"
+            error = f"Username {username} is already registered"
 
         print(username, email, password, confirm_password)
 
@@ -67,10 +67,7 @@ def register() -> Union[Response, str]:
 
         print(error)
 
-        return redirect(url_for("auth.login"))
-
-    form = RegisterForm()
-    return render_template("auth/register.html", form=form)
+    return render_template("auth/register.html", form=RegisterForm())
 
 
 @bp.route("/login", methods=["POST", "GET"])
