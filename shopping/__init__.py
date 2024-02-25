@@ -1,14 +1,16 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 
 app = Flask(__name__)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///shopping.db"
-app.config['SECRET_KEY'] = 'yziSWR7ZXM4tLeJJIDjjdtMe18OjO3urIl42tgxnW9w'
+app.config["SECRET_KEY"] = "yziSWR7ZXM4tLeJJIDjjdtMe18OjO3urIl42tgxnW9w"
 
 db = SQLAlchemy(app)
+login_manager = LoginManager(app)
 
-from .models import user
+from .models import definitions
 
 from .routes import auth
 from .routes import dashboard
