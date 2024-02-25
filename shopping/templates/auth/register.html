@@ -142,5 +142,50 @@ dark:focus:border-blue-500' %}
 {% endblock %}
 
 {% block script %}
+<script>
+    const form = document.getElementById('registrationForm');
+    const username = document.getElementById('username');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const passwordConfirmation = document.getElementById('passwordConfirmation');
+    const terms = document.getElementById('terms');
 
+    /**
+     * Add or remove error message based on the condition
+     * @param {string} id - The id of the error message
+     * @param {boolean} condition - The condition to check
+     * @param {boolean} submit - Whether to prevent the form submission
+     */
+    const addRemoveError = (id, condition, submit = true) => {
+        if (condition) {
+            submit && event.preventDefault();
+            document.getElementById(id).classList.add('active');
+        } else {
+            document.getElementById(id).classList.remove('active');
+        }
+    };
+
+    // validation on input
+    username.addEventListener('input', () => addRemoveError('usernameError', username.validity.valueMissing || username.validity.tooShort, false));
+    email.addEventListener('input', () => addRemoveError('emailError', email.validity.valueMissing || email.validity.typeMismatch, false));
+    password.addEventListener('input', () => addRemoveError('passwordError', password.validity.valueMissing || password.validity.tooShort, false));
+    passwordConfirmation.addEventListener('input', () => addRemoveError('passwordConfirmationError', passwordConfirmation.validity.valueMissing || password.validity.tooShort || password.value !== passwordConfirmation.value, false));
+    terms.addEventListener('click', (e) => {
+        if (e.target.checked) {
+            document.getElementById('termsError').classList.remove('active');
+        } else {
+            document.getElementById('termsError').classList.add('active');
+        }
+    });
+
+    // validation on form submit
+    form.addEventListener('submit', event => {
+        addRemoveError('usernameError', username.validity.valueMissing || username.validity.tooShort);
+        addRemoveError('emailError', email.validity.valueMissing || email.validity.typeMismatch);
+        addRemoveError('passwordError', password.validity.valueMissing || password.validity.tooShort);
+        addRemoveError('passwordConfirmationError', passwordConfirmation.validity.valueMissing || password.validity.tooShort
+            || password.value !== passwordConfirmation.value);
+        addRemoveError('termsError', !terms.checked);
+    });
+</script>
 {% endblock %}
