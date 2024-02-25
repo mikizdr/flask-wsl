@@ -37,3 +37,12 @@ class RegisterForm(FlaskForm):
 
     def __repr__(self) -> str:
         return f"RegisterForm('{self.username}', '{self.email}')"
+
+
+class LoginForm(FlaskForm):
+    username = StringField(label="Username:", validators=[DataRequired()])
+    password = PasswordField(label="Password:", validators=[DataRequired()])
+    submit = SubmitField(label="Login")
+
+    def __repr__(self) -> str:
+        return f"LoginForm('{self.email}')"
