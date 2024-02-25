@@ -51,7 +51,7 @@ dark:focus:border-blue-500' %}
                         {{ form.username.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
                         {{ form.username(class=class_name_for_input, id='username', placeholder='Your username',
                         minlength=3,
-                        maxlength=20, required=True, autofocus=True) }}
+                        maxlength=30, required=True, autofocus=True) }}
                         <div class="error-message" id="usernameError">
                             Username is required and must be at least 3 characters.
                         </div>
@@ -61,7 +61,7 @@ dark:focus:border-blue-500' %}
                         {{ form.email.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
                         {{ form.email(class=class_name_for_input, id='email', placeholder='name@email.com',
                         minlength=5,
-                        maxlength=30, required=True) }}
+                        maxlength=80, required=True) }}
                         <div class="error-message" id="emailError">
                             A valid email is required.
                         </div>
@@ -126,6 +126,7 @@ dark:focus:border-blue-500' %}
                         class="w-full my-5 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                         Create an account
                     </button>
+
                     <p class="text-sm font-light text-gray-500 dark:text-gray-400">
                         Already have an account?
                         <a href="{{ url_for('auth.login') }}"
@@ -141,50 +142,5 @@ dark:focus:border-blue-500' %}
 {% endblock %}
 
 {% block script %}
-<script>
-    const form = document.getElementById('registrationForm');
-    const username = document.getElementById('username');
-    const email = document.getElementById('email');
-    const password = document.getElementById('password');
-    const passwordConfirmation = document.getElementById('passwordConfirmation');
-    const terms = document.getElementById('terms');
 
-    /**
-     * Add or remove error message based on the condition
-     * @param {string} id - The id of the error message
-     * @param {boolean} condition - The condition to check
-     * @param {boolean} submit - Whether to prevent the form submission
-     */
-    const addRemoveError = (id, condition, submit = true) => {
-        if (condition) {
-            submit && event.preventDefault();
-            document.getElementById(id).classList.add('active');
-        } else {
-            document.getElementById(id).classList.remove('active');
-        }
-    };
-
-    // validation on input
-    username.addEventListener('input', () => addRemoveError('usernameError', username.validity.valueMissing || username.validity.tooShort, false));
-    email.addEventListener('input', () => addRemoveError('emailError', email.validity.valueMissing || email.validity.typeMismatch, false));
-    password.addEventListener('input', () => addRemoveError('passwordError', password.validity.valueMissing || password.validity.tooShort, false));
-    passwordConfirmation.addEventListener('input', () => addRemoveError('passwordConfirmationError', passwordConfirmation.validity.valueMissing || password.validity.tooShort || password.value !== passwordConfirmation.value, false));
-    terms.addEventListener('click', (e) => {
-        if (e.target.checked) {
-            document.getElementById('termsError').classList.remove('active');
-        } else {
-            document.getElementById('termsError').classList.add('active');
-        }
-    });
-
-    // validation on form submit
-    form.addEventListener('submit', event => {
-        addRemoveError('usernameError', username.validity.valueMissing || username.validity.tooShort);
-        addRemoveError('emailError', email.validity.valueMissing || email.validity.typeMismatch);
-        addRemoveError('passwordError', password.validity.valueMissing || password.validity.tooShort);
-        addRemoveError('passwordConfirmationError', passwordConfirmation.validity.valueMissing || password.validity.tooShort
-            || password.value !== passwordConfirmation.value);
-        addRemoveError('termsError', !terms.checked);
-    });
-</script>
 {% endblock %}
