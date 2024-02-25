@@ -1,6 +1,9 @@
 from shopping import db
 
+
 class User(db.Model):
+    __tablename__: str = "users"
+
     id = db.Column(db.Integer(), primary_key=True)
     username = db.Column(db.String(length=30), nullable=False, unique=True)
     email = db.Column(db.String(length=50), nullable=False, unique=True)
@@ -8,5 +11,5 @@ class User(db.Model):
     password = db.Column(db.String(length=60), nullable=False)
     remember_token = db.Column(db.String(length=100), nullable=True)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"User('{self.username}')"
