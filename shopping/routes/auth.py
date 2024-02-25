@@ -3,97 +3,94 @@ from flask import (
     Blueprint,
     Response,
     render_template,
-    request,
     session,
     url_for,
     redirect,
     flash,
-    g
+    g,
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from shopping import db
-from shopping.templates.components.forms.register import RegisterForm
-from shopping.models.user import User
+from shopping.templates.components.forms.auth import LoginForm, RegisterForm
+from shopping.models.definitions import User
+from flask_login import login_user
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 
+
 @bp.before_app_request
 def load_logged_in_user() -> None:
-    user_id = session.get('user_id')
+    user_id = session.get("user_id")
 
     if user_id is None:
         g.user = None
     else:
         g.user = User.query.filter_by(id=user_id).first()
 
-@bp.route("/register", methods=["POST", "GET"])
+
+@bp.route("/register", methods=["GET", "POST"])
 def register() -> Union[Response, str]:
-    if request.method == "POST":
-        username: str = request.form["username"]
-        email: str = request.form["email"]
-        password: str = request.form["password"]
-        confirm_password: str = request.form["confirm_password"]
 
-        error = None
+    form = RegisterForm()
 
-        if not username:
-            error = "Username is required"
-        elif not email:
-            error = "Email is required"
-        elif not password:
-            error = "Password is required"
-        elif not confirm_password:
-            error = "Password confirmation is required"
-        elif password != confirm_password:
-            error = "Passwords do not match"
-        elif User.query.filter_by(email=email).first() is not None:
-            error = f"Email address {email} is already registered"
-        elif User.query.filter_by(username=username).first() is not None:
-            error = f"Username {username} is already registered"
+    if form.validate_on_submit():
+        username: str = form.username.data
+        email: str = form.email.data
+        password: str = form.password.data
 
-        print(username, email, password, confirm_password)
+        user = User(
+            username=username,
+            email=email,
+            password=generate_password_hash(password),
+        )
 
-        if error is None:
-            try:
-                hashed_password: str = generate_password_hash(password)
-                user = User(username=username, email=email, password=hashed_password)
-                db.session.add(user)
-                db.session.commit()
-            except Exception as e:
-                error: Exception = e
-            else:
-                return redirect(url_for("auth.login"))
+        db.session.add(user)
+        db.session.commit()
 
-        print(error)
+        session.clear()
+        session["user_id"] = user.id
 
-    return render_template("auth/register.html", form=RegisterForm())
+        return redirect(url_for("dashboard.home"))
+
+    if form.errors != {}:  # If there are errors from the validations
+        for err_msg in form.errors.values():
+            flash(f"There was an error with creating a user: {err_msg}")
+
+    return render_template("auth/register.html", form=form)
 
 
-@bp.route("/login", methods=["POST", "GET"])
-def login() -> str:
-    if request.method == "POST":
-        username: str = request.form["username"]
-        password: str = request.form["password"]
+@bp.route("/login", methods=["GET", "POST"])
+def login() -> Union[Response, str]:
 
-        error = None
+    form = LoginForm()
 
-        user: User | None = User.query.filter_by(username=username).first()
+    if form.validate_on_submit():
+        user: User | None = User.query.filter_by(username=form.username.data).first()
 
-        if user is None:
-            error = "Invalid username"
-        elif not check_password_hash(user.password, password):
-            error = "Invalid password"
-        else:
+        if user and user.password_is_valid(password=form.password.data):
+            login_user(user)  # Fix: Call the login_user function with the user object
+            flash(
+                f"Success! You are logged in as: {user.username}",
+                category="success",
+            )
+
             session.clear()
-            session['user_id'] = user.id
+            session["user_id"] = user.id
+
             return redirect(url_for("dashboard.home"))
+        else:
+            flash(
+                "Username and password are not match! Please try again",
+                category="danger",
+            )
 
-        flash(error)
+    return render_template("auth/login.html", form=form)
 
-    return render_template("auth/login.html", form=RegisterForm())
 
-@bp.route('/logout')
+@bp.route("/logout")
 def logout() -> Response:
     session.clear()
-    return redirect(url_for('dashboard.index'))
+    flash("You have been logged out!", category="info")
+
+    return redirect(url_for("dashboard.index"))
