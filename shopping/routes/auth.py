@@ -3,7 +3,6 @@ from flask import (
     Blueprint,
     Response,
     render_template,
-    session,
     url_for,
     redirect,
     flash,
@@ -36,6 +35,12 @@ def register() -> Union[Response, str]:
 
         db.session.add(user)
         db.session.commit()
+
+        login_user(user)
+        flash(
+            f"Account created successfully! You are now logged in as {user.username}",
+            category="green",
+        )
 
         return redirect(url_for("dashboard.home"))
 
@@ -74,6 +79,6 @@ def login() -> Union[Response, str]:
 @bp.route("/logout")
 def logout() -> Response:
     logout_user()
-    flash("You have been logged out!", category="info")
+    flash("You have been logged out!", category="green")
 
     return redirect(url_for("dashboard.index"))
