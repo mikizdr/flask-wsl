@@ -12,3 +12,13 @@
     --tw-bg-opacity: 1;
     background-color: rgb(37 99 235 / var(--tw-bg-opacity));
 }
+
+.flash-alert-position {
+    position: absolute;
+    width: 80%;
+    left: 0;
+    right: 0;
+    top: 60px;
+    margin: auto;
+    z-index: 1000;
+}
