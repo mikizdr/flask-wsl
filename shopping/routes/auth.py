@@ -14,7 +14,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from shopping import db
 from shopping.templates.components.forms.auth import LoginForm, RegisterForm
 from shopping.models.definitions import User
-from flask_login import login_user
+from flask_login import login_user, logout_user
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 
@@ -90,7 +90,7 @@ def login() -> Union[Response, str]:
 
 @bp.route("/logout")
 def logout() -> Response:
-    session.clear()
+    logout_user()
     flash("You have been logged out!", category="info")
 
     return redirect(url_for("dashboard.index"))
