@@ -7,26 +7,15 @@ from flask import (
     url_for,
     redirect,
     flash,
-    g,
 )
-from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.security import generate_password_hash
 
 from shopping import db
 from shopping.templates.components.forms.auth import LoginForm, RegisterForm
 from shopping.models.definitions import User
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, login_required
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
-
-
-@bp.before_app_request
-def load_logged_in_user() -> None:
-    user_id = session.get("user_id")
-
-    if user_id is None:
-        g.user = None
-    else:
-        g.user = User.query.filter_by(id=user_id).first()
 
 
 @bp.route("/register", methods=["GET", "POST"])
@@ -47,9 +36,6 @@ def register() -> Union[Response, str]:
 
         db.session.add(user)
         db.session.commit()
-
-        session.clear()
-        session["user_id"] = user.id
 
         return redirect(url_for("dashboard.home"))
 
@@ -74,9 +60,6 @@ def login() -> Union[Response, str]:
                 f"Success! You are logged in as: {user.username}",
                 category="success",
             )
-
-            session.clear()
-            session["user_id"] = user.id
 
             return redirect(url_for("dashboard.home"))
         else:
