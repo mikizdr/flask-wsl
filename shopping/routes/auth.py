@@ -46,7 +46,7 @@ def register() -> Union[Response, str]:
 
     if form.errors != {}:  # If there are errors from the validations
         for err_msg in form.errors.values():
-            flash(f"There was an error with creating a user: {err_msg}")
+            flash(f"There was an error with creating a user: {err_msg}", category="red")
 
     return render_template("auth/register.html", form=form)
 
@@ -63,14 +63,14 @@ def login() -> Union[Response, str]:
             login_user(user)  # Fix: Call the login_user function with the user object
             flash(
                 f"Success! You are logged in as: {user.username}",
-                category="success",
+                category="green",
             )
 
             return redirect(url_for("dashboard.home"))
         else:
             flash(
                 "Username and password are not match! Please try again",
-                category="danger",
+                category="red",
             )
 
     return render_template("auth/login.html", form=form)
@@ -79,6 +79,6 @@ def login() -> Union[Response, str]:
 @bp.route("/logout")
 def logout() -> Response:
     logout_user()
-    flash("You have been logged out!", category="green")
+    flash("You have been logged out!", category="blue")
 
     return redirect(url_for("dashboard.index"))
