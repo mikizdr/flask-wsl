@@ -11,8 +11,6 @@ db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = "auth.login"
 
-from .models import definitions
-
 from .routes import auth
 from .routes import dashboard
 
