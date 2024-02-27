@@ -10,6 +10,7 @@ app.config["SECRET_KEY"] = "yziSWR7ZXM4tLeJJIDjjdtMe18OjO3urIl42tgxnW9w"
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = "auth.login"
+login_manager.login_message_category = "gray"
 
 from .routes import auth
 from .routes import dashboard
