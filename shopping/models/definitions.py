@@ -15,6 +15,7 @@ class User(db.Model, UserMixin):
     email_verified_at = db.Column(db.DateTime(), nullable=True)
     password = db.Column(db.String(length=60), nullable=False)
     remember_token = db.Column(db.String(length=100), nullable=True)
+    role_id = db.Column(db.Integer(), db.ForeignKey("roles.id"), nullable=False, default=3)
 
     # @property
     # def password_h(self) -> str:
@@ -48,6 +49,7 @@ class Role(db.Model):
 
     id: int = db.Column(db.Integer(), primary_key=True)
     name: str = db.Column(db.String(length=20), nullable=False, unique=True)
+    description: str = db.Column(db.String(length=1000), nullable=True)
 
     def __repr__(self) -> str:
         return f"Role('{self.name}')"

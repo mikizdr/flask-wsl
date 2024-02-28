@@ -18,6 +18,13 @@ from .routes import dashboard
 app.register_blueprint(auth.bp)
 app.register_blueprint(dashboard.bp)
 
+# @app.before_first_request
+# def create_tables():
+#     """Create Tables and populate certain ones"""
+#     db.create_all()
+
 # push context manually to app
 with app.app_context():
     db.create_all()
+    from .database.init_defaults import init_defaults
+    init_defaults()
