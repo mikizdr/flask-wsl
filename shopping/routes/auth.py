@@ -1,4 +1,5 @@
-from typing import List, Union
+import functools
+from typing import Union
 from flask import (
     Blueprint,
     Response,
@@ -12,7 +13,7 @@ from werkzeug.security import generate_password_hash
 from shopping import db
 from shopping.templates.components.forms.auth import LoginForm, RegisterForm
 from shopping.models.definitions import Role, User
-from flask_login import login_user, logout_user, login_required
+from flask_login import current_user, login_user, logout_user
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 
@@ -82,3 +83,19 @@ def logout() -> Response:
     flash("You have been logged out!", category="blue")
 
     return redirect(url_for("dashboard.index"))
+
+
+def only_admin(view):
+    """Guard that checks if the user is an admin."""
+
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if not current_user.is_authenticated:
+            return redirect(url_for("auth.login"))
+        elif current_user.is_authenticated and current_user.role_id != Role.ADMIN:
+            flash("You are not authorized to view the roles page.", category="red")
+            return redirect(url_for("dashboard.home"))
+
+        return view(**kwargs)
+
+    return wrapped_view

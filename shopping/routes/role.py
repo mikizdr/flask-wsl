@@ -9,17 +9,17 @@ from flask import (
     request,
     url_for,
 )
-from flask_login import login_required
 
 from shopping import db
 from shopping.models.definitions import Role, User
+from shopping.routes.auth import only_admin
 from shopping.templates.components.forms.role import RoleForm
 
 bp = Blueprint("role", __name__, url_prefix="/roles")
 
 
 @bp.route("/")
-@login_required
+@only_admin
 def index() -> Response:
     roles: List = Role.query.all()
 
@@ -27,7 +27,7 @@ def index() -> Response:
 
 
 @bp.route("/create", methods=["GET", "POST"])
-@login_required
+@only_admin
 def create() -> Response:
 
     form = RoleForm()
@@ -51,7 +51,7 @@ def create() -> Response:
 
 
 @bp.route("/<int:id>", methods=["PUT"])
-@login_required
+@only_admin
 def update_role(id: int) -> Response:
 
     try:
@@ -69,7 +69,7 @@ def update_role(id: int) -> Response:
 
 
 @bp.route("/<int:id>", methods=["DELETE"])
-@login_required
+@only_admin
 def delete_role(id: int) -> Response:
     role: Role = Role.query.get_or_404(id)
 

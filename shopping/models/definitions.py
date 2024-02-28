@@ -46,6 +46,8 @@ def load_user(user_id) -> Union[User, None]:
 
 class Role(db.Model):
     __tablename__: str = "roles"
+    
+    ADMIN = 1
 
     id: int = db.Column(db.Integer(), primary_key=True)
     name: str = db.Column(db.String(length=20), nullable=False, unique=True)
