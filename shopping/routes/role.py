@@ -18,7 +18,7 @@ def index() -> Response:
 
 @bp.route("/<int:id>", methods=["PUT"])
 @login_required
-def edit_role(id: int) -> Response:
+def update_role(id: int) -> Response:
 
     try:
         role: Role = Role.query.get_or_404(id)
