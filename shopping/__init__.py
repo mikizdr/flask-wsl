@@ -12,16 +12,11 @@ login_manager = LoginManager(app)
 login_manager.login_view = "auth.login"
 login_manager.login_message_category = "gray"
 
-from .routes import auth
-from .routes import dashboard
+from .routes import auth, dashboard, role
 
 app.register_blueprint(auth.bp)
 app.register_blueprint(dashboard.bp)
-
-# @app.before_first_request
-# def create_tables():
-#     """Create Tables and populate certain ones"""
-#     db.create_all()
+app.register_blueprint(role.bp)
 
 # push context manually to app
 with app.app_context():

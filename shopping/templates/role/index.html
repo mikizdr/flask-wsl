@@ -5,7 +5,12 @@
 {% block content %}
 
 <div class="px-16">
-    <h1 class="text-white text-2xl">Roles</h1>
+    <div class="flex justify-between items-center">
+        <h1 class="text-white text-2xl">Roles</h1>
+        <a href="#" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Create a Role
+        </a>
+    </div>
 
     <hr class="my-4">
 
@@ -32,15 +37,15 @@
                 <tr
                     class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <td class="w-4 p-4">
-                        {{ loop.index }}
+                        {{ role.id }}
                     </td>
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        <div contenteditable id="edit-role-name-{{ role.id }}">
+                        <div contenteditable>
                             {{ role.name }}
                         </div>
                     </td>
                     <td class="px-6 py-4">
-                        <div contenteditable id="edit-role-description-{{ role.id }}">
+                        <div contenteditable>
                             {{ role.description }}
                         </div>
                     </td>
@@ -71,9 +76,11 @@
         const row = element.closest('tr');
         element.style.display = 'none'
         element.nextElementSibling.style.display = 'block';
-        const id = row.querySelector('td:nth-child(2) div').id.split('-')[3];
+        const id = row.querySelector('td:nth-child(1)').innerText;
         const name = row.querySelector('td:nth-child(2) div').innerText;
         const description = row.querySelector('td:nth-child(3) div')
+
+        console.log(id, name, description.innerText)
 
         if (!update) {
             oldName = name;
@@ -83,7 +90,7 @@
         !update && description.focus();
 
         if (update) {
-            fetch(`/auth/roles/${id}`, {
+            fetch(`/roles/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -116,9 +123,9 @@
         }
 
         const row = element.closest('tr');
-        const id = row.querySelector('td:nth-child(2) div').id.split('-')[3];
+        const id = row.querySelector('td:nth-child(1)').innerText;
 
-        fetch(`/auth/roles/${id}`, {
+        fetch(`/roles/${id}`, {
             method: 'DELETE'
         })
             .then(response => {
