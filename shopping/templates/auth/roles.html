@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<div class="px-8">
+<div class="px-16">
     <h1 class="text-white text-2xl">Roles</h1>
 
     <hr class="my-4">
@@ -13,12 +13,8 @@
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th scope="col" class="p-4">
-                        <div class="flex items-center">
-                            <input id="checkbox-all-search" type="checkbox"
-                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="checkbox-all-search" class="sr-only">checkbox</label>
-                        </div>
+                    <th class="p-4">
+                        #
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Role name
@@ -36,23 +32,25 @@
                 <tr
                     class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <td class="w-4 p-4">
-                        <div class="flex items-center">
-                            <input id="checkbox-table-search-1" type="checkbox"
-                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-                        </div>
+                        {{ loop.index }}
                     </td>
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        <div contenteditable>
+                        <div contenteditable id="edit-role-name-{{ role.id }}">
                             {{ role.name }}
                         </div>
                     </td>
                     <td class="px-6 py-4">
-                        {{ role.description }}
+                        <div contenteditable id="edit-role-description-{{ role.id }}">
+                            {{ role.description }}
+                        </div>
                     </td>
                     <td class="flex items-center px-6 py-4">
-                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                        <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline ms-3">Remove</a>
+                        <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-3"
+                            onclick="update(this)">Edit</button>
+                        <button class="font-medium text-green-600 dark:text-green-500 hover:underline mr-3"
+                            onclick="update(this, true)" style="display: none;">Update</button>
+                        <button class="font-medium text-red-600 dark:text-red-500 hover:underline"
+                            onclick="remove(this)">Remove</button>
                     </td>
                 </tr>
                 {% endfor %}
@@ -61,4 +59,79 @@
     </div>
 </div>
 
+{% endblock %}
+
+{% block script %}
+<script>
+
+    let oldName = '';
+    let oldDescription = '';
+
+    function update(element, update = false) {
+        const row = element.closest('tr');
+        element.style.display = 'none'
+        element.nextElementSibling.style.display = 'block';
+        const id = row.querySelector('td:nth-child(2) div').id.split('-')[3];
+        const name = row.querySelector('td:nth-child(2) div').innerText;
+        const description = row.querySelector('td:nth-child(3) div')
+
+        if (!update) {
+            oldName = name;
+            oldDescription = description.innerText;
+        }
+
+        !update && description.focus();
+
+        if (update) {
+            fetch(`/auth/roles/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: name,
+                    description: description.innerText
+                })
+            })
+                .then(response => {
+                    if (response.status !== 200) {
+                        name.innerText = oldName;
+                        description.innerText = oldDescription;
+                        alert('Role cannot be updated.');
+                    } else {
+                        console.log('Success');
+                    }
+                    element.previousElementSibling.style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    }
+
+    function remove(element) {
+
+        if (!confirm('Are you sure?')) {
+            return;
+        }
+
+        const row = element.closest('tr');
+        const id = row.querySelector('td:nth-child(2) div').id.split('-')[3];
+
+        fetch(`/auth/roles/${id}`, {
+            method: 'DELETE'
+        })
+            .then(response => {
+                if (response.status === 200) {
+                    console.log('Success');
+                    row.remove();
+                } else {
+                    alert('Role cannot be removed.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+</script>
 {% endblock %}
