@@ -1,9 +1,19 @@
 from typing import List
-from flask import Blueprint, Response, jsonify, render_template, request
+from flask import (
+    Blueprint,
+    Response,
+    flash,
+    jsonify,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 from flask_login import login_required
 
 from shopping import db
 from shopping.models.definitions import Role, User
+from shopping.templates.components.forms.role import RoleForm
 
 bp = Blueprint("role", __name__, url_prefix="/roles")
 
@@ -14,6 +24,30 @@ def index() -> Response:
     roles: List = Role.query.all()
 
     return render_template("role/index.html", roles=roles)
+
+
+@bp.route("/create", methods=["GET", "POST"])
+@login_required
+def create() -> Response:
+
+    form = RoleForm()
+
+    if form.validate_on_submit():
+        name: str = form.name.data
+        description: str = form.description.data
+
+        role: Role = Role(name=name, description=description)
+
+        db.session.add(role)
+        db.session.commit()
+
+        return redirect(url_for("role.index"))
+
+    if form.errors != {}:  # If there are errors from the validations
+        for err_msg in form.errors.values():
+            flash(f"There was an error with creating a role: {err_msg}", category="red")
+
+    return render_template("role/create.html", form=form)
 
 
 @bp.route("/<int:id>", methods=["PUT"])
