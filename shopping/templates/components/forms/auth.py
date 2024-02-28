@@ -13,7 +13,7 @@ class RegisterForm(FlaskForm):
         ).first()
         if user:
             raise ValidationError(
-                "Username already exists! Please try a different username"
+                "Username already exists! Please try a different username."
             )
 
     def validate_email(self, email_to_check) -> None:
