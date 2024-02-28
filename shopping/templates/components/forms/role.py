@@ -8,8 +8,8 @@ from shopping.models.definitions import Role
 class RoleForm(FlaskForm):
 
     def validate_name(self, name_to_check) -> None:
-        user: Role | None = Role.query.filter_by(name=name_to_check.data).first()
-        if user:
+        role: Role | None = Role.query.filter_by(name=name_to_check.data).first()
+        if role:
             raise ValidationError(
                 "This role already exists! Please try a different name."
             )

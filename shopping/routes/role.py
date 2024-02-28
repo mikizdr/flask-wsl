@@ -36,7 +36,7 @@ def create() -> Response:
         name: str = form.name.data
         description: str = form.description.data
 
-        role: Role = Role(name=name, description=description)
+        role: Role = Role(name=name.lower(), description=description)
 
         db.session.add(role)
         db.session.commit()

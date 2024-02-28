@@ -50,6 +50,10 @@ class Role(db.Model):
     id: int = db.Column(db.Integer(), primary_key=True)
     name: str = db.Column(db.String(length=20), nullable=False, unique=True)
     description: str = db.Column(db.String(length=1000), nullable=True)
+    
+    @property
+    def get_name(self) -> str:
+        return self.name.capitalize()
 
     def __repr__(self) -> str:
         return f"Role('{self.name}')"
