@@ -2,9 +2,7 @@ from typing import List, Union
 from flask import (
     Blueprint,
     Response,
-    jsonify,
     render_template,
-    request,
     url_for,
     redirect,
     flash,
@@ -84,46 +82,3 @@ def logout() -> Response:
     flash("You have been logged out!", category="blue")
 
     return redirect(url_for("dashboard.index"))
-
-
-@bp.route("/roles")
-@login_required
-def roles() -> Response:
-    roles: List = Role.query.all()
-
-    return render_template("auth/roles.html", roles=roles)
-
-
-@bp.route("/roles/<int:id>", methods=["PUT"])
-@login_required
-def edit_role(id: int) -> Response:
-    
-    try:
-        role: Role = Role.query.get_or_404(id)
-        
-        role.name = request.json.get("name")
-        role.description = request.json.get("description")
-
-        db.session.add(role)
-        db.session.commit()
-
-        return jsonify({"message": "Role updated successfully!"})
-    except Exception as e:
-        return jsonify({"message": "Role not found!"}), 404
-        return jsonify({"message": f"An error occurred: {e}"}), 500
-
-
-@bp.route("/roles/<int:id>", methods=["DELETE"])
-@login_required
-def delete_role(id: int) -> Response:
-    role: Role = Role.query.get_or_404(id)
-
-    user: User = User.query.filter_by(role_id=id).first()
-
-    if user:
-        return jsonify({"message": "Role is being used by a user. Cannot delete!"}), 409
-
-    db.session.delete(role)
-    db.session.commit()
-
-    return jsonify({"message": "Role deleted successfully!"})
