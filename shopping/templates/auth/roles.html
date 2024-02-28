@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Roles{% endblock %}
+
+{% block content %}
+<h1>Roles</h1>
+<hr>
+<ul>
+    {% for role in roles %}
+    <li>{{ role.name }}</li>
+    {% endfor %}
+    {% endblock %}

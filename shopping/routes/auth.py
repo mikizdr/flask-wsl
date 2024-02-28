@@ -1,4 +1,4 @@
-from typing import Union
+from typing import List, Union
 from flask import (
     Blueprint,
     Response,
@@ -11,7 +11,7 @@ from werkzeug.security import generate_password_hash
 
 from shopping import db
 from shopping.templates.components.forms.auth import LoginForm, RegisterForm
-from shopping.models.definitions import User
+from shopping.models.definitions import Role, User
 from flask_login import login_user, logout_user, login_required
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
@@ -82,3 +82,9 @@ def logout() -> Response:
     flash("You have been logged out!", category="blue")
 
     return redirect(url_for("dashboard.index"))
+
+@bp.route("/roles")
+def roles() -> Response:
+    roles: List = Role.query.all()
+
+    return render_template("auth/roles.html", roles=roles)
