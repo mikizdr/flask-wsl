@@ -1,5 +1,6 @@
 from shopping import db
-from shopping.models.definitions import Role
+from shopping.models.definitions import Role, User
+from werkzeug.security import generate_password_hash
 
 
 def init_defaults():
@@ -13,5 +14,11 @@ def init_defaults():
         for role in roles:
             user_role = Role(name=role['name'], description=role['description'])
             db.session.add(user_role)
+        db.session.commit()
+        
+    """Pre-Populate User Table"""
+    if User.query.first() is None:
+        user = User(username='admin', email='admin@email.com', password=generate_password_hash('admin'), role_id=1)
+        db.session.add(user)
         db.session.commit()
     pass
