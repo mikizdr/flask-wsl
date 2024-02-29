@@ -1,7 +1,7 @@
 import enum
-from typing import Union
-from werkzeug.security import check_password_hash
+from typing import Optional, Union
 
+from werkzeug.security import check_password_hash
 from flask_login import UserMixin
 
 from shopping import db, login_manager
@@ -19,6 +19,7 @@ class User(db.Model, UserMixin):
     role_id = db.Column(
         db.Integer(), db.ForeignKey("roles.id"), nullable=False, default=3
     )
+    profile = db.relationship("Profile", backref="user", lazy="select", uselist=False)
 
     def password_is_valid(self, password: str) -> bool:
         """Check the password against the hashed password.
