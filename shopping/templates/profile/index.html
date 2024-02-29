@@ -3,5 +3,17 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
-<h1>Profile {{ current_user.username }}</h1>
+
+<div class="px-16">
+    <div class="flex justify-between items-center pt-8">
+        <h1 class="text-white text-2xl">Your Profile Page</h1>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <h1 class="text-white">Form</h1>
+    </div>
+</div>
+
 {% endblock %}
