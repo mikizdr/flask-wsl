@@ -1,5 +1,5 @@
 import enum
-from typing import Optional, Union
+from typing import Union
 
 from werkzeug.security import check_password_hash
 from flask_login import UserMixin
