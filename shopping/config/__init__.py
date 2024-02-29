@@ -1,3 +1,9 @@
+import os
+from typing import Union
+
+from dotenv import load_dotenv
+load_dotenv()
+
 class Config(object):
     TESTING = False
     ENV = "development"
@@ -8,8 +14,8 @@ class ProductionConfig(Config):
 
 
 class DevelopmentConfig(Config):
-    SQLALCHEMY_DATABASE_URI = "sqlite:///shopping.db"
-    SECRET_KEY = "yziSWR7ZXM4tLeJJIDjjdtMe18OjO3urIl42tgxnW9w"
+    SQLALCHEMY_DATABASE_URI: Union[str, None] = os.getenv("SQLALCHEMY_DATABASE_URI")
+    SECRET_KEY: Union[str, None] = os.getenv("APP_SECRET_KEY")
 
 
 class TestingConfig(Config):
