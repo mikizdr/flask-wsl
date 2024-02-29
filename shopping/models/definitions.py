@@ -1,3 +1,4 @@
+import enum
 from typing import Union
 from werkzeug.security import check_password_hash
 
@@ -18,14 +19,6 @@ class User(db.Model, UserMixin):
     role_id = db.Column(
         db.Integer(), db.ForeignKey("roles.id"), nullable=False, default=3
     )
-
-    # @property
-    # def password_h(self) -> str:
-    #     return self.password_h
-
-    # @password_h.setter
-    # def password(self, plain_text_password: str) -> None:
-    #     self.password = generate_password_hash(plain_text_password)
 
     def password_is_valid(self, password: str) -> bool:
         """Check the password against the hashed password.
@@ -62,3 +55,22 @@ class Role(db.Model):
 
     def __repr__(self) -> str:
         return f"Role('{self.name}')"
+
+
+class Genre(enum.Enum):
+    MAN: str = "M"
+    WOMAN: str = "W"
+
+
+class Profile(db.Model):
+    __tablename__: str = "profiles"
+
+    id = db.Column(db.Integer(), primary_key=True)
+    first_name = db.Column(db.String(length=30), nullable=True)
+    last_name = db.Column(db.String(length=30), nullable=True)
+    address = db.Column(db.String(length=100), nullable=True)
+    img_url = db.Column(db.String(length=300), nullable=True)
+    about: str = db.Column(db.String(length=1000), nullable=True)
+    has_license: bool = db.Column(db.Boolean(), nullable=False, default=False)
+    genre = db.Column(db.Enum(Genre), nullable=True)
+    user_id = db.Column(db.Integer(), db.ForeignKey("users.id"), nullable=False)
