@@ -31,6 +31,10 @@ class User(db.Model, UserMixin):
         """
         return check_password_hash(self.password, password)
 
+    @property
+    def get_username(self) -> str:
+        return self.username.capitalize()
+
     def __repr__(self) -> str:
         return f"User('{self.username}')"
 
