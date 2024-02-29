@@ -1,15 +1,25 @@
+from typing import Union
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
+from shopping import config
+
 app = Flask(__name__)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///shopping.db"
-app.config["SECRET_KEY"] = "yziSWR7ZXM4tLeJJIDjjdtMe18OjO3urIl42tgxnW9w"
+# Load the default configuration from the config module
+configuration: Union[config.DevelopmentConfig, config.ProductionConfig] = (
+    config.DevelopmentConfig
+    if config.Config.ENV == "development"
+    else config.ProductionConfig
+)
+app.config.from_object(configuration)
 
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
+# Set the login view for the login manager
 login_manager.login_view = "auth.login"
+# Set the login message category for the login manager
 login_manager.login_message_category = "gray"
 
 from .routes import auth, dashboard, role, profile
