@@ -73,6 +73,12 @@
     let oldName = '';
     let oldDescription = '';
 
+    /**
+     * Update role
+     *
+     * @param {HTMLElement} element - the button element
+     * @param {boolean} update - if true, update the role
+     */
     function update(element, update = false) {
         const row = element.closest('tr');
         element.style.display = 'none'
@@ -80,8 +86,6 @@
         const id = row.querySelector('td:nth-child(1)').innerText;
         const name = row.querySelector('td:nth-child(2) div').innerText;
         const description = row.querySelector('td:nth-child(3) div')
-
-        console.log(id, name, description.innerText)
 
         if (!update) {
             oldName = name;
@@ -117,6 +121,11 @@
         }
     }
 
+    /**
+     * Remove role
+     *
+     * @param {HTMLElement} element 
+     */
     function remove(element) {
 
         if (!confirm('Are you sure?')) {
