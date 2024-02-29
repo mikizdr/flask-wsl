@@ -15,7 +15,9 @@ class User(db.Model, UserMixin):
     email_verified_at = db.Column(db.DateTime(), nullable=True)
     password = db.Column(db.String(length=60), nullable=False)
     remember_token = db.Column(db.String(length=100), nullable=True)
-    role_id = db.Column(db.Integer(), db.ForeignKey("roles.id"), nullable=False, default=3)
+    role_id = db.Column(
+        db.Integer(), db.ForeignKey("roles.id"), nullable=False, default=3
+    )
 
     # @property
     # def password_h(self) -> str:
@@ -44,15 +46,16 @@ class User(db.Model, UserMixin):
 def load_user(user_id) -> Union[User, None]:
     return User.query.get(int(user_id))
 
+
 class Role(db.Model):
     __tablename__: str = "roles"
-    
+
     ADMIN = 1
 
     id: int = db.Column(db.Integer(), primary_key=True)
     name: str = db.Column(db.String(length=20), nullable=False, unique=True)
     description: str = db.Column(db.String(length=1000), nullable=True)
-    
+
     @property
     def get_name(self) -> str:
         return self.name.capitalize()
