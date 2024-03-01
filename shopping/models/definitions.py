@@ -62,20 +62,21 @@ class Role(db.Model):
         return f"Role('{self.name}')"
 
 
-class Genre(enum.Enum):
-    MAN: str = "M"
-    WOMAN: str = "W"
-
-
 class Profile(db.Model):
     __tablename__: str = "profiles"
 
     id = db.Column(db.Integer(), primary_key=True)
     first_name = db.Column(db.String(length=30), nullable=True)
     last_name = db.Column(db.String(length=30), nullable=True)
-    address = db.Column(db.String(length=100), nullable=True)
-    img_url = db.Column(db.String(length=300), nullable=True)
+    genre = db.Column(db.Enum("M", "W"), nullable=True)
     about: str = db.Column(db.String(length=1000), nullable=True)
     has_license: bool = db.Column(db.Boolean(), nullable=False, default=False)
-    genre = db.Column(db.Enum(Genre), nullable=True)
-    user_id = db.Column(db.Integer(), db.ForeignKey("users.id"), nullable=False)
+    img_url = db.Column(db.String(length=300), nullable=True)
+    phone = db.Column(db.String(length=15), nullable=True)
+    address = db.Column(db.String(length=100), nullable=True)
+    city = db.Column(db.String(length=30), nullable=True)
+    zipcode = db.Column(db.String(length=10), nullable=True)
+    country = db.Column(db.String(length=30), nullable=True)
+    user_id = db.Column(
+        db.Integer(), db.ForeignKey("users.id"), nullable=False, unique=True
+    )
