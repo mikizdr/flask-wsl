@@ -77,10 +77,6 @@ dark:focus:border-blue-500' %}
         }
     };
 
-    // validation on input
-    name.addEventListener('input', () => addRemoveError('roleNameError', name.validity.valueMissing, false));
-    description.addEventListener('input', () => addRemoveError('roleDescriptionError', description.validity.valueMissing, false));
-
     // validation on form submit
     form.addEventListener('submit', event => {
         addRemoveError('roleNameError', name.validity.valueMissing);
