@@ -30,35 +30,37 @@ dark:focus:border-blue-500' %}
 
 {% block content %}
 
-<div class="px-16">
+<div class="sm:px-16">
     <div class="flex justify-between items-center pt-8">
         <h1 class="text-white text-2xl">Your Profile Page</h1>
     </div>
 
     <hr class="my-4">
 
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg px-4">
         <form id="createProfileForm" novalidate method="post" action="{{ url_for('profile.index') }}">
 
             {{ form.hidden_tag() }}
 
-            <div class="mb-5">
-                {{ form.first_name.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-                {{ form.first_name(class=class_name_for_input, id='firstName', placeholder='First name',
-                minlength=3,
-                maxlength=30, required=True, autofocus=True, value=profile.first_name) }}
-                <div class="error-message" id="firstNameError">
-                    First name is required.
+            <div class="sm:grid sm:grid-cols-2 gap-4">
+                <div class="mb-5">
+                    {{ form.first_name.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                    {{ form.first_name(class=class_name_for_input, id='firstName', placeholder='First name',
+                    minlength=3,
+                    maxlength=30, required=True, autofocus=True, value=profile.first_name) }}
+                    <div class="error-message" id="firstNameError">
+                        First name is required.
+                    </div>
                 </div>
-            </div>
 
-            <div class="mb-5">
-                {{ form.last_name.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-                {{ form.last_name(class=class_name_for_input, id='lastName', placeholder='Last name',
-                minlength=3,
-                maxlength=30, required=True, value=profile.last_name) }}
-                <div class="error-message" id="firstNameError">
-                    Last name is required.
+                <div class="mb-5">
+                    {{ form.last_name.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                    {{ form.last_name(class=class_name_for_input, id='lastName', placeholder='Last name',
+                    minlength=3,
+                    maxlength=30, required=True, value=profile.last_name) }}
+                    <div class="error-message" id="firstNameError">
+                        Last name is required.
+                    </div>
                 </div>
             </div>
 
@@ -71,36 +73,39 @@ dark:focus:border-blue-500' %}
                 </div>
             </div>
 
-            <div class="mb-5">
-                <label for="hasLicense" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Do you have a license?
-                </label>
-                <ul class="list-none font-medium text-primary-600 hover:underline dark:text-primary-500" id="hasLicense"
-                    required>
-                </ul>
-                {% for choice in [(1, 'Yes'), (0, 'No')] %}
-                <li>
+            <div class="sm:grid sm:grid-cols-2 gap-4">
+                <div class="mb-5">
+                    <label for="hasLicense" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Do you have a license?
+                    </label>
+                    <ul class="list-none font-medium text-primary-600 hover:underline dark:text-primary-500"
+                        id="hasLicense" required>
+                    </ul>
+                    {% for choice in [(1, 'Yes'), (0, 'No')] %}
                     <input id="has_license-{{ choice[0] }}" name="has_license" required type="radio"
                         value="{{ choice[0] }}" {{ "checked" if profile.has_license==choice[0] else "" }}>
                     <label class="text-white mr-4" for="has_license-{{ choice[0] }}">{{ choice[1] }}</label>
-                </li>
-                {% endfor %}
-                <div class="error-message" id="hasLicenseError">
-                    License is required.
+                    {% endfor %}
+                    <div class="error-message" id="hasLicenseError">
+                        License is required.
+                    </div>
                 </div>
-            </div>
 
-            <div class="mb-5">
-                <select class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                <div class="mb-5">
+                    <label for="genre" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Select your genre
+                    </label>
+                    <select class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
                 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700
                 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
                 dark:focus:border-blue-500" id="genre" name="genre" required>
-                    <option value="">Select an option</option>
-                    <option value="M" {{ 'selected' if profile.genre=='M' else '' }}>Man</option>
-                    <option value="W" {{ 'selected' if profile.genre=='W' else '' }}>Woman</option>
-                </select>
-                <div class="error-message" id="genreError">
-                    Genre is required.
+                        <option value>Select an option</option>
+                        <option value="M" {{ 'selected' if profile.genre=='M' else '' }}>Man</option>
+                        <option value="W" {{ 'selected' if profile.genre=='W' else '' }}>Woman</option>
+                    </select>
+                    <div class="error-message" id="genreError">
+                        Genre is required.
+                    </div>
                 </div>
             </div>
 
