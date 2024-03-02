@@ -115,14 +115,14 @@
                 })
             })
                 .then(response => {
-                    if (response.status !== 200) {
+                    if (response.status == 200) {
+                        changeIconColor();
+                        afterActionMessageInPopuModal.innerText = 'Role updated successfully.';
+                    } else {
                         name.innerText = oldName;
                         description.innerText = oldDescription;
-                        document.getElementById('iconColor').value = 'red';
+                        changeIconColor(false);
                         afterActionMessageInPopuModal.innerText = 'Role cannot be updated.';
-                    } else {
-                        document.getElementById('iconColor').value = 'green';
-                        afterActionMessageInPopuModal.innerText = 'Role updated successfully.';
                     }
                     const button = document.getElementById('showHidePopupModal');
                     button.click();
@@ -150,8 +150,10 @@
             .then(response => {
                 if (response.status === 200) {
                     afterActionMessageInPopuModal.innerText = 'Role deleted successfully.';
+                    changeIconColor();
                     row.remove();
                 } else {
+                    changeIconColor(false);
                     document.getElementById('resourceCantBeDeletedMessage').value = 'Role cannot be deleted. There are users associated with this role.';
                     afterActionMessageInPopuModal.innerText = 'Role cannot be deleted. There are users associated with this role.';
                 }
