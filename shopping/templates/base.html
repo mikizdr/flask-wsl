@@ -17,6 +17,9 @@
 
 <body class="bg-gray-50 dark:bg-gray-900">
 
+    <!-- Include hidden input fields for different purposes -->
+    {% include 'components/hidden-input-fields.html' %}
+
     {% from 'components/macros/alert.html' import alert %}
 
     {% with messages = get_flashed_messages(with_categories=true) %}
