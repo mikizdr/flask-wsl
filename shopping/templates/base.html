@@ -20,6 +20,9 @@
     <!-- Include hidden input fields for different purposes -->
     {% include 'components/hidden-input-fields.html' %}
 
+    {% include 'components/delete-confirmation-modal.html' %}
+    {% include 'components/popup-info-modal.html' %}
+
     {% from 'components/macros/alert.html' import alert %}
 
     {% with messages = get_flashed_messages(with_categories=true) %}
