@@ -2,7 +2,8 @@
 
 {% block title %}Roles{% endblock %}
 
-{% include 'components/delete_confirmation_modal.html' %}
+{% include 'components/delete-confirmation-modal.html' %}
+{% include 'components/popup-modal.html' %}
 
 {% block content %}
 
@@ -69,14 +70,14 @@
         </table>
     </div>
 </div>
-<input type="hidden" name="role_to_be_deleted" id="role_to_be_deleted" value="">
+
 {% endblock %}
 
 {% block script %}
 <script>
 
     function setRoleId(button) {
-        document.getElementById('role_to_be_deleted').value = button.dataset.roleId;
+        document.getElementById('resourceIdToBeDeleted').value = button.dataset.roleId;
     }
 
     let oldName = '';
@@ -135,7 +136,7 @@
      */
     function removeRole() {
 
-        const id = document.getElementById('role_to_be_deleted').value;
+        const id = document.getElementById('resourceIdToBeDeleted').value;
         const button = document.querySelector(`[data-role-id="${id}"]`);
         row = button.closest('tr');
 
@@ -148,7 +149,8 @@
                     console.log('Success');
                     row.remove();
                 } else {
-                    alert('Role cannot be removed.');
+                    const button = document.getElementById('showHidePopupModal');
+                    button.click();
                 }
             })
             .catch(error => {
