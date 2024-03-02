@@ -2,6 +2,8 @@
 
 {% block title %}Roles{% endblock %}
 
+{% include 'components/delete_confirmation_modal.html' %}
+
 {% block content %}
 
 <div class="px-8 sm:px-16">
@@ -56,7 +58,10 @@
                         <button class="font-medium text-green-600 dark:text-green-500 hover:underline mr-3"
                             onclick="update(this, true)" style="display: none;">Update</button>
                         <button class="font-medium text-red-600 dark:text-red-500 hover:underline"
-                            onclick="remove(this)">Remove</button>
+                            onclick="setRoleId(this)" data-role-id="{{ role.id }}" data-modal-target="deleteModal"
+                            data-modal-toggle="deleteModal">
+                            Remove
+                        </button>
                     </td>
                 </tr>
                 {% endfor %}
@@ -64,11 +69,15 @@
         </table>
     </div>
 </div>
-
+<input type="hidden" name="role_to_be_deleted" id="role_to_be_deleted" value="">
 {% endblock %}
 
 {% block script %}
 <script>
+
+    function setRoleId(button) {
+        document.getElementById('role_to_be_deleted').value = button.dataset.roleId;
+    }
 
     let oldName = '';
     let oldDescription = '';
@@ -123,17 +132,13 @@
 
     /**
      * Remove role
-     *
-     * @param {HTMLElement} element 
      */
-    function remove(element) {
+    function remove() {
 
-        if (!confirm('Are you sure?')) {
-            return;
-        }
+        const id = document.getElementById('role_to_be_deleted').value;
+        const button = document.querySelector(`[data-role-id="${id}"]`);
+        row = button.closest('tr');
 
-        const row = element.closest('tr');
-        const id = row.querySelector('td:nth-child(1)').innerText;
 
         fetch(`/roles/${id}`, {
             method: 'DELETE'
