@@ -2,9 +2,6 @@
 
 {% block title %}Roles{% endblock %}
 
-{% include 'components/delete-confirmation-modal.html' %}
-{% include 'components/popup-modal.html' %}
-
 {% block content %}
 
 <div class="px-8 sm:px-16">
@@ -76,6 +73,8 @@
 {% block script %}
 <script>
 
+    const afterActionMessageInPopuModal = document.getElementById('afterActionMessageInPopuModal');
+
     function setRoleId(button) {
         document.getElementById('resourceIdToBeDeleted').value = button.dataset.roleId;
     }
@@ -119,10 +118,14 @@
                     if (response.status !== 200) {
                         name.innerText = oldName;
                         description.innerText = oldDescription;
-                        alert('Role cannot be updated.');
+                        document.getElementById('iconColor').value = 'red';
+                        afterActionMessageInPopuModal.innerText = 'Role cannot be updated.';
                     } else {
-                        console.log('Success');
+                        document.getElementById('iconColor').value = 'green';
+                        afterActionMessageInPopuModal.innerText = 'Role updated successfully.';
                     }
+                    const button = document.getElementById('showHidePopupModal');
+                    button.click();
                     element.previousElementSibling.style.display = 'block';
                 })
                 .catch(error => {
@@ -146,12 +149,14 @@
         })
             .then(response => {
                 if (response.status === 200) {
-                    console.log('Success');
+                    afterActionMessageInPopuModal.innerText = 'Role deleted successfully.';
                     row.remove();
                 } else {
-                    const button = document.getElementById('showHidePopupModal');
-                    button.click();
+                    document.getElementById('resourceCantBeDeletedMessage').value = 'Role cannot be deleted. There are users associated with this role.';
+                    afterActionMessageInPopuModal.innerText = 'Role cannot be deleted. There are users associated with this role.';
                 }
+                const button = document.getElementById('showHidePopupModal');
+                button.click();
             })
             .catch(error => {
                 console.error('Error:', error);
