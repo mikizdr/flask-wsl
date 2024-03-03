@@ -29,18 +29,15 @@ def index() -> str:
         genre = form.genre.data
         has_license = False if form.has_license.data == "0" else True
         img_url = form.img_url.data
-
-        print(first_name, last_name, genre, has_license, img_url, current_user.id)
-        print(profile)
+        about = form.about.data
 
         if profile:
-            print("Profile exists!")
             profile.first_name = first_name
             profile.last_name = last_name
             profile.genre = genre
             profile.has_license = has_license
             profile.img_url = img_url
-            db.session.commit()
+            profile.about = about
 
         else:
             profile = Profile(
@@ -50,10 +47,12 @@ def index() -> str:
                 has_license=has_license,
                 img_url=img_url,
                 user_id=current_user.id,
+                about=about,
             )
 
             db.session.add(profile)
-            db.session.commit()
+
+        db.session.commit()
 
         flash("Profile created successfully!", category="green")
         return redirect(url_for("dashboard.index"))
@@ -61,5 +60,7 @@ def index() -> str:
     if form.errors != {}:  # If there are errors from the validations
         for err_msg in form.errors.values():
             flash(f"There was an error with creating a role: {err_msg}", category="red")
+
+    form.about.data = profile.about
 
     return render_template("profile/index.html", form=form, profile=profile)
