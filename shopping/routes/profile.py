@@ -24,17 +24,17 @@ def index() -> str:
     ).first()
 
     if form.validate_on_submit():
-        first_name = form.first_name.data
-        last_name = form.last_name.data
-        genre = form.genre.data
-        has_license = False if form.has_license.data == "0" else True
-        img_url = form.img_url.data
-        about = form.about.data
-        phone = form.phone.data
-        address = form.address.data
-        city = form.city.data
-        zipcode = form.zipcode.data
-        country = form.country.data
+        first_name: str | None = form.first_name.data
+        last_name: str | None = form.last_name.data
+        genre: str | None = form.genre.data
+        has_license: bool = False if form.has_license.data == "0" else True
+        img_url: str | None = form.img_url.data
+        about: str | None = form.about.data
+        phone: str | None = form.phone.data
+        address: str | None = form.address.data
+        city: str | None = form.city.data
+        zipcode: str | None = form.zipcode.data
+        country: str | None = form.country.data
 
         if profile:
             profile.first_name = first_name
