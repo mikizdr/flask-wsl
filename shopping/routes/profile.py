@@ -51,12 +51,12 @@ def index() -> str:
 
         else:
             profile = Profile(
+                user_id=current_user.id,
                 first_name=first_name,
                 last_name=last_name,
                 genre=genre,
                 has_license=has_license,
                 img_url=img_url,
-                user_id=current_user.id,
                 about=about,
                 phone=phone,
                 address=address,
