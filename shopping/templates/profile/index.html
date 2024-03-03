@@ -77,48 +77,54 @@ dark:focus:border-blue-500' %}
                 </div>
             </div>
 
-            <div class="mb-5">
-                {{ form.about.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-                {{ form.about(
-                class=class_name_for_input,
-                id='about',
-                maxlength="10000",
-                placeholder='A couple of words about you',
-                ) }}
+            <div class="sm:grid sm:grid-cols-2 gap-4">
+                <div class="mb-5">
+                    {{ form.about.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                    {{ form.about(
+                    class=class_name_for_input,
+                    id='about',
+                    maxlength="10000",
+                    placeholder='A couple of words about you',
+                    ) }}
+                </div>
+
+                <div class="mb-5">
+                    {{ form.phone.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                    {{ form.phone(class=class_name_for_input, id='phone', placeholder='Your phone number',
+                    minlength=9,
+                    maxlength=30, autofocus=True, value=profile.phone) }}
+                </div>
             </div>
 
-            <div class="mb-5">
-                {{ form.phone.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-                {{ form.phone(class=class_name_for_input, id='phone', placeholder='Your phone number',
-                minlength=9,
-                maxlength=30, autofocus=True, value=profile.phone) }}
+            <div class="sm:grid sm:grid-cols-2 gap-4">
+                <div class="mb-5">
+                    {{ form.address.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                    {{ form.address(class=class_name_for_input, id='address', placeholder='Your address',
+                    minlength=10,
+                    maxlength=100, autofocus=True, value=profile.address) }}
+                </div>
+
+                <div class="mb-5">
+                    {{ form.city.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                    {{ form.city(class=class_name_for_input, id='city', placeholder='Your city',
+                    minlength=2,
+                    maxlength=30, autofocus=True, value=profile.city) }}
+                </div>
             </div>
 
-            <div class="mb-5">
-                {{ form.address.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-                {{ form.address(class=class_name_for_input, id='address', placeholder='Your address',
-                minlength=10,
-                maxlength=100, autofocus=True, value=profile.address) }}
-            </div>
+            <div class="sm:grid sm:grid-cols-2 gap-4">
+                <div class="mb-5">
+                    {{ form.zipcode.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                    {{ form.zipcode(class=class_name_for_input, id='zipcode', placeholder='ZIP code',
+                    maxlength=10, autofocus=True, value=profile.zipcode) }}
+                </div>
 
-            <div class="mb-5">
-                {{ form.city.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-                {{ form.city(class=class_name_for_input, id='city', placeholder='Your city',
-                minlength=2,
-                maxlength=30, autofocus=True, value=profile.city) }}
-            </div>
-
-            <div class="mb-5">
-                {{ form.zipcode.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-                {{ form.zipcode(class=class_name_for_input, id='zipcode', placeholder='ZIP code',
-                maxlength=10, autofocus=True, value=profile.zipcode) }}
-            </div>
-
-            <div class="mb-5">
-                {{ form.country.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-                {{ form.country(class=class_name_for_input, id='country', placeholder='Your country',
-                minlength=3,
-                maxlength=30, autofocus=True, value=profile.country) }}
+                <div class="mb-5">
+                    {{ form.country.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                    {{ form.country(class=class_name_for_input, id='country', placeholder='Your country',
+                    minlength=3,
+                    maxlength=30, autofocus=True, value=profile.country) }}
+                </div>
             </div>
 
             {{ form.submit(class="w-full my-5 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4
