@@ -30,30 +30,21 @@ dark:focus:border-blue-500' %}
                     {{ form.first_name.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
                     {{ form.first_name(class=class_name_for_input, id='firstName', placeholder='First name',
                     minlength=3,
-                    maxlength=30, required=True, autofocus=True, value=profile.first_name) }}
-                    <div class="error-message" id="firstNameError">
-                        First name is required.
-                    </div>
+                    maxlength=30, autofocus=True, value=profile.first_name) }}
                 </div>
 
                 <div class="mb-5">
                     {{ form.last_name.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
                     {{ form.last_name(class=class_name_for_input, id='lastName', placeholder='Last name',
                     minlength=3,
-                    maxlength=30, required=True, value=profile.last_name) }}
-                    <div class="error-message" id="firstNameError">
-                        Last name is required.
-                    </div>
+                    maxlength=30, value=profile.last_name) }}
                 </div>
             </div>
 
             <div class="mb-5">
                 {{ form.img_url.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
                 {{ form.img_url(class=class_name_for_input, id='imageUrl',
-                required=True, value=profile.img_url) }}
-                <div class="error-message" id="imageUrlError">
-                    Profile image is required.
-                </div>
+                value=profile.img_url) }}
             </div>
 
             <div class="sm:grid sm:grid-cols-2 gap-4">
@@ -69,9 +60,6 @@ dark:focus:border-blue-500' %}
                         value="{{ choice[0] }}" {{ "checked" if profile.has_license==choice[0] else "" }}>
                     <label class="text-white mr-4" for="has_license-{{ choice[0] }}">{{ choice[1] }}</label>
                     {% endfor %}
-                    <div class="error-message" id="hasLicenseError">
-                        License is required.
-                    </div>
                 </div>
 
                 <div class="mb-5">
@@ -86,9 +74,6 @@ dark:focus:border-blue-500' %}
                         <option value="M" {{ 'selected' if profile.genre=='M' else '' }}>Man</option>
                         <option value="W" {{ 'selected' if profile.genre=='W' else '' }}>Woman</option>
                     </select>
-                    <div class="error-message" id="genreError">
-                        Genre is required.
-                    </div>
                 </div>
             </div>
 
@@ -100,6 +85,40 @@ dark:focus:border-blue-500' %}
                 maxlength="10000",
                 placeholder='A couple of words about you',
                 ) }}
+            </div>
+
+            <div class="mb-5">
+                {{ form.phone.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.phone(class=class_name_for_input, id='phone', placeholder='Your phone number',
+                minlength=9,
+                maxlength=30, autofocus=True, value=profile.phone) }}
+            </div>
+
+            <div class="mb-5">
+                {{ form.address.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.address(class=class_name_for_input, id='address', placeholder='Your address',
+                minlength=10,
+                maxlength=100, autofocus=True, value=profile.address) }}
+            </div>
+
+            <div class="mb-5">
+                {{ form.city.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.city(class=class_name_for_input, id='city', placeholder='Your city',
+                minlength=2,
+                maxlength=30, autofocus=True, value=profile.city) }}
+            </div>
+
+            <div class="mb-5">
+                {{ form.zipcode.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.zipcode(class=class_name_for_input, id='zipcode', placeholder='ZIP code',
+                maxlength=10, autofocus=True, value=profile.zipcode) }}
+            </div>
+
+            <div class="mb-5">
+                {{ form.country.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.country(class=class_name_for_input, id='country', placeholder='Your country',
+                minlength=3,
+                maxlength=30, autofocus=True, value=profile.country) }}
             </div>
 
             {{ form.submit(class="w-full my-5 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4

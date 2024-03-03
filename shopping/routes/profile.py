@@ -30,6 +30,11 @@ def index() -> str:
         has_license = False if form.has_license.data == "0" else True
         img_url = form.img_url.data
         about = form.about.data
+        phone = form.phone.data
+        address = form.address.data
+        city = form.city.data
+        zipcode = form.zipcode.data
+        country = form.country.data
 
         if profile:
             profile.first_name = first_name
@@ -38,6 +43,11 @@ def index() -> str:
             profile.has_license = has_license
             profile.img_url = img_url
             profile.about = about
+            profile.phone = phone
+            profile.address = address
+            profile.city = city
+            profile.zipcode = zipcode
+            profile.country = country
 
         else:
             profile = Profile(
@@ -48,6 +58,11 @@ def index() -> str:
                 img_url=img_url,
                 user_id=current_user.id,
                 about=about,
+                phone=phone,
+                address=address,
+                city=city,
+                zipcode=zipcode,
+                country=country,
             )
 
             db.session.add(profile)
