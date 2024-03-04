@@ -112,10 +112,6 @@ class Category(db.Model):
         db.DateTime(), nullable=False, default=db.func.now(), onupdate=db.func.now()
     )
 
-    @property
-    def get_catogories(self) -> str:
-        return self.id, self.name
-
 
 class Product(db.Model):
     __tablename__ = "products"
