@@ -36,17 +36,17 @@ dark:text-white md:dark:text-blue-500" %}
                         Dashboard
                     </a>
                 </li>
-                {% endif %}
                 <li>
                     <a href="{{ url_for('product.index') }}"
-                        class="{{ active_link if url_for(request.endpoint) == url_for('product.index') else link_classes }}">
+                        class="{{ active_link if '/products' in url_for(request.endpoint) else link_classes }}">
                         Products
                     </a>
                 </li>
+                {% endif %}
                 {% if current_user.role_id == 1 %}
                 <li>
                     <a href="{{ url_for('role.index') }}"
-                        class="{{ active_link if url_for(request.endpoint) == url_for('role.index') else link_classes }}">
+                        class="{{ active_link if '/roles' in url_for(request.endpoint) else link_classes }}">
                         Roles
                     </a>
                 </li>
