@@ -36,6 +36,10 @@ class User(db.Model, UserMixin):
     def get_username(self) -> str:
         return self.username.capitalize()
 
+    @property
+    def get_full_name(self) -> str:
+        return self.profile.first_name + " " + self.profile.last_name if self.profile else self.username
+
     def __repr__(self) -> str:
         return f"User('{self.username}')"
 
@@ -80,3 +84,6 @@ class Profile(db.Model):
     user_id = db.Column(
         db.Integer(), db.ForeignKey("users.id"), nullable=False, unique=True
     )
+
+    def __repr__(self) -> str:
+        return f"Profile('{self.first_name} {self.last_name}')"
