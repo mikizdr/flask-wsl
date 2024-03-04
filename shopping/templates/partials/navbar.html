@@ -38,7 +38,8 @@ dark:text-white md:dark:text-blue-500" %}
                 </li>
                 {% endif %}
                 <li>
-                    <a href="#" class="{{ link_classes }}">
+                    <a href="{{ url_for('product.index') }}"
+                        class="{{ active_link if url_for(request.endpoint) == url_for('product.index') else link_classes }}">
                         Products
                     </a>
                 </li>
