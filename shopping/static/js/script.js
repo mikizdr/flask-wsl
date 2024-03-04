@@ -70,9 +70,9 @@ function showHideValidationMessages(form, formFields) {
     formFields.forEach(id => {
         const input = document.getElementById(id);
         form.addEventListener('submit', (event) => {
-            addRemoveError(`${id}Error`, input.validity.valueMissing || input.validity.tooShort || input.validity.tooLong, true)
+            addRemoveError(`${id}Error`, input.validity.valueMissing || input.validity.tooShort, true)
         });
-        input.addEventListener('input', () => addRemoveError(`${id}Error`, input.validity.valueMissing || input.validity.tooShort || input.validity.tooLong, false));
+        input.addEventListener('input', () => addRemoveError(`${id}Error`, input.validity.valueMissing || input.validity.tooShort, false));
     });
 }
 
