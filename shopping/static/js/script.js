@@ -18,4 +18,13 @@ function changeIconColor(green = true) {
     }
 }
 
+/**
+ * Reset form fields when user clicks on the reset button
+ *
+ * @param {string} formId 
+ */
+function resetForm(formId) {
+    document.getElementById(formId).reset();
+}
+
 // Path: shopping/static/js/script.js
