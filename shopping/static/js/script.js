@@ -1,3 +1,6 @@
+/**
+ * Remove alert message after 5 seconds from the DOM.
+ */
 document.addEventListener('DOMContentLoaded', function () {
     const alert = document.querySelector('[data-alert]');
     if (alert) {
