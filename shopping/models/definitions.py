@@ -38,7 +38,11 @@ class User(db.Model, UserMixin):
 
     @property
     def get_full_name(self) -> str:
-        return self.profile.first_name + " " + self.profile.last_name if self.profile else self.username
+        return (
+            self.profile.first_name + " " + self.profile.last_name
+            if self.profile
+            else self.username
+        )
 
     def __repr__(self) -> str:
         return f"User('{self.username}')"
@@ -87,3 +91,30 @@ class Profile(db.Model):
 
     def __repr__(self) -> str:
         return f"Profile('{self.first_name} {self.last_name}')"
+
+
+class Category(db.Model):
+    __tablename__ = "categories"
+
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(length=100), nullable=False)
+    description = db.Column(db.String(length=500), nullable=False)
+    created_at = db.Column(db.DateTime(), nullable=False, default=db.func.now())
+
+
+class Product(db.Model):
+    __tablename__ = "products"
+
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(length=100), nullable=False)
+    description = db.Column(db.String(length=1000), nullable=False)
+    price = db.Column(db.Float(), nullable=False)
+    stock = db.Column(db.Integer(), nullable=False)
+    img_url = db.Column(db.String(length=500), nullable=True)
+    category_id = db.Column(
+        db.Integer(), db.ForeignKey("categories.id"), nullable=False
+    )
+    created_at = db.Column(db.DateTime(), nullable=False, default=db.func.now())
+    updated_at = db.Column(
+        db.DateTime(), nullable=False, default=db.func.now(), onupdate=db.func.now()
+    )
