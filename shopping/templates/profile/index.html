@@ -92,7 +92,7 @@ dark:focus:border-blue-500' %}
                     {{ form.phone.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
                     {{ form.phone(class=class_name_for_input, id='phone', placeholder='Your phone number',
                     minlength=9,
-                    maxlength=30, autofocus=True, value=profile.phone) }}
+                    maxlength=30, value=profile.phone) }}
                 </div>
             </div>
 
@@ -101,14 +101,14 @@ dark:focus:border-blue-500' %}
                     {{ form.address.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
                     {{ form.address(class=class_name_for_input, id='address', placeholder='Your address',
                     minlength=10,
-                    maxlength=100, autofocus=True, value=profile.address) }}
+                    maxlength=100, value=profile.address) }}
                 </div>
 
                 <div class="mb-5">
                     {{ form.city.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
                     {{ form.city(class=class_name_for_input, id='city', placeholder='Your city',
                     minlength=2,
-                    maxlength=30, autofocus=True, value=profile.city) }}
+                    maxlength=30, value=profile.city) }}
                 </div>
             </div>
 
@@ -116,14 +116,14 @@ dark:focus:border-blue-500' %}
                 <div class="mb-5">
                     {{ form.zipcode.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
                     {{ form.zipcode(class=class_name_for_input, id='zipcode', placeholder='ZIP code',
-                    maxlength=10, autofocus=True, value=profile.zipcode) }}
+                    maxlength=10, value=profile.zipcode) }}
                 </div>
 
                 <div class="mb-5">
                     {{ form.country.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
                     {{ form.country(class=class_name_for_input, id='country', placeholder='Your country',
                     minlength=3,
-                    maxlength=30, autofocus=True, value=profile.country) }}
+                    maxlength=30, value=profile.country) }}
                 </div>
             </div>
 
