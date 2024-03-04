@@ -45,4 +45,36 @@ Object.defineProperty(String.prototype, 'capitalize', {
     enumerable: false
 });
 
+/**
+ * Add or remove error message based on the condition
+ * @param {string} id - The id of the error message
+ * @param {boolean} condition - The condition to check
+ * @param {boolean} submit - Whether to prevent the form submission
+ */
+function addRemoveError(id, condition, submit = true) {
+    if (condition) {
+        submit && event.preventDefault();
+        document.getElementById(id).classList.add('active');
+    } else {
+        document.getElementById(id).classList.remove('active');
+    }
+};
+
+/**
+ * Show or hide validation messages for the form fields.
+ *
+ * @param {HTMLFormElement} form 
+ * @param {string[]} formFields 
+ */
+function showHideValidationMessages(form, formFields) {
+    formFields.forEach(id => {
+        const input = document.getElementById(id);
+        form.addEventListener('submit', (event) => {
+            addRemoveError(`${id}Error`, input.validity.valueMissing || input.validity.tooShort || input.validity.tooLong, true)
+        });
+        input.addEventListener('input', () => addRemoveError(`${id}Error`, input.validity.valueMissing || input.validity.tooShort || input.validity.tooLong, false));
+    });
+}
+
+
 // Path: shopping/static/js/script.js

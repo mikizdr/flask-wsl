@@ -27,7 +27,7 @@ dark:focus:border-blue-500' %}
                         {{ form.name(class=class_name_for_input, id='name', placeholder='Category name',
                         minlength=3,
                         maxlength=30, required=True, autofocus=True) }}
-                        <div class="error-message" id="categoryNameError">
+                        <div class="error-message" id="nameError">
                             Category name is required.
                         </div>
                     </div>
@@ -40,7 +40,7 @@ dark:focus:border-blue-500' %}
                         placeholder='Category description',
                         minlength=8,
                         maxlength=1000, required=True) }}
-                        <div class="error-message" id="categoryDescriptionError">
+                        <div class="error-message" id="descriptionError">
                             Category description is required.
                         </div>
                     </div>
@@ -58,29 +58,10 @@ dark:focus:border-blue-500' %}
 
 {% block script %}
 <script>
-    const form = document.getElementById('createCategoryForm');
-    const name = document.getElementById('name');
-    const description = document.getElementById('description');
-
-    /**
-     * Add or remove error message based on the condition
-     * @param {string} id - The id of the error message
-     * @param {boolean} condition - The condition to check
-     * @param {boolean} submit - Whether to prevent the form submission
-     */
-    const addRemoveError = (id, condition, submit = true) => {
-        if (condition) {
-            submit && event.preventDefault();
-            document.getElementById(id).classList.add('active');
-        } else {
-            document.getElementById(id).classList.remove('active');
-        }
-    };
-
-    // validation on form submit
-    form.addEventListener('submit', event => {
-        addRemoveError('categoryNameError', name.validity.valueMissing);
-        addRemoveError('categoryDescriptionError', description.validity.valueMissing);
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('createCategoryForm');
+        const formFields = ['name', 'description'];
+        showHideValidationMessages(form, formFields);
     });
 </script>
 {% endblock %}

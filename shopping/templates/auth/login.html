@@ -22,7 +22,7 @@ dark:focus:border-blue-500' %}
                 <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                     Login
                 </h1>
-                <form id="registrationForm" novalidate method="post" action="{{ url_for('auth.login') }}">
+                <form id="loginForm" novalidate method="post" action="{{ url_for('auth.login') }}">
 
                     {{ form.hidden_tag() }}
 
@@ -39,7 +39,7 @@ dark:focus:border-blue-500' %}
                     <div class="mb-5">
                         {{ form.password.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
                         {{ form.password(class=class_name_for_input, id='password', placeholder='••••••••',
-                        minlength=8,
+                        minlength=3,
                         maxlength=30, required=True) }}
                         <div class="error-message" id="passwordError">
                             Password is required.
@@ -66,33 +66,10 @@ dark:focus:border-blue-500' %}
 
 {% block script %}
 <script>
-    const form = document.getElementById('registrationForm');
-    const username = document.getElementById('username');
-    const password = document.getElementById('password');
-
-    /**
-     * Add or remove error message based on the condition
-     * @param {string} id - The id of the error message
-     * @param {boolean} condition - The condition to check
-     * @param {boolean} submit - Whether to prevent the form submission
-     */
-    const addRemoveError = (id, condition, submit = true) => {
-        if (condition) {
-            submit && event.preventDefault();
-            document.getElementById(id).classList.add('active');
-        } else {
-            document.getElementById(id).classList.remove('active');
-        }
-    };
-
-    // validation on input
-    username.addEventListener('input', () => addRemoveError('usernameError', username.validity.valueMissing, false));
-    password.addEventListener('input', () => addRemoveError('passwordError', password.validity.valueMissing, false));
-
-    // validation on form submit
-    form.addEventListener('submit', event => {
-        addRemoveError('usernameError', username.validity.valueMissing);
-        addRemoveError('passwordError', password.validity.valueMissing);
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('loginForm');
+        const formFields = ['username', 'password'];
+        showHideValidationMessages(form, formFields);
     });
 </script>
 {% endblock %}
