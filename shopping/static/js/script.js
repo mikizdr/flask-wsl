@@ -7,6 +7,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 }, false);
 
+/**
+ * Set color for SVG icon in the popup modal.
+ *
+ * @param {boolean} green 
+ */
 function changeIconColor(green = true) {
     const svg = document.getElementById('svgPopupIcon');
     if (green) {
