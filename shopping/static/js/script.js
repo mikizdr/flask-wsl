@@ -35,4 +35,14 @@ function resetForm(formId) {
     document.getElementById(formId).reset();
 }
 
+/** 
+ * Make a prototype of the String object to capitalize the first letter of a string.
+ */
+Object.defineProperty(String.prototype, 'capitalize', {
+    value: function () {
+        return this.charAt(0).toUpperCase() + this.slice(1);
+    },
+    enumerable: false
+});
+
 // Path: shopping/static/js/script.js
