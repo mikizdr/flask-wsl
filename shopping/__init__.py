@@ -22,13 +22,14 @@ login_manager.login_view = "auth.login"
 # Set the login message category for the login manager
 login_manager.login_message_category = "gray"
 
-from .routes import auth, dashboard, role, profile, product
+from .routes import auth, dashboard, role, profile, product, category
 
 app.register_blueprint(auth.bp)
 app.register_blueprint(dashboard.bp)
 app.register_blueprint(role.bp)
 app.register_blueprint(profile.bp)
 app.register_blueprint(product.bp)
+app.register_blueprint(category.bp)
 
 # push context manually to app
 with app.app_context():
