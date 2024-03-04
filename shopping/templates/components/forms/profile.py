@@ -7,7 +7,7 @@ from wtforms import (
     SubmitField,
     TextAreaField,
 )
-from wtforms.validators import ValidationError, Optional, Length
+from wtforms.validators import DataRequired, ValidationError, Optional, Length
 
 
 class ProfileForm(FlaskForm):
@@ -20,14 +20,15 @@ class ProfileForm(FlaskForm):
 
     first_name = StringField(
         "First Name",
-        validators=[Length(min=3, max=30), Optional("First name is required.")],
+        validators=[Length(min=3, max=30), DataRequired("First name is required.")],
     )
     last_name = StringField(
         "Last Name",
-        validators=[Length(min=3, max=30), Optional("Last name is required.")],
+        validators=[Length(min=3, max=30), DataRequired("Last name is required.")],
     )
     genre = SelectField(
-        "Genre", choices=[("", "Select an option"), ("M", "Man"), ("W", "Woman")]
+        "Genre", choices=[("", "Select an option"), ("M", "Man"), ("W", "Woman")],
+        validators=[Optional("Please select an option for the genre.")]
     )
     about = TextAreaField(
         label="Short Bio:", validators=[Optional("Please enter a short bio.")]
