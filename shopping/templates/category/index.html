@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Categorys{% endblock %}
+{% block title %}Product Categories{% endblock %}
 
 {% block content %}
 
@@ -34,7 +34,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for category in categorys %}
+                {% for category in categories %}
                 <tr
                     class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <td class="w-4 p-4">
@@ -42,7 +42,7 @@
                     </td>
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         <div contenteditable>
-                            {{ category.get_name }}
+                            {{ category.name }}
                         </div>
                     </td>
                     <td class="px-6 py-4">
@@ -52,9 +52,9 @@
                     </td>
                     <td class="flex items-center px-6 py-4">
                         <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-3"
-                            onclick="updateCategory(this)">Edit</button>
+                            onclick="updateResource(this)">Edit</button>
                         <button class="font-medium text-green-600 dark:text-green-500 hover:underline mr-3"
-                            onclick="updateCategory(this, true)" style="display: none;">Update</button>
+                            onclick="updateResource(this, true)" style="display: none;">Update</button>
                         <button class="font-medium text-red-600 dark:text-red-500 hover:underline"
                             onclick="setCategoryId(this)" data-category-id="{{ category.id }}"
                             data-modal-target="deleteModal" data-modal-toggle="deleteModal">
@@ -88,7 +88,7 @@
      * @param {HTMLElement} element - the button element
      * @param {boolean} update - if true, update the category
      */
-    function updateCategory(element, update = false) {
+    function updateResource(element, update = false) {
         const row = element.closest('tr');
         element.style.display = 'none'
         element.nextElementSibling.style.display = 'block';
@@ -104,7 +104,7 @@
         !update && description.focus();
 
         if (update) {
-            fetch(`/categorys/${id}`, {
+            fetch(`/categories/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -137,14 +137,14 @@
     /**
      * Remove category
      */
-    function removeCategory() {
+    function removeResource() {
 
         const id = document.getElementById('resourceIdToBeDeleted').value;
         const button = document.querySelector(`[data-category-id="${id}"]`);
         row = button.closest('tr');
 
 
-        fetch(`/categorys/${id}`, {
+        fetch(`/categories/${id}`, {
             method: 'DELETE'
         })
             .then(response => {
