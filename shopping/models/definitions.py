@@ -19,6 +19,10 @@ class User(db.Model, UserMixin):
     role_id = db.Column(
         db.Integer(), db.ForeignKey("roles.id"), nullable=False, default=3
     )
+    created_at = db.Column(db.DateTime(), nullable=False, default=db.func.now())
+    updated_at = db.Column(
+        db.DateTime(), nullable=False, default=db.func.now(), onupdate=db.func.now()
+    )
     profile = db.relationship("Profile", backref="user", lazy="select", uselist=False)
 
     def password_is_valid(self, password: str) -> bool:
@@ -61,6 +65,10 @@ class Role(db.Model):
     id: int = db.Column(db.Integer(), primary_key=True)
     name: str = db.Column(db.String(length=20), nullable=False, unique=True)
     description: str = db.Column(db.String(length=1000), nullable=True)
+    created_at = db.Column(db.DateTime(), nullable=False, default=db.func.now())
+    updated_at = db.Column(
+        db.DateTime(), nullable=False, default=db.func.now(), onupdate=db.func.now()
+    )
 
     @property
     def get_name(self) -> str:
@@ -100,6 +108,13 @@ class Category(db.Model):
     name = db.Column(db.String(length=100), nullable=False)
     description = db.Column(db.String(length=500), nullable=False)
     created_at = db.Column(db.DateTime(), nullable=False, default=db.func.now())
+    updated_at = db.Column(
+        db.DateTime(), nullable=False, default=db.func.now(), onupdate=db.func.now()
+    )
+
+    @property
+    def get_catogories(self) -> str:
+        return self.id, self.name
 
 
 class Product(db.Model):
@@ -111,9 +126,7 @@ class Product(db.Model):
     price = db.Column(db.Float(), nullable=True)
     stock = db.Column(db.Integer(), nullable=True)
     img_url = db.Column(db.String(length=500), nullable=True)
-    category_id = db.Column(
-        db.Integer(), db.ForeignKey("categories.id"), nullable=True
-    )
+    category_id = db.Column(db.Integer(), db.ForeignKey("categories.id"), nullable=True)
     created_at = db.Column(db.DateTime(), nullable=False, default=db.func.now())
     updated_at = db.Column(
         db.DateTime(), nullable=False, default=db.func.now(), onupdate=db.func.now()
