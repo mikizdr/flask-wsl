@@ -50,6 +50,12 @@ dark:text-white md:dark:text-blue-500" %}
                         Roles
                     </a>
                 </li>
+                <li>
+                    <a href="{{ url_for('category.index') }}"
+                        class="{{ active_link if '/categories' in url_for(request.endpoint) else link_classes }}">
+                        Categories
+                    </a>
+                </li>
                 {% endif %}
                 {% if current_user.is_authenticated %}
                 <li>
