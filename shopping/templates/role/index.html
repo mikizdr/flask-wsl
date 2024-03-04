@@ -52,9 +52,9 @@
                     </td>
                     <td class="flex items-center px-6 py-4">
                         <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-3"
-                            onclick="updateRole(this)">Edit</button>
+                            onclick="updateResource(this)">Edit</button>
                         <button class="font-medium text-green-600 dark:text-green-500 hover:underline mr-3"
-                            onclick="updateRole(this, true)" style="display: none;">Update</button>
+                            onclick="updateResource(this, true)" style="display: none;">Update</button>
                         <button class="font-medium text-red-600 dark:text-red-500 hover:underline"
                             onclick="setRoleId(this)" data-role-id="{{ role.id }}" data-modal-target="deleteModal"
                             data-modal-toggle="deleteModal">
@@ -88,7 +88,7 @@
      * @param {HTMLElement} element - the button element
      * @param {boolean} update - if true, update the role
      */
-    function updateRole(element, update = false) {
+    function updateResource(element, update = false) {
         const row = element.closest('tr');
         element.style.display = 'none'
         element.nextElementSibling.style.display = 'block';
@@ -137,7 +137,7 @@
     /**
      * Remove role
      */
-    function removeRole() {
+    function removeResource() {
 
         const id = document.getElementById('resourceIdToBeDeleted').value;
         const button = document.querySelector(`[data-role-id="${id}"]`);
