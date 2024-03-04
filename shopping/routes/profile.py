@@ -76,6 +76,6 @@ def index() -> str:
         for err_msg in form.errors.values():
             flash(f"There was an error with creating a role: {err_msg}", category="red")
 
-    form.about.data = profile.about
+    form.about.data = profile.about if profile is not None else ""
 
     return render_template("profile/index.html", form=form, profile=profile)
