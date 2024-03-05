@@ -28,7 +28,9 @@ def index() -> str:
         last_name: str | None = form.last_name.data
         genre: str | None = form.genre.data
         has_license: bool = False if form.has_license.data == "0" else True
-        img_url: str | None = form.img_url.data
+        img_url: str | None = (
+            form.img_url.data if form.img_url.data else "mickey-mouse.png"
+        )
         about: str | None = form.about.data
         phone: str | None = form.phone.data
         address: str | None = form.address.data
