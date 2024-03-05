@@ -1,14 +1,13 @@
 from flask_wtf import FlaskForm
 from wtforms import (
     FileField,
-    FloatField,
     HiddenField,
     IntegerField,
-    RadioField,
     SelectField,
     StringField,
     SubmitField,
     TextAreaField,
+    DecimalField,
 )
 from wtforms.validators import ValidationError, Optional, Length, DataRequired
 
@@ -29,7 +28,7 @@ class ProductForm(FlaskForm):
             DataRequired("Product description is required."),
         ],
     )
-    price = FloatField(
+    price = DecimalField(
         label="Price",
         validators=[DataRequired("Price is required.")],
         render_kw={"step": "0.01", "min": "0.99"},
