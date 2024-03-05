@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import (
     FileField,
+    FloatField,
     HiddenField,
     IntegerField,
     RadioField,
@@ -28,7 +29,7 @@ class ProductForm(FlaskForm):
             DataRequired("Product description is required."),
         ],
     )
-    price = IntegerField(
+    price = FloatField(
         label="Price",
         validators=[DataRequired("Price is required.")],
         render_kw={"step": "0.01", "min": "0.99"},
