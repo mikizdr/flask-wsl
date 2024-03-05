@@ -49,8 +49,9 @@
                 {% for product in products %}
                 <tr
                     class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <input type="hidden" name="productId{{ product.id }}" id="productId{{ product.id }}" value="{{ product.id }}">
                     <td class="w-4 p-4">
-                        {{ product.id }}
+                        {{ loop.index }}
                     </td>
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         <div contenteditable>
@@ -124,9 +125,9 @@
         const row = element.closest('tr');
         element.style.display = 'none'
         element.nextElementSibling.style.display = 'block';
-        const id = row.querySelector('td:nth-child(1)').innerText;
-        const name = row.querySelector('td:nth-child(2) div').innerText;
-        const description = row.querySelector('td:nth-child(3) div')
+        const id = row.querySelector('input:nth-child(1)').value.trim();
+        const name = row.querySelector('td:nth-child(3) div').innerText;
+        const description = row.querySelector('td:nth-child(4) div')
 
         if (!update) {
             oldName = name;
