@@ -28,9 +28,8 @@ def index() -> str:
         last_name: str | None = form.last_name.data
         genre: str | None = form.genre.data
         has_license: bool = False if form.has_license.data == "0" else True
-        img_url: str | None = (
-            form.img_url.data if form.img_url.data else "mickey-mouse.png"
-        )
+        if form.img_url.data:
+            img_url: str | None = form.img_url.data
         about: str | None = form.about.data
         phone: str | None = form.phone.data
         address: str | None = form.address.data
@@ -43,7 +42,8 @@ def index() -> str:
             profile.last_name = last_name
             profile.genre = genre
             profile.has_license = has_license
-            profile.img_url = img_url
+            if form.img_url.data:
+                profile.img_url = img_url
             profile.about = about
             profile.phone = phone
             profile.address = address
@@ -58,7 +58,6 @@ def index() -> str:
                 last_name=last_name,
                 genre=genre,
                 has_license=has_license,
-                img_url=img_url,
                 about=about,
                 phone=phone,
                 address=address,
@@ -66,6 +65,8 @@ def index() -> str:
                 zipcode=zipcode,
                 country=country,
             )
+            if form.img_url.data:
+                profile.img_url = form.img_url.data
 
             db.session.add(profile)
 
