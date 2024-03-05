@@ -16,14 +16,16 @@ class User(db.Model, UserMixin):
     email_verified_at = db.Column(db.DateTime(), nullable=True)
     password = db.Column(db.String(length=60), nullable=False)
     remember_token = db.Column(db.String(length=100), nullable=True)
-    role_id = db.Column(
-        db.Integer(), db.ForeignKey("roles.id"), nullable=False, default=3
-    )
     created_at = db.Column(db.DateTime(), nullable=False, default=db.func.now())
     updated_at = db.Column(
         db.DateTime(), nullable=False, default=db.func.now(), onupdate=db.func.now()
     )
-    profile = db.relationship("Profile", backref="user", lazy="select", uselist=False)
+    role_id = db.Column(
+        db.Integer(), db.ForeignKey("roles.id"), nullable=False, default=3
+    )
+    role = db.relationship('Role', back_populates='users')
+    profile = db.relationship("Profile", back_populates="user", lazy="select", uselist=False)
+    products = db.relationship('Product', back_populates='user')
 
     def password_is_valid(self, password: str) -> bool:
         """Check the password against the hashed password.
@@ -69,6 +71,7 @@ class Role(db.Model):
     updated_at = db.Column(
         db.DateTime(), nullable=False, default=db.func.now(), onupdate=db.func.now()
     )
+    users = db.relationship('User', back_populates='role')
 
     @property
     def get_name(self) -> str:
@@ -96,6 +99,7 @@ class Profile(db.Model):
     user_id = db.Column(
         db.Integer(), db.ForeignKey("users.id"), nullable=False, unique=True
     )
+    user = db.relationship('User', back_populates='profile')
 
     def __repr__(self) -> str:
         return f"Profile('{self.first_name} {self.last_name}')"
@@ -111,6 +115,7 @@ class Category(db.Model):
     updated_at = db.Column(
         db.DateTime(), nullable=False, default=db.func.now(), onupdate=db.func.now()
     )
+    products = db.relationship('Product', back_populates='category')
 
 
 class Product(db.Model):
@@ -122,9 +127,11 @@ class Product(db.Model):
     price = db.Column(db.Float(), nullable=False)
     stock = db.Column(db.Integer(), nullable=False)
     img_url = db.Column(db.String(length=500), nullable=False)
-    category_id = db.Column(db.Integer(), db.ForeignKey("categories.id"), nullable=False)
-    user_id = db.Column(db.Integer(), db.ForeignKey("users.id"), nullable=False)
     created_at = db.Column(db.DateTime(), nullable=False, default=db.func.now())
     updated_at = db.Column(
         db.DateTime(), nullable=False, default=db.func.now(), onupdate=db.func.now()
     )
+    category_id = db.Column(db.Integer(), db.ForeignKey("categories.id"), nullable=False)
+    category = db.relationship('Category', back_populates='products')
+    user_id = db.Column(db.Integer(), db.ForeignKey("users.id"), nullable=False)
+    user = db.relationship('User', back_populates='products')
