@@ -117,12 +117,13 @@ class Product(db.Model):
     __tablename__ = "products"
 
     id = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.String(length=100), nullable=True)
-    description = db.Column(db.String(length=1000), nullable=True)
-    price = db.Column(db.Float(), nullable=True)
-    stock = db.Column(db.Integer(), nullable=True)
-    img_url = db.Column(db.String(length=500), nullable=True)
-    category_id = db.Column(db.Integer(), db.ForeignKey("categories.id"), nullable=True)
+    name = db.Column(db.String(length=100), nullable=False)
+    description = db.Column(db.String(length=1000), nullable=False)
+    price = db.Column(db.Float(), nullable=False)
+    stock = db.Column(db.Integer(), nullable=False)
+    img_url = db.Column(db.String(length=500), nullable=False)
+    category_id = db.Column(db.Integer(), db.ForeignKey("categories.id"), nullable=False)
+    user_id = db.Column(db.Integer(), db.ForeignKey("users.id"), nullable=False)
     created_at = db.Column(db.DateTime(), nullable=False, default=db.func.now())
     updated_at = db.Column(
         db.DateTime(), nullable=False, default=db.func.now(), onupdate=db.func.now()
