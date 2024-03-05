@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /**
  * Set color for SVG icon in the popup modal.
  *
- * @param {boolean} green 
+ * @param {boolean} green - Whether to set the color to green or red
  */
 function changeIconColor(green = true) {
     const svg = document.getElementById('svgPopupIcon');
@@ -29,13 +29,13 @@ function changeIconColor(green = true) {
 /**
  * Reset form fields when user clicks on the reset button
  *
- * @param {string} formId 
+ * @param {string} formId
  */
 function resetForm(formId) {
     document.getElementById(formId).reset();
 }
 
-/** 
+/**
  * Make a prototype of the String object to capitalize the first letter of a string.
  */
 Object.defineProperty(String.prototype, 'capitalize', {
@@ -63,8 +63,8 @@ function addRemoveError(id, condition, submit = true) {
 /**
  * Show or hide validation messages for the form fields.
  *
- * @param {HTMLFormElement} form 
- * @param {string[]} formFields 
+ * @param {HTMLFormElement} form
+ * @param {string[]} formFields
  */
 function showHideValidationMessages(form, formFields) {
     formFields.forEach(id => {
