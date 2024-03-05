@@ -66,3 +66,38 @@ def create() -> Response:
             )
 
     return render_template("product/create.html", form=form, categories=categories)
+
+
+@bp.route("/<int:id>", methods=["PUT"])
+@only_admin
+def update_product(id: int) -> Response:
+
+    try:
+        product: Product = Product.query.get_or_404(id)
+
+        product.name = request.json.get("name")
+        product.description = request.json.get("description")
+
+        db.session.add(product)
+        db.session.commit()
+
+        return jsonify({"message": "Product updated successfully!"})
+    except Exception as e:
+        return jsonify({"message": "Product not found!"}), 404
+
+
+@bp.route("/<int:id>", methods=["DELETE"])
+@only_admin
+def delete_product(id: int) -> Response:
+    product: Product = Product.query.get_or_404(id)
+
+    # TODO: Check if product is being associated with an order
+    order = False
+
+    if order:
+        return jsonify({"message": "Product is being used by a user. Cannot delete!"}), 409
+
+    db.session.delete(product)
+    db.session.commit()
+
+    return jsonify({"message": "Product deleted successfully!"})
