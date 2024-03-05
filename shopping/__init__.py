@@ -2,6 +2,7 @@ from typing import Union
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from sqlalchemy import Engine, PoolProxiedConnection, create_engine
 
 from shopping import config
 
@@ -37,3 +38,10 @@ with app.app_context():
     from .database.init_defaults import init_defaults
 
     init_defaults()
+
+# Uncomment the following lines to dump the database to a file, and run the app.
+# engine: Engine = create_engine("sqlite:///instance/shopping.db")
+# con: PoolProxiedConnection = engine.raw_connection()
+# with open('./shopping/database/dump.sql', 'w') as f:
+#     for line in con.iterdump():
+#         f.write('%s\n' % line)
