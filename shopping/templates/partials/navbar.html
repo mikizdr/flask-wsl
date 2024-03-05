@@ -30,12 +30,12 @@ dark:text-white md:dark:text-blue-500" %}
                     </a>
                 </li>
                 {% if current_user.is_authenticated %}
-                <li>
+                <!-- <li>
                     <a href="{{ url_for('dashboard.home') }}"
                         class="{{ active_link if url_for(request.endpoint) == url_for('dashboard.home') else link_classes }}">
                         Dashboard
                     </a>
-                </li>
+                </li> -->
                 <li>
                     <a href="{{ url_for('product.index') }}"
                         class="{{ active_link if '/products' in url_for(request.endpoint) else link_classes }}">
@@ -58,18 +58,18 @@ dark:text-white md:dark:text-blue-500" %}
                 </li>
                 {% endif %}
                 {% if current_user.is_authenticated %}
-                <li>
+                <!-- <li>
                     <a href=" {{ url_for('profile.index') }}"
                         class="{{ active_link if url_for(request.endpoint) == url_for('profile.index') else link_classes }}">
                         {{ current_user.get_full_name }}
                     </a>
-                </li>
-                <li>
+                </li> -->
+                <!-- <li>
                     <a href="{{ url_for('auth.logout') }}" class="{{ link_classes }}">
                         Logout
                     </a>
-                </li>
-                <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+                </li> -->
+                <div class="flex items-center ml-8 md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                     <button type="button"
                         class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
                         id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
@@ -82,31 +82,35 @@ dark:text-white md:dark:text-blue-500" %}
                     <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
                         id="user-dropdown">
                         <div class="px-4 py-3">
-                            <span class="block text-sm text-gray-900 dark:text-white">{{ current_user.username }}</span>
-                            <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">{{ current_user.email
-                                }}</span>
+                            <span class="block text-sm text-gray-900 dark:text-white">
+                                {{ current_user.get_full_name }}
+                            </span>
+                            <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">
+                                {{ current_user.email }}
+                            </span>
                         </div>
                         <ul class="py-2" aria-labelledby="user-menu-button">
                             <li>
-                                <a href="#"
+                                <a href="{{ url_for('dashboard.home') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
                             </li>
                             <li>
-                                <a href="#"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</a>
+                                <a href="{{ url_for('profile.index') }}"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profile</a>
                             </li>
                             <li>
                                 <a href="#"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Earnings</a>
                             </li>
                             <li>
-                                <a href="#"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign
-                                    out</a>
+                                <a href="{{ url_for('auth.logout') }}"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                                    Sign out
+                                </a>
                             </li>
                         </ul>
                     </div>
-                    <button type="button"
+                    <!-- <button type="button"
                         class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                         aria-controls="navbar-user" aria-expanded="false">
                         <span class="sr-only">Open main menu</span>
@@ -115,7 +119,7 @@ dark:text-white md:dark:text-blue-500" %}
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M1 1h15M1 7h15M1 13h15" />
                         </svg>
-                    </button>
+                    </button> -->
                 </div>
                 {% else %}
                 <li>
