@@ -29,6 +29,18 @@
                         Description
                     </th>
                     <th scope="col" class="px-6 py-3">
+                        Price
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Stock
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Category
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Creator
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                         Action
                     </th>
                 </tr>
@@ -48,6 +60,26 @@
                     <td class="px-6 py-4">
                         <div contenteditable>
                             {{ product.description }}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div>
+                            {{ product.price }}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div>
+                            {{ product.stock }}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div>
+                            {{ product.category.name }}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div>
+                            {{ product.user.username }}
                         </div>
                     </td>
                     <td class="flex items-center px-6 py-4">
