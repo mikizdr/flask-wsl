@@ -59,7 +59,7 @@ dark:text-white md:dark:text-blue-500" %}
                         data-dropdown-placement="bottom">
                         <span class="sr-only">Open user menu</span>
                         {% set profile_img = current_user.profile.img_url if current_user.profile.img_url else 'mickey-mouse.png' %}
-                        <img class="w-8 h-8 rounded-full" src="{{ url_for('static', filename='/images/' + profile_img) }}"
+                        <img class="w-8 h-8 rounded-full" src="{{ url_for('static', filename='/images/users/' + profile_img) }}"
                             alt="user photo">
                     </button>
                     <!-- Dropdown menu -->
