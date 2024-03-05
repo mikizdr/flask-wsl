@@ -1,0 +1,118 @@
+{% from 'components/macros/input.html' import input with context %}
+
+{% extends 'base.html' %}
+
+{% block title %}Create Product{% endblock %}
+
+{% set class_name_for_input = 'bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700
+dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+dark:focus:border-blue-500' %}
+
+{% block content %}
+<div class="bg-gray-50 dark:bg-gray-900">
+    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+        <div
+            class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                    Create A Product
+                </h1>
+                <form id="createProductForm" novalidate method="post" action="{{ url_for('product.create') }}">
+
+                    {{ form.hidden_tag() }}
+
+                    <div class="mb-5">
+                        {{ form.name.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                        {{ form.name(class=class_name_for_input, id='name', placeholder='Product name',
+                        minlength=3,
+                        maxlength=30, required=True, autofocus=True) }}
+                        <div class="error-message" id="nameError">
+                            Product name is required.
+                        </div>
+                    </div>
+
+                    <div class="mb-5">
+                        {{ form.description.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white")
+                        }}
+                        {{ form.description(class=class_name_for_input,
+                        id='description',
+                        placeholder='Product description',
+                        minlength=8,
+                        maxlength=1000, required=True) }}
+                        <div class="error-message" id="descriptionError">
+                            Product description is required.
+                        </div>
+                    </div>
+
+                    <div class="mb-5">
+                        {{ form.price.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white")
+                        }}
+                        {{ form.price(class=class_name_for_input,
+                        id='price',
+                        placeholder='Product price',
+                        min=0.01,
+                        max=100000, required=True) }}
+                        <div class="error-message" id="priceError">
+                            Product price is required.
+                        </div>
+                    </div>
+
+                    <div class="mb-5">
+                        {{ form.stock.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white")
+                        }}
+                        {{ form.stock(class=class_name_for_input,
+                        id='stock',
+                        placeholder='Product stock',
+                        min=1,
+                        max=1000000, required=True) }}
+                        <div class="error-message" id="stockError">
+                            Stock number is required.
+                        </div>
+                    </div>
+
+                    <div class="mb-5">
+                        {{ form.img_url.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                        {{ form.img_url(class=class_name_for_input, id='imageUrl') }}
+                    </div>
+
+                    <div class="mb-5">
+                        <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Select Category
+                        </label>
+                        <select class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700
+                dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+                dark:focus:border-blue-500" id="category" name="category" required="">
+                            <option value>Select an option</option>
+                            {% for category in categories %}
+                            <option value="{{ category.id }}">
+                                {{ category.name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <div class="error-message" id="categoryError">
+                            Stock number is required.
+                        </div>
+                    </div>
+
+                    {{ form.submit(class="w-full my-5 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4
+                    focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center
+                    dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 cursor-pointer") }}
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('createProductForm');
+        const formFields = ['name', 'description', 'price', 'stock', 'category'];
+        showHideValidationMessages(form, formFields);
+    });
+</script>
+{% endblock %}
