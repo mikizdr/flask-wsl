@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 
-{% block title %}Roles{% endblock %}
+{% block title %}Products{% endblock %}
 
 {% block content %}
 
 <div class="px-8 sm:px-16">
     <div class="flex justify-between items-center">
         <h1 class="text-white text-2xl">Products</h1>
-        <a href="#" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        <a href="{{ url_for('product.create') }}"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Create a Product
         </a>
     </div>
@@ -37,26 +38,26 @@
                 <tr
                     class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <td class="w-4 p-4">
-                        {{ role.id }}
+                        {{ product.id }}
                     </td>
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         <div contenteditable>
-                            {{ role.name }}
+                            {{ product.name }}
                         </div>
                     </td>
                     <td class="px-6 py-4">
                         <div contenteditable>
-                            {{ role.description }}
+                            {{ product.description }}
                         </div>
                     </td>
                     <td class="flex items-center px-6 py-4">
                         <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-3"
-                            onclick="updateRole(this)">Edit</button>
+                            onclick="updateResource(this)">Edit</button>
                         <button class="font-medium text-green-600 dark:text-green-500 hover:underline mr-3"
-                            onclick="updateRole(this, true)" style="display: none;">Update</button>
+                            onclick="updateResource(this, true)" style="display: none;">Update</button>
                         <button class="font-medium text-red-600 dark:text-red-500 hover:underline"
-                            onclick="setRoleId(this)" data-role-id="{{ product.id }}" data-modal-target="deleteModal"
-                            data-modal-toggle="deleteModal">
+                            onclick="setProductId(this)" data-product-id="{{ product.id }}"
+                            data-modal-target="deleteModal" data-modal-toggle="deleteModal">
                             Remove
                         </button>
                     </td>
@@ -74,20 +75,20 @@
 
     const afterActionMessageInPopuModal = document.getElementById('afterActionMessageInPopuModal');
 
-    function setRoleId(button) {
-        document.getElementById('resourceIdToBeDeleted').value = button.dataset.roleId;
+    function setProductId(button) {
+        document.getElementById('resourceIdToBeDeleted').value = button.dataset.productId;
     }
 
     let oldName = '';
     let oldDescription = '';
 
     /**
-     * Update role
+     * Update product
      *
      * @param {HTMLElement} element - the button element
-     * @param {boolean} update - if true, update the role
+     * @param {boolean} update - if true, update the product
      */
-    function updateRole(element, update = false) {
+    function updateResource(element, update = false) {
         const row = element.closest('tr');
         element.style.display = 'none'
         element.nextElementSibling.style.display = 'block';
@@ -103,7 +104,7 @@
         !update && description.focus();
 
         if (update) {
-            fetch(`/roles/${id}`, {
+            fetch(`/products/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -116,12 +117,12 @@
                 .then(response => {
                     if (response.status == 200) {
                         changeIconColor();
-                        afterActionMessageInPopuModal.innerText = 'Role updated successfully.';
+                        afterActionMessageInPopuModal.innerText = 'Product updated successfully.';
                     } else {
                         name.innerText = oldName;
                         description.innerText = oldDescription;
                         changeIconColor(false);
-                        afterActionMessageInPopuModal.innerText = 'Role cannot be updated.';
+                        afterActionMessageInPopuModal.innerText = 'Product cannot be updated.';
                     }
                     const button = document.getElementById('showHidePopupModal');
                     button.click();
@@ -134,27 +135,27 @@
     }
 
     /**
-     * Remove role
+     * Remove product
      */
-    function removeRole() {
+    function removeResource() {
 
         const id = document.getElementById('resourceIdToBeDeleted').value;
-        const button = document.querySelector(`[data-role-id="${id}"]`);
+        const button = document.querySelector(`[data-product-id="${id}"]`);
         row = button.closest('tr');
 
 
-        fetch(`/roles/${id}`, {
+        fetch(`/products/${id}`, {
             method: 'DELETE'
         })
             .then(response => {
                 if (response.status === 200) {
-                    afterActionMessageInPopuModal.innerText = 'Role deleted successfully.';
+                    afterActionMessageInPopuModal.innerText = 'Product deleted successfully.';
                     changeIconColor();
                     row.remove();
                 } else {
                     changeIconColor(false);
-                    document.getElementById('resourceCantBeDeletedMessage').value = 'Role cannot be deleted. There are users associated with this role.';
-                    afterActionMessageInPopuModal.innerText = 'Role cannot be deleted. There are users associated with this role.';
+                    document.getElementById('resourceCantBeDeletedMessage').value = 'Product cannot be deleted. There are users associated with this product.';
+                    afterActionMessageInPopuModal.innerText = 'Product cannot be deleted. There are users associated with this product.';
                 }
                 const button = document.getElementById('showHidePopupModal');
                 button.click();
