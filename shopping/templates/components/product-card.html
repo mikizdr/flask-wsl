@@ -35,7 +35,7 @@
 			<div class="flex justify-between items-center">
 				<p class="text-xs text-gray-400">{{ product.name }}</p>
 				<div class="relative z-40 flex items-center gap-2">
-                    <p class="text-xl">{{ product.price }} $</p>
+                    <p class="text-xl">{{ "%.2f"|format(product.price) }} $</p>
 				</div>
 			</div>
 			<div class="flex flex-col sm:flex-row justify-between items-center mt-4">
