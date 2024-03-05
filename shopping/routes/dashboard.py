@@ -5,11 +5,17 @@ from flask import (
 
 from flask_login import login_required
 
+from shopping.models.definitions import Product
+
 bp = Blueprint("dashboard", __name__)
+
 
 @bp.route("/")
 def index() -> str:
-    return render_template("welcome.html")
+    products = Product.query.all()
+
+    return render_template("welcome.html", products=products)
+
 
 @bp.route("/home")
 @login_required
