@@ -23,9 +23,11 @@ class User(db.Model, UserMixin):
     role_id = db.Column(
         db.Integer(), db.ForeignKey("roles.id"), nullable=False, default=3
     )
-    role = db.relationship('Role', back_populates='users')
-    profile = db.relationship("Profile", back_populates="user", lazy="select", uselist=False)
-    products = db.relationship('Product', back_populates='user')
+    role = db.relationship("Role", back_populates="users")
+    profile = db.relationship(
+        "Profile", back_populates="user", lazy="select", uselist=False
+    )
+    products = db.relationship("Product", back_populates="user")
 
     def password_is_valid(self, password: str) -> bool:
         """Check the password against the hashed password.
@@ -71,7 +73,7 @@ class Role(db.Model):
     updated_at = db.Column(
         db.DateTime(), nullable=False, default=db.func.now(), onupdate=db.func.now()
     )
-    users = db.relationship('User', back_populates='role')
+    users = db.relationship("User", back_populates="role")
 
     @property
     def get_name(self) -> str:
@@ -90,7 +92,9 @@ class Profile(db.Model):
     genre = db.Column(db.Enum("", "M", "W"), nullable=True)
     about: str = db.Column(db.String(length=1000), nullable=True)
     has_license: bool = db.Column(db.Boolean(), nullable=True, default=True)
-    img_url = db.Column(db.String(length=300), nullable=True, default="mickey-mouse.png")
+    img_url = db.Column(
+        db.String(length=300), nullable=True, default="mickey-mouse.png"
+    )
     phone = db.Column(db.String(length=15), nullable=True)
     address = db.Column(db.String(length=100), nullable=True)
     city = db.Column(db.String(length=30), nullable=True)
@@ -99,7 +103,7 @@ class Profile(db.Model):
     user_id = db.Column(
         db.Integer(), db.ForeignKey("users.id"), nullable=False, unique=True
     )
-    user = db.relationship('User', back_populates='profile')
+    user = db.relationship("User", back_populates="profile")
 
     def __repr__(self) -> str:
         return f"Profile('{self.first_name} {self.last_name}')"
@@ -115,7 +119,10 @@ class Category(db.Model):
     updated_at = db.Column(
         db.DateTime(), nullable=False, default=db.func.now(), onupdate=db.func.now()
     )
-    products = db.relationship('Product', back_populates='category')
+    products = db.relationship("Product", back_populates="category")
+
+    def __repr__(self) -> str:
+        return f"Category('{self.id}')"
 
 
 class Product(db.Model):
@@ -131,7 +138,12 @@ class Product(db.Model):
     updated_at = db.Column(
         db.DateTime(), nullable=False, default=db.func.now(), onupdate=db.func.now()
     )
-    category_id = db.Column(db.Integer(), db.ForeignKey("categories.id"), nullable=False)
-    category = db.relationship('Category', back_populates='products')
+    category_id = db.Column(
+        db.Integer(), db.ForeignKey("categories.id"), nullable=False
+    )
+    category = db.relationship("Category", back_populates="products")
     user_id = db.Column(db.Integer(), db.ForeignKey("users.id"), nullable=False)
-    user = db.relationship('User', back_populates='products')
+    user = db.relationship("User", back_populates="products")
+
+    def __repr__(self) -> str:
+        return f"Product('{self.id}')"
