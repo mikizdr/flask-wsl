@@ -9,17 +9,17 @@ from flask import (
     request,
     url_for,
 )
+from flask_login import login_required
 
 from shopping import db
 from shopping.models.definitions import Category, User
-from shopping.routes.auth import only_admin
 from shopping.templates.components.forms.category import CategoryForm
 
 bp = Blueprint("category", __name__, url_prefix="/categories")
 
 
 @bp.route("/")
-@only_admin
+@login_required
 def index() -> Response:
     categories: List = Category.query.all()
 
@@ -27,7 +27,7 @@ def index() -> Response:
 
 
 @bp.route("/create", methods=["GET", "POST"])
-@only_admin
+@login_required
 def create() -> Response:
 
     form = CategoryForm()
@@ -45,13 +45,16 @@ def create() -> Response:
 
     if form.errors != {}:  # If there are errors from the validations
         for err_msg in form.errors.values():
-            flash(f"There was an error with creating a category: {err_msg}", category="red")
+            flash(
+                f"There was an error with creating a category: {err_msg}",
+                category="red",
+            )
 
     return render_template("category/create.html", form=form)
 
 
 @bp.route("/<int:id>", methods=["PUT"])
-@only_admin
+@login_required
 def update_role(id: int) -> Response:
 
     try:
@@ -69,14 +72,17 @@ def update_role(id: int) -> Response:
 
 
 @bp.route("/<int:id>", methods=["DELETE"])
-@only_admin
+@login_required
 def delete_role(id: int) -> Response:
     category: Category = Category.query.get_or_404(id)
 
     user: User = User.query.filter_by(role_id=id).first()
 
     if user:
-        return jsonify({"message": "Category is being used by a user. Cannot delete!"}), 409
+        return (
+            jsonify({"message": "Category is being used by a user. Cannot delete!"}),
+            409,
+        )
 
     db.session.delete(category)
     db.session.commit()
