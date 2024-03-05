@@ -90,7 +90,7 @@ class Profile(db.Model):
     genre = db.Column(db.Enum("", "M", "W"), nullable=True)
     about: str = db.Column(db.String(length=1000), nullable=True)
     has_license: bool = db.Column(db.Boolean(), nullable=True, default=True)
-    img_url = db.Column(db.String(length=300), nullable=True)
+    img_url = db.Column(db.String(length=300), nullable=True, default="mickey-mouse.png")
     phone = db.Column(db.String(length=15), nullable=True)
     address = db.Column(db.String(length=100), nullable=True)
     city = db.Column(db.String(length=30), nullable=True)
