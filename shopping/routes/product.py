@@ -22,7 +22,7 @@ bp = Blueprint("product", __name__, url_prefix="/products")
 @bp.route("/", methods=["GET"])
 @login_required
 def index() -> Response:
-    products: List = Product.query.all()
+    products: List = Product.query.filter_by(user_id=current_user.id).all()
 
     return render_template("product/index.html", products=products)
 
@@ -95,7 +95,10 @@ def delete_product(id: int) -> Response:
     order = False
 
     if order:
-        return jsonify({"message": "Product is being used by a user. Cannot delete!"}), 409
+        return (
+            jsonify({"message": "Product is being used by a user. Cannot delete!"}),
+            409,
+        )
 
     db.session.delete(product)
     db.session.commit()
