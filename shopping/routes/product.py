@@ -69,7 +69,7 @@ def create() -> Response:
 
 
 @bp.route("/<int:id>", methods=["PUT"])
-@only_admin
+@login_required
 def update_product(id: int) -> Response:
 
     try:
@@ -87,7 +87,7 @@ def update_product(id: int) -> Response:
 
 
 @bp.route("/<int:id>", methods=["DELETE"])
-@only_admin
+@login_required
 def delete_product(id: int) -> Response:
     product: Product = Product.query.get_or_404(id)
 
