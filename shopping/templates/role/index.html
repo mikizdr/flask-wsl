@@ -73,7 +73,7 @@
 {% block script %}
 <script>
 
-    const afterActionMessageInPopuModal = document.getElementById('afterActionMessageInPopuModal');
+    const afterActionMessageInPopupModal = document.getElementById('afterActionMessageInPopupModal');
 
     function setRoleId(button) {
         document.getElementById('resourceIdToBeDeleted').value = button.dataset.roleId;
@@ -117,12 +117,12 @@
                 .then(response => {
                     if (response.status == 200) {
                         changeIconColor();
-                        afterActionMessageInPopuModal.innerText = 'Role updated successfully.';
+                        afterActionMessageInPopupModal.innerText = 'Role updated successfully.';
                     } else {
                         name.innerText = oldName;
                         description.innerText = oldDescription;
                         changeIconColor(false);
-                        afterActionMessageInPopuModal.innerText = 'Role cannot be updated.';
+                        afterActionMessageInPopupModal.innerText = 'Role cannot be updated.';
                     }
                     const button = document.getElementById('showHidePopupModal');
                     button.click();
@@ -149,13 +149,13 @@
         })
             .then(response => {
                 if (response.status === 200) {
-                    afterActionMessageInPopuModal.innerText = 'Role deleted successfully.';
+                    afterActionMessageInPopupModal.innerText = 'Role deleted successfully.';
                     changeIconColor();
                     row.remove();
                 } else {
                     changeIconColor(false);
                     document.getElementById('resourceCantBeDeletedMessage').value = 'Role cannot be deleted. There are users associated with this role.';
-                    afterActionMessageInPopuModal.innerText = 'Role cannot be deleted. There are users associated with this role.';
+                    afterActionMessageInPopupModal.innerText = 'Role cannot be deleted. There are users associated with this role.';
                 }
                 const button = document.getElementById('showHidePopupModal');
                 button.click();

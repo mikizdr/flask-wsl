@@ -106,7 +106,7 @@
 {% block script %}
 <script>
 
-    const afterActionMessageInPopuModal = document.getElementById('afterActionMessageInPopuModal');
+    const afterActionMessageInPopupModal = document.getElementById('afterActionMessageInPopupModal');
 
     function setProductId(button) {
         document.getElementById('resourceIdToBeDeleted').value = button.dataset.productId;
@@ -150,12 +150,12 @@
                 .then(response => {
                     if (response.status == 200) {
                         changeIconColor();
-                        afterActionMessageInPopuModal.innerText = 'Product updated successfully.';
+                        afterActionMessageInPopupModal.innerText = 'Product updated successfully.';
                     } else {
                         name.innerText = oldName;
                         description.innerText = oldDescription;
                         changeIconColor(false);
-                        afterActionMessageInPopuModal.innerText = 'Product cannot be updated.';
+                        afterActionMessageInPopupModal.innerText = 'Product cannot be updated.';
                     }
                     const button = document.getElementById('showHidePopupModal');
                     button.click();
@@ -182,13 +182,13 @@
         })
             .then(response => {
                 if (response.status === 200) {
-                    afterActionMessageInPopuModal.innerText = 'Product deleted successfully.';
+                    afterActionMessageInPopupModal.innerText = 'Product deleted successfully.';
                     changeIconColor();
                     row.remove();
                 } else {
                     changeIconColor(false);
                     document.getElementById('resourceCantBeDeletedMessage').value = 'Product cannot be deleted. There are users associated with this product.';
-                    afterActionMessageInPopuModal.innerText = 'Product cannot be deleted. There are users associated with this product.';
+                    afterActionMessageInPopupModal.innerText = 'Product cannot be deleted. There are users associated with this product.';
                 }
                 const button = document.getElementById('showHidePopupModal');
                 button.click();

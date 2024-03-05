@@ -73,7 +73,7 @@
 {% block script %}
 <script>
 
-    const afterActionMessageInPopuModal = document.getElementById('afterActionMessageInPopuModal');
+    const afterActionMessageInPopupModal = document.getElementById('afterActionMessageInPopupModal');
 
     function setCategoryId(button) {
         document.getElementById('resourceIdToBeDeleted').value = button.dataset.categoryId;
@@ -117,12 +117,12 @@
                 .then(response => {
                     if (response.status == 200) {
                         changeIconColor();
-                        afterActionMessageInPopuModal.innerText = 'Category updated successfully.';
+                        afterActionMessageInPopupModal.innerText = 'Category updated successfully.';
                     } else {
                         name.innerText = oldName;
                         description.innerText = oldDescription;
                         changeIconColor(false);
-                        afterActionMessageInPopuModal.innerText = 'Category cannot be updated.';
+                        afterActionMessageInPopupModal.innerText = 'Category cannot be updated.';
                     }
                     const button = document.getElementById('showHidePopupModal');
                     button.click();
@@ -149,13 +149,13 @@
         })
             .then(response => {
                 if (response.status === 200) {
-                    afterActionMessageInPopuModal.innerText = 'Category deleted successfully.';
+                    afterActionMessageInPopupModal.innerText = 'Category deleted successfully.';
                     changeIconColor();
                     row.remove();
                 } else {
                     changeIconColor(false);
                     document.getElementById('resourceCantBeDeletedMessage').value = 'Category cannot be deleted. There are users associated with this category.';
-                    afterActionMessageInPopuModal.innerText = 'Category cannot be deleted. There are users associated with this category.';
+                    afterActionMessageInPopupModal.innerText = 'Category cannot be deleted. There are users associated with this category.';
                 }
                 const button = document.getElementById('showHidePopupModal');
                 button.click();
