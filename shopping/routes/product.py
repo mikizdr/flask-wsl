@@ -13,7 +13,6 @@ from flask_login import current_user, login_required
 
 from shopping import db
 from shopping.models.definitions import Category, Product
-from shopping.routes.auth import only_admin
 from shopping.templates.components.forms.product import ProductForm
 
 bp = Blueprint("product", __name__, url_prefix="/products")
