@@ -18,7 +18,13 @@ dark:focus:border-blue-500' %}
                 <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                     Create A Product
                 </h1>
-                <form id="createProductForm" novalidate method="post" action="{{ url_for('product.create') }}">
+                <form
+                    id="createProductForm"
+                    method="post"
+                    action="{{ url_for('product.create') }}"
+                    enctype=multipart/form-data
+                    novalidate
+                >
 
                     {{ form.hidden_tag() }}
 
