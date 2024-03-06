@@ -39,7 +39,9 @@ class ProfileForm(FlaskForm):
         choices=[(1, "Yes"), (0, "No")],
         validators=[Optional("Please select an option.")],
     )
-    profile_img = FileField("Profile Image", validators=[Optional()])
+    profile_img = FileField(
+        label="Profile Image", validators=[Optional("Please select a profile image.")]
+    )
     phone = StringField(
         label="Phone",
         validators=[
