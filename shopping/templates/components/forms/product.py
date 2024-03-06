@@ -24,7 +24,7 @@ class ProductForm(FlaskForm):
     description = TextAreaField(
         label="Poduct Description",
         validators=[
-            Length(min=10, max=1000),
+            Length(min=5, max=1000),
             DataRequired("Product description is required."),
         ],
     )
