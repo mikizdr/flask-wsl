@@ -53,12 +53,12 @@
                     </td>
                     <td class="flex items-center px-6 py-4">
                         <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-3"
-                            onclick="updateResource(this)">Edit</button>
+                            data-type="role" data-resource-id="{{ role.id }}" onclick="updateResource(this)">Edit</button>
                         <button class="font-medium text-green-600 dark:text-green-500 hover:underline mr-3"
-                            onclick="updateResource(this, true)" style="display: none;">Update</button>
+                            data-type="role" data-resource-id="{{ role.id }}" onclick="updateResource(this, true)" style="display: none;">Update</button>
                         <button class="font-medium text-red-600 dark:text-red-500 hover:underline"
-                            onclick="setRoleId(this)" data-role-id="{{ role.id }}" data-modal-target="deleteModal"
-                            data-modal-toggle="deleteModal">
+                            onclick="setResourceIdAndType(this)" data-resource-id="{{ role.id }}"
+                            data-type="role" data-modal-target="deleteModal" data-modal-toggle="deleteModal">
                             Remove
                         </button>
                     </td>
@@ -69,101 +69,4 @@
     </div>
 </div>
 
-{% endblock %}
-
-{% block script %}
-<script>
-
-    const afterActionMessageInPopupModal = document.getElementById('afterActionMessageInPopupModal');
-
-    function setRoleId(button) {
-        document.getElementById('resourceIdToBeDeleted').value = button.dataset.roleId;
-    }
-
-    let oldName = '';
-    let oldDescription = '';
-
-    /**
-     * Update role
-     *
-     * @param {HTMLElement} element - the button element
-     * @param {boolean} update - if true, update the role
-     */
-    function updateResource(element, update = false) {
-        const row = element.closest('tr');
-        element.style.display = 'none'
-        element.nextElementSibling.style.display = 'block';
-        const id = row.querySelector('input:nth-child(1)').value.trim();
-        const name = row.querySelector('td:nth-child(3) div').innerText;
-        const description = row.querySelector('td:nth-child(4) div')
-
-        if (!update) {
-            oldName = name;
-            oldDescription = description.innerText;
-        }
-
-        !update && description.focus();
-
-        if (update) {
-            fetch(`/roles/${id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    name: name,
-                    description: description.innerText
-                })
-            })
-                .then(response => {
-                    if (response.status == 200) {
-                        changeIconColor();
-                        afterActionMessageInPopupModal.innerText = 'Role updated successfully.';
-                    } else {
-                        name.innerText = oldName;
-                        description.innerText = oldDescription;
-                        changeIconColor(false);
-                        afterActionMessageInPopupModal.innerText = 'Role cannot be updated.';
-                    }
-                    const button = document.getElementById('showHidePopupModal');
-                    button.click();
-                    element.previousElementSibling.style.display = 'block';
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }
-    }
-
-    /**
-     * Remove role
-     */
-    function removeResource() {
-
-        const id = document.getElementById('resourceIdToBeDeleted').value;
-        const button = document.querySelector(`[data-role-id="${id}"]`);
-        row = button.closest('tr');
-
-
-        fetch(`/roles/${id}`, {
-            method: 'DELETE'
-        })
-            .then(response => {
-                if (response.status === 200) {
-                    afterActionMessageInPopupModal.innerText = 'Role deleted successfully.';
-                    changeIconColor();
-                    row.remove();
-                } else {
-                    changeIconColor(false);
-                    document.getElementById('resourceCantBeDeletedMessage').value = 'Role cannot be deleted. There are users associated with this role.';
-                    afterActionMessageInPopupModal.innerText = 'Role cannot be deleted. There are users associated with this role.';
-                }
-                const button = document.getElementById('showHidePopupModal');
-                button.click();
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }
-</script>
 {% endblock %}
