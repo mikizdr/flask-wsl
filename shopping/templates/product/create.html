@@ -79,7 +79,10 @@ dark:focus:border-blue-500' %}
 
                     <div class="mb-5">
                         {{ form.images.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-                        {{ form.images(class=class_name_for_input, id='imageUrl', multiple=True) }}
+                        {{ form.images(class=class_name_for_input, id='images', multiple=True) }}
+                        <div class="error-message" id="imagesError">
+                            Product images are required.
+                        </div>
                     </div>
 
                     <div class="mb-5">
@@ -117,7 +120,7 @@ dark:focus:border-blue-500' %}
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const form = document.getElementById('createProductForm');
-        const formFields = ['name', 'description', 'price', 'stock', 'category'];
+        const formFields = ['name', 'description', 'price', 'stock', 'images', 'category'];
         showHideValidationMessages(form, formFields);
     });
 </script>
