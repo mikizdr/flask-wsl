@@ -4,9 +4,15 @@
 {% block content %}
 <div class="bg-gray-900 pt-8">
 	<div class="container mx-auto px-4">
-		<h2 class="text-3xl font-bold text-white my-8">
-			Introducing Our Latest Product
-		</h2>
+		<div class="flex justify-between items-center">
+			<h2 class="text-3xl font-bold text-white my-8">
+				Introducing Our Latest Product
+			</h2>
+			<a href="{{ url_for('product.create') }}"
+				class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+				Create a Product
+			</a>
+		</div>
 		<hr class="mb-8" />
 		{% if products|length > 0 %}
 		<div class="grid w-full sm:grid-cols-2 xl:grid-cols-4 gap-6">
