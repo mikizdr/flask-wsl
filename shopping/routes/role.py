@@ -41,6 +41,8 @@ def create() -> Response:
         db.session.add(role)
         db.session.commit()
 
+        flash("Role created successfully!", category="green")
+
         return redirect(url_for("role.index"))
 
     if form.errors != {}:  # If there are errors from the validations
