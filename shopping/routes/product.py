@@ -63,11 +63,15 @@ def create() -> Response:
                 flash("No selected file", category="red")
                 return redirect(request.url)
 
-            if not allowed_file(file.filename):
-                flash("File extension not allowed", category="red")
-                return redirect(request.url)
-
             files_filenames: list = []
+            for file in form.images.data:
+                if not allowed_file(file.filename):
+                    flash(
+                        f"Extension of the file {file.filename} not allowed. Allowed extensions: {app.config['ALLOWED_EXTENSIONS']}",
+                        category="red",
+                    )
+                    return redirect(request.url)
+
             for file in form.images.data:
                 file_filename: str = secure_filename(file.filename)
                 file.save(
