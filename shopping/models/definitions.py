@@ -131,7 +131,7 @@ class Product(db.Model):
     description = db.Column(db.String(length=1000), nullable=False)
     price = db.Column(db.Float(), nullable=False)
     stock = db.Column(db.Integer(), nullable=False)
-    img_url = db.Column(db.String(length=500), nullable=False)
+    images = db.Column(db.String(length=500), nullable=False)
     created_at = db.Column(db.DateTime(), nullable=False, default=db.func.now())
     updated_at = db.Column(
         db.DateTime(), nullable=False, default=db.func.now(), onupdate=db.func.now()
