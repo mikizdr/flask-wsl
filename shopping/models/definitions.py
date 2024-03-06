@@ -1,5 +1,5 @@
-import enum
 from typing import Union
+from flask import url_for
 
 from werkzeug.security import check_password_hash
 from flask_login import UserMixin
@@ -144,6 +144,13 @@ class Product(db.Model):
     category = db.relationship("Category", back_populates="products")
     user_id = db.Column(db.Integer(), db.ForeignKey("users.id"), nullable=False)
     user = db.relationship("User", back_populates="products")
+
+    @property
+    def get_product_image(self) -> str:
+        """returns the first image of the product as a url"""
+        return url_for(
+            "static", filename="images/products/uploads/" + self.img_url.split(",")[0]
+        )
 
     def __repr__(self) -> str:
         return f"Product('{self.id}')"
