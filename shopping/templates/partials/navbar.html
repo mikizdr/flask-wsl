@@ -32,13 +32,13 @@ dark:text-white md:dark:text-blue-500" %}
                 {% if current_user.is_authenticated %}
                 <li>
                     <a href="{{ url_for('product.index') }}"
-                        class="{{ active_link if '/products' in url_for(request.endpoint) else link_classes }}">
+                        class="{{ active_link if '/product' in url_for(request.endpoint) else link_classes }}">
                         Products
                     </a>
                 </li>
                 <li>
                     <a href="{{ url_for('category.index') }}"
-                        class="{{ active_link if '/categories' in url_for(request.endpoint) else link_classes }}">
+                        class="{{ active_link if '/category' in url_for(request.endpoint) else link_classes }}">
                         Categories
                     </a>
                 </li>
@@ -47,7 +47,7 @@ dark:text-white md:dark:text-blue-500" %}
                 {% if current_user.role_id == 1 %}
                 <li>
                     <a href="{{ url_for('role.index') }}"
-                        class="{{ active_link if '/roles' in url_for(request.endpoint) else link_classes }}">
+                        class="{{ active_link if '/role' in url_for(request.endpoint) else link_classes }}">
                         Roles
                     </a>
                 </li>
