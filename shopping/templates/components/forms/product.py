@@ -39,7 +39,7 @@ class ProductForm(FlaskForm):
     )
     images = MultipleFileField(
         label="Product Images",
-        validators=[Optional("Select images for the product.")],
+        validators=[DataRequired("Select images for the product.")],
     )
     category = SelectField(
         label="Product Category",
