@@ -15,7 +15,7 @@ from shopping import db
 from shopping.models.definitions import Category, Product
 from shopping.templates.components.forms.product import ProductForm
 
-bp = Blueprint("product", __name__, url_prefix="/products")
+bp = Blueprint("product", __name__, url_prefix="/product")
 
 
 @bp.route("/", methods=["GET"])
