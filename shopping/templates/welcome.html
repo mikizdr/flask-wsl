@@ -8,10 +8,12 @@
 			<h2 class="text-3xl font-bold text-white my-8">
 				Introducing Our Latest Product
 			</h2>
+			{% if current_user.is_authenticated %}
 			<a href="{{ url_for('product.create') }}"
 				class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
 				Create a Product
 			</a>
+			{% endif %}
 		</div>
 		<hr class="mb-8" />
 		{% if products|length > 0 %}
