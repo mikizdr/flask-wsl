@@ -44,44 +44,50 @@ def create() -> Response:
     form.category.choices = [(category.id, category.name) for category in categories]
 
     if form.validate_on_submit():
-        if "images" not in request.files:
-            flash("No images part", category="red")
-            return redirect(request.url)
+        try:
+            if "images" not in request.files:
+                flash("No images part", category="red")
+                return redirect(request.url)
 
-        file: FieldStorage = request.files["images"]
-        if file.filename == "":
-            flash("No selected file", category="red")
-            return redirect(request.url)
+            # If the user does not select a file, the browser submits an
+            # empty file without a filename.
+            file: FieldStorage = request.files["images"]
+            if file.filename == "":
+                flash("No selected file", category="red")
+                return redirect(request.url)
 
-        files_filenames: list = []
-        for file in form.images.data:
-            file_filename: str = secure_filename(file.filename)
-            file.save(os.path.join(app.config["UPLOAD_FOLDER"], file_filename))
-            files_filenames.append(file_filename)
+            files_filenames: list = []
+            for file in form.images.data:
+                file_filename: str = secure_filename(file.filename)
+                file.save(os.path.join(app.config["UPLOAD_FOLDER"], file_filename))
+                files_filenames.append(file_filename)
 
-        images: str = ",".join(files_filenames)
+            images: str = ",".join(files_filenames)
 
-        name: str = form.name.data
-        description: str = form.description.data
-        price: float = form.price.data
-        stock: int = form.stock.data
-        category_id: int = form.category.data
+            name: str = form.name.data
+            description: str = form.description.data
+            price: float = form.price.data
+            stock: int = form.stock.data
+            category_id: int = form.category.data
 
-        product = Product(
-            name=name,
-            description=description,
-            price=price,
-            stock=stock,
-            images=images,
-            category_id=category_id,
-            user_id=current_user.id,
-        )
-        db.session.add(product)
-        db.session.commit()
+            product = Product(
+                name=name,
+                description=description,
+                price=price,
+                stock=stock,
+                images=images,
+                category_id=category_id,
+                user_id=current_user.id,
+            )
+            db.session.add(product)
+            db.session.commit()
 
-        flash("Product created successfully!", category="green")
+            flash("Product created successfully!", category="green")
 
-        return redirect(url_for("product.index"))
+            return redirect(url_for("product.index"))
+        except Exception as e:
+            flash(f"Error: {e}", category="red")
+            return redirect(url_for("product.index"))
 
     if form.errors != {}:  # If there are errors from the validations
         for err_msg in form.errors.values():
