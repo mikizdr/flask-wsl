@@ -1,3 +1,5 @@
+from cgi import FieldStorage
+import os
 from typing import List
 from flask import (
     Blueprint,
@@ -10,12 +12,19 @@ from flask import (
     url_for,
 )
 from flask_login import current_user, login_required
+import requests
 
-from shopping import db
+from shopping import db, app
 from shopping.models.definitions import Category, Product
 from shopping.templates.components.forms.product import ProductForm
+from werkzeug.utils import secure_filename
 
 bp = Blueprint("product", __name__, url_prefix="/product")
+
+
+def get_img_url() -> str:
+    """Get random image url from picsum.photos."""
+    return requests.get("https://picsum.photos/400/400").url
 
 
 @bp.route("/", methods=["GET"])
@@ -35,11 +44,27 @@ def create() -> Response:
     form.category.choices = [(category.id, category.name) for category in categories]
 
     if form.validate_on_submit():
+        if "images" not in request.files:
+            flash("No images part", category="red")
+            return redirect(request.url)
+
+        file: FieldStorage = request.files["images"]
+        if file.filename == "":
+            flash("No selected file", category="red")
+            return redirect(request.url)
+
+        files_filenames: list = []
+        for file in form.images.data:
+            file_filename: str = secure_filename(file.filename)
+            file.save(os.path.join(app.config["UPLOAD_FOLDER"], file_filename))
+            files_filenames.append(file_filename)
+
+        images: str = ",".join(files_filenames)
+
         name: str = form.name.data
         description: str = form.description.data
         price: float = form.price.data
         stock: int = form.stock.data
-        img_url: str = form.img_url.data
         category_id: int = form.category.data
 
         product = Product(
@@ -47,7 +72,7 @@ def create() -> Response:
             description=description,
             price=price,
             stock=stock,
-            img_url=img_url,
+            images=images,
             category_id=category_id,
             user_id=current_user.id,
         )
