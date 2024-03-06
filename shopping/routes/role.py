@@ -15,7 +15,7 @@ from shopping.models.definitions import Role, User
 from shopping.routes.auth import only_admin
 from shopping.templates.components.forms.role import RoleForm
 
-bp = Blueprint("role", __name__, url_prefix="/roles")
+bp = Blueprint("role", __name__, url_prefix="/role")
 
 
 @bp.route("/")
