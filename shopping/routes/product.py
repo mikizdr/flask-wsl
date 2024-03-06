@@ -1,6 +1,5 @@
 from cgi import FieldStorage
 import os
-from typing import List
 from flask import (
     Blueprint,
     Response,
@@ -27,10 +26,18 @@ def get_img_url() -> str:
     return requests.get("https://picsum.photos/400/400").url
 
 
+def allowed_file(filename) -> bool:
+    """True if the file extension is allowed, False otherwise."""
+    return (
+        "." in filename
+        and filename.rsplit(".", 1)[1].lower() in app.config["ALLOWED_EXTENSIONS"]
+    )
+
+
 @bp.route("/", methods=["GET"])
 @login_required
 def index() -> Response:
-    products: List = Product.query.filter_by(user_id=current_user.id).all()
+    products: list = Product.query.filter_by(user_id=current_user.id).all()
 
     return render_template("product/index.html", products=products)
 
@@ -40,8 +47,10 @@ def index() -> Response:
 def create() -> Response:
     form = ProductForm()
 
-    categories: List = Category.query.all()
+    categories: list = Category.query.all()
     form.category.choices = [(category.id, category.name) for category in categories]
+
+    print(app.config["UPLOAD_FOLDER"])
 
     if form.validate_on_submit():
         try:
@@ -54,6 +63,10 @@ def create() -> Response:
             file: FieldStorage = request.files["images"]
             if file.filename == "":
                 flash("No selected file", category="red")
+                return redirect(request.url)
+
+            if not allowed_file(file.filename):
+                flash("File extension not allowed", category="red")
                 return redirect(request.url)
 
             files_filenames: list = []
