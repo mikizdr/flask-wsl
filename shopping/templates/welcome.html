@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% from 'components/product-card.html' import product_card %}
+
 {% block title %}Welcome{% endblock %}
 {% block content %}
 <div class="bg-gray-900 py-16">
@@ -11,10 +11,13 @@
 		{% if products|length > 0 %}
 		<div class="grid w-full sm:grid-cols-2 xl:grid-cols-4 gap-6">
 			{% for product in products %}
-            {{ product_card(product) }}
+            {% include 'components/product-card.html' %}
             {% endfor %}
 		</div>
-		{% else %} {% include 'hardcoded-html/products.html' %} {% endif %}
+		{% else %}
+			<!-- Hard-coded products -->
+			{% include 'hardcoded-html/products.html' %}
+		{% endif %}
 	</div>
 	{% endblock %}
 </div>
