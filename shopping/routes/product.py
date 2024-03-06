@@ -50,8 +50,6 @@ def create() -> Response:
     categories: list = Category.query.all()
     form.category.choices = [(category.id, category.name) for category in categories]
 
-    print(app.config["UPLOAD_FOLDER"])
-
     if form.validate_on_submit():
         try:
             if "images" not in request.files:
@@ -72,7 +70,12 @@ def create() -> Response:
             files_filenames: list = []
             for file in form.images.data:
                 file_filename: str = secure_filename(file.filename)
-                file.save(os.path.join(app.config["UPLOAD_FOLDER"], file_filename))
+                file.save(
+                    os.path.join(
+                        os.getcwd() + app.config["UPLOAD_FOLDER"] + "products/",
+                        file_filename,
+                    )
+                )
                 files_filenames.append(file_filename)
 
             images: str = ",".join(files_filenames)
