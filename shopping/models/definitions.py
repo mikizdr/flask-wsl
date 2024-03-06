@@ -149,7 +149,8 @@ class Product(db.Model):
     def get_product_image(self) -> str:
         """returns the first image of the product as a url"""
         return url_for(
-            "static", filename="images/products/uploads/" + self.images.split(",")[0]
+            "static",
+            filename="images/uploads/products/" + self.images.split(",")[0],
         )
 
     def __repr__(self) -> str:
