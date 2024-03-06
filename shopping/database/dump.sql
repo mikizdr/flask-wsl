@@ -12,24 +12,24 @@ VALUES(
 		1,
 		'Vegetable',
 		'Different types of vegetables',
-		'2024-03-06 15:18:36',
-		'2024-03-06 15:18:36'
+		'2024-03-06 15:31:18',
+		'2024-03-06 15:31:18'
 	);
 INSERT INTO "categories"
 VALUES(
 		2,
 		'Fruit',
 		'Different types of fruits',
-		'2024-03-06 15:18:36',
-		'2024-03-06 15:18:36'
+		'2024-03-06 15:31:18',
+		'2024-03-06 15:31:18'
 	);
 INSERT INTO "categories"
 VALUES(
 		3,
 		'Cereals',
 		'Different types of cereals',
-		'2024-03-06 15:18:36',
-		'2024-03-06 15:18:36'
+		'2024-03-06 15:31:18',
+		'2024-03-06 15:31:18'
 	);
 CREATE TABLE products (
 	id INTEGER NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE products (
 	description VARCHAR(1000) NOT NULL,
 	price FLOAT NOT NULL,
 	stock INTEGER NOT NULL,
-	img_url VARCHAR(500) NOT NULL,
+	images VARCHAR(500) NOT NULL,
 	created_at DATETIME NOT NULL,
 	updated_at DATETIME NOT NULL,
 	category_id INTEGER NOT NULL,
@@ -78,24 +78,24 @@ VALUES(
 		1,
 		'Admin',
 		'Administrator',
-		'2024-03-06 15:18:36',
-		'2024-03-06 15:18:36'
+		'2024-03-06 15:31:18',
+		'2024-03-06 15:31:18'
 	);
 INSERT INTO "roles"
 VALUES(
 		2,
 		'Seller',
 		'Customer who sells product',
-		'2024-03-06 15:18:36',
-		'2024-03-06 15:18:36'
+		'2024-03-06 15:31:18',
+		'2024-03-06 15:31:18'
 	);
 INSERT INTO "roles"
 VALUES(
 		3,
 		'Buyer',
 		'Customer who buys products',
-		'2024-03-06 15:18:36',
-		'2024-03-06 15:18:36'
+		'2024-03-06 15:31:18',
+		'2024-03-06 15:31:18'
 	);
 CREATE TABLE users (
 	id INTEGER NOT NULL,
@@ -118,10 +118,10 @@ VALUES(
 		'admin',
 		'admin@email.com',
 		NULL,
-		'scrypt:32768:8:1$kRDbUYPHZ9Rotv8h$7bca717213f38ae943844dded3187d74f0099705d67bf79092b7ddcd08de1d2edc64cdba4cf43b3f2829b4dc473641462645c9b12af3bcadde935bb0e75414d8',
+		'scrypt:32768:8:1$8GpHGJPHt9sJ9EFT$d6027df614bd9698a8f0a95c8ba033a8a59722d386a416e730b4ef30f70ce7b091c13cdb46e0ad2ee4d4dee852f1650c88a633f9ee31bb961e2b1a25a7485352',
 		NULL,
-		'2024-03-06 15:18:36',
-		'2024-03-06 15:18:36',
+		'2024-03-06 15:31:18',
+		'2024-03-06 15:31:18',
 		1
 	);
 COMMIT;
