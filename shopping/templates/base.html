@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon-16x16.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ url_for('static', filename='images/favicon-96x96.png') }}">
+
     {% block style %}{% endblock %}
 </head>
 
@@ -20,7 +24,7 @@
     <!-- Include hidden input fields for different purposes -->
     {% include 'components/hidden-input-fields.html' %}
 
-    <!-- https://github.com/orgs/themesberg/discussions/759 -->
+    <!-- TODO: https://github.com/orgs/themesberg/discussions/759 -->
     {% include 'components/delete-confirmation-modal.html' %}
     {% include 'components/popup-info-modal.html' %}
 
