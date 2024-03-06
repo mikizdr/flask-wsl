@@ -15,7 +15,7 @@ from shopping import db
 from shopping.models.definitions import Category, User
 from shopping.templates.components.forms.category import CategoryForm
 
-bp = Blueprint("category", __name__, url_prefix="/categories")
+bp = Blueprint("category", __name__, url_prefix="/category")
 
 
 @bp.route("/")
