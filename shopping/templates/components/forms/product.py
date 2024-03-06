@@ -1,8 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms import (
-    FileField,
     HiddenField,
     IntegerField,
+    MultipleFileField,
     SelectField,
     StringField,
     SubmitField,
@@ -34,11 +34,12 @@ class ProductForm(FlaskForm):
         render_kw={"step": "0.01", "min": "0.99"},
     )
     stock = IntegerField(
-        label="How many items in the stock?",
+        label="How many items are in the stock?",
         validators=[DataRequired("Stock number is required.")],
     )
-    img_url = FileField(
-        label="Product Image", validators=[Optional("Select an image for the product.")]
+    images = MultipleFileField(
+        label="Product Images",
+        validators=[Optional("Select images for the product.")],
     )
     category = SelectField(
         label="Product Category",
