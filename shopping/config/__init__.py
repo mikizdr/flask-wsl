@@ -13,6 +13,10 @@ class Config(object):
 
 class ProductionConfig(Config):
     DATABASE_URI = "mysql://user@localhost/test"
+    UPLOAD_FOLDER: str = os.getenv("UPLOAD_FOLDER", "storage/uploads")
+    ALLOWED_EXTENSIONS: set[str] = os.getenv(
+        "ALLOWED_EXTENSIONS", {"png", "jpg", "jpeg", "gif"}
+    )
 
 
 class DevelopmentConfig(Config):
@@ -21,6 +25,10 @@ class DevelopmentConfig(Config):
     )
     SECRET_KEY: Union[str, None] = os.getenv(
         "APP_SECRET_KEY", "change_me_if_there_is_no_dotenv_file_or_create_dotenv_file"
+    )
+    UPLOAD_FOLDER: str = os.getenv("UPLOAD_FOLDER", "storage/uploads")
+    ALLOWED_EXTENSIONS: set[str] = os.getenv(
+        "ALLOWED_EXTENSIONS", {"png", "jpg", "jpeg", "gif"}
     )
 
 
