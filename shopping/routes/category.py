@@ -41,6 +41,8 @@ def create() -> Response:
         db.session.add(category)
         db.session.commit()
 
+        flash("Category created successfully!", category="green")
+
         return redirect(url_for("category.index"))
 
     if form.errors != {}:  # If there are errors from the validations
