@@ -34,30 +34,32 @@ def index() -> str:
             flash("No profile_img part", category="red")
             return redirect(request.url)
 
-        # If the user does not select a file, the browser submits an
-        # empty file without a filename.
         file: FieldStorage = request.files["profile_img"]
-        if file.filename == "":
-            flash("No selected file", category="red")
-            return redirect(request.url)
+        # if user does not select file, uploading will be skipped
+        if file.filename != "":
+            # If the user does not select a file, the browser submits an
+            # empty file without a filename.
+            if file.filename == "":
+                flash("No selected file", category="red")
+                return redirect(request.url)
 
-        if not allowed_file(file.filename):
-            flash(
-                f"Extension of the file {file.filename} not allowed. Allowed extensions: {app.config['ALLOWED_EXTENSIONS']}",
-                category="red",
-            )
-            return redirect(request.url)
-
-        profile_unique_image_name = None
-        if file:
-            file_filename: str = secure_filename(file.filename)
-            profile_unique_image_name: str = make_unique_image_name(file_filename)
-            file.save(
-                os.path.join(
-                    os.getcwd() + app.config["UPLOAD_FOLDER"] + "users/",
-                    profile_unique_image_name,
+            if not allowed_file(file.filename):
+                flash(
+                    f"Extension of the file {file.filename} not allowed. Allowed extensions: {app.config['ALLOWED_EXTENSIONS']}",
+                    category="red",
                 )
-            )
+                return redirect(request.url)
+
+            profile_unique_image_name = None
+            if file:
+                file_filename: str = secure_filename(file.filename)
+                profile_unique_image_name: str = make_unique_image_name(file_filename)
+                file.save(
+                    os.path.join(
+                        os.getcwd() + app.config["UPLOAD_FOLDER"] + "users/",
+                        profile_unique_image_name,
+                    )
+                )
 
         first_name: str | None = form.first_name.data
         last_name: str | None = form.last_name.data
@@ -69,9 +71,6 @@ def index() -> str:
         city: str | None = form.city.data
         zipcode: str | None = form.zipcode.data
         country: str | None = form.country.data
-
-        if True:
-            pass
 
         if profile:
             profile.first_name = first_name
@@ -100,8 +99,9 @@ def index() -> str:
                 country=country,
             )
 
-        if profile_unique_image_name:
-            profile.profile_img = profile_unique_image_name
+        if file.filename != "":
+            if profile_unique_image_name:
+                profile.profile_img = profile_unique_image_name
 
         db.session.add(profile)
         db.session.commit()
