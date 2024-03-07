@@ -36,7 +36,7 @@ with app.app_context():
 
     init_defaults()
 
-# Uncomment the following lines to dump the database to a file, and run the app.
+# Uncomment the following lines to dump the database to a file, that can serve as a the db backup.
 # engine: Engine = create_engine("sqlite:///instance/shopping.db")
 # con: PoolProxiedConnection = engine.raw_connection()
 # with open("./shopping/database/dump.sql", "w") as f:
