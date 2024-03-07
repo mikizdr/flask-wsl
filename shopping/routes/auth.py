@@ -67,7 +67,7 @@ def login() -> Union[Response, str]:
                 category="green",
             )
 
-            return redirect(url_for("dashboard.home"))
+            return redirect(url_for("dashboard.index"))
         else:
             flash(
                 "Username and password are not match! Please try again",
