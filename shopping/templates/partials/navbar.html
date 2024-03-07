@@ -59,7 +59,6 @@ dark:text-white md:dark:text-blue-500" %}
                         id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
                         data-dropdown-placement="bottom">
                         <span class="sr-only">Open user menu</span>
-                        {% set profile_img = current_user.profile.profile_img if current_user.profile.profile_img else 'user-profile.png' %}
                         <img class="w-8 h-8 rounded-full" src="{{ current_user.profile.get_profile_image }}"
                             alt="user photo">
                     </button>
