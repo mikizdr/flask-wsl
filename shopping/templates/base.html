@@ -20,33 +20,39 @@
 </head>
 
 <body class="bg-gray-50 dark:bg-gray-900">
+    <div class="flex flex-col h-screen">
 
-    <!-- Include hidden input fields for different purposes -->
-    {% include 'components/hidden-input-fields.html' %}
 
-    <!-- TODO: https://github.com/orgs/themesberg/discussions/759 -->
-    {% include 'components/delete-confirmation-modal.html' %}
-    {% include 'components/popup-info-modal.html' %}
+        <!-- Include hidden input fields for different purposes -->
+        {% include 'components/hidden-input-fields.html' %}
 
-    {% from 'components/macros/alert.html' import alert %}
+        <!-- TODO: https://github.com/orgs/themesberg/discussions/759 -->
+        {% include 'components/delete-confirmation-modal.html' %}
+        {% include 'components/popup-info-modal.html' %}
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    {% for category, message in messages %}
-    {{ alert(message, category, loop.index) }}
-    {% endfor %}
-    {% endif %}
-    {% endwith %}
+        {% from 'components/macros/alert.html' import alert %}
 
-    {% if url_for(request.endpoint) not in ['/auth/register', '/auth/login'] %}
-    {% include 'partials/navbar.html' %}
-    {% endif %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        {{ alert(message, category, loop.index) }}
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
 
-    {% block content %}{% endblock %}
+        {% if url_for(request.endpoint) not in ['/auth/register', '/auth/login'] %}
+        {% include 'partials/navbar.html' %}
+        {% endif %}
+        <div class="flex-grow">
+
+            {% block content %}
+            {% endblock %}
+        </div>
+
+        {% include 'partials/footer.html' %}
+    </div>
 
     {% block script %}{% endblock %}
-
-    {% include 'partials/footer.html' %}
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
