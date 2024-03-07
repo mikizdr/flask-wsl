@@ -21,7 +21,13 @@ dark:focus:border-blue-500' %}
     <hr class="my-4">
 
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg px-4">
-        <form id="createProfileForm" novalidate method="post" action="{{ url_for('profile.index') }}">
+        <form
+            id="createProfileForm"
+            method="post"
+            action="{{ url_for('profile.index') }}"
+            enctype=multipart/form-data
+            novalidate
+            >
 
             {{ form.hidden_tag() }}
 

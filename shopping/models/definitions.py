@@ -106,6 +106,14 @@ class Profile(db.Model):
     )
     user = db.relationship("User", back_populates="profile")
 
+    @property
+    def get_profile_image(self) -> str:
+        """returns the profile image of the user as a url"""
+        return url_for(
+            "static",
+            filename="images/uploads/users/" + self.profile_img,
+        )
+
     def __repr__(self) -> str:
         return f"Profile('{self.first_name} {self.last_name}')"
 
