@@ -154,18 +154,5 @@ class Product(db.Model):
             filename="images/uploads/products/" + self.images.split(",")[0],
         )
 
-    def allowed_file(self, filename) -> bool:
-        """True if the file extension is allowed, False otherwise."""
-        return (
-            "." in filename
-            and filename.rsplit(".", 1)[1].lower() in app.config["ALLOWED_EXTENSIONS"]
-        )
-
-    def make_unique_image_name(self, filename) -> str:
-        """Return a unique image name."""
-        extension = filename.rsplit(".", 1)[1]
-
-        return str(uuid.uuid4()) + "." + extension
-
     def __repr__(self) -> str:
         return f"Product('{self.id}')"
