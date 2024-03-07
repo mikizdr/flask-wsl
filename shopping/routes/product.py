@@ -1,5 +1,7 @@
-from cgi import FieldStorage
 import os
+import requests
+from cgi import FieldStorage
+
 from flask import (
     Blueprint,
     Response,
@@ -11,12 +13,13 @@ from flask import (
     url_for,
 )
 from flask_login import current_user, login_required
-import requests
+from werkzeug.utils import secure_filename
 
 from shopping import db, app
 from shopping.models.definitions import Category, Product
 from shopping.templates.components.forms.product import ProductForm
-from werkzeug.utils import secure_filename
+from shopping.utils.helper import allowed_file, make_unique_image_name
+
 
 bp = Blueprint("product", __name__, url_prefix="/product")
 
@@ -58,7 +61,7 @@ def create() -> Response:
             files_filenames: list = []
             # product = Product()
             for file in form.images.data:
-                if not Product().allowed_file(file.filename):
+                if not allowed_file(file.filename):
                     flash(
                         f"Extension of the file {file.filename} not allowed. Allowed extensions: {app.config['ALLOWED_EXTENSIONS']}",
                         category="red",
@@ -67,7 +70,7 @@ def create() -> Response:
 
             for file in form.images.data:
                 file_filename: str = secure_filename(file.filename)
-                unique_image_name: str = Product().make_unique_image_name(file_filename)
+                unique_image_name: str = make_unique_image_name(file_filename)
                 file.save(
                     os.path.join(
                         os.getcwd() + app.config["UPLOAD_FOLDER"] + "products/",
