@@ -1,6 +1,5 @@
 from cgi import FieldStorage
 import os
-import uuid
 from flask import (
     Blueprint,
     Response,
@@ -25,21 +24,6 @@ bp = Blueprint("product", __name__, url_prefix="/product")
 def get_img_url() -> str:
     """Get random image url from picsum.photos."""
     return requests.get("https://picsum.photos/400/400").url
-
-
-def allowed_file(filename) -> bool:
-    """True if the file extension is allowed, False otherwise."""
-    return (
-        "." in filename
-        and filename.rsplit(".", 1)[1].lower() in app.config["ALLOWED_EXTENSIONS"]
-    )
-
-
-def make_unique_image_name(filename) -> str:
-    """Return a unique image name."""
-    extension = filename.rsplit(".", 1)[1]
-
-    return str(uuid.uuid4()) + "." + extension
 
 
 @bp.route("/", methods=["GET"])
@@ -72,8 +56,9 @@ def create() -> Response:
                 return redirect(request.url)
 
             files_filenames: list = []
+            # product = Product()
             for file in form.images.data:
-                if not allowed_file(file.filename):
+                if not Product().allowed_file(file.filename):
                     flash(
                         f"Extension of the file {file.filename} not allowed. Allowed extensions: {app.config['ALLOWED_EXTENSIONS']}",
                         category="red",
@@ -82,7 +67,7 @@ def create() -> Response:
 
             for file in form.images.data:
                 file_filename: str = secure_filename(file.filename)
-                unique_image_name: str = make_unique_image_name(file_filename)
+                unique_image_name: str = Product().make_unique_image_name(file_filename)
                 file.save(
                     os.path.join(
                         os.getcwd() + app.config["UPLOAD_FOLDER"] + "products/",
