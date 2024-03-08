@@ -162,5 +162,10 @@ class Product(db.Model):
             filename="images/uploads/products/" + self.images.split(",")[0],
         )
 
+    @property
+    def get_created_at(self) -> str:
+        """returns the date of creation of the product"""
+        return self.created_at.strftime("%d %b %Y")
+
     def __repr__(self) -> str:
         return f"Product('{self.id}')"

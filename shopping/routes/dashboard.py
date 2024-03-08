@@ -12,7 +12,7 @@ bp = Blueprint("dashboard", __name__)
 
 @bp.route("/")
 def index() -> str:
-    products = Product.query.all()
+    products = Product.query.order_by(Product.created_at.desc()).all()
 
     return render_template("welcome.html", products=products)
 
