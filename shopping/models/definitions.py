@@ -17,10 +17,6 @@ class User(db.Model, UserMixin):
     email_verified_at = db.Column(db.DateTime(), nullable=True)
     password = db.Column(db.String(length=60), nullable=False)
     remember_token = db.Column(db.String(length=100), nullable=True)
-    created_at = db.Column(db.DateTime(), nullable=False, default=db.func.now())
-    updated_at = db.Column(
-        db.DateTime(), nullable=False, default=db.func.now(), onupdate=db.func.now()
-    )
     role_id = db.Column(
         db.Integer(), db.ForeignKey("roles.id"), nullable=False, default=3
     )
@@ -29,6 +25,14 @@ class User(db.Model, UserMixin):
         "Profile", back_populates="user", lazy="select", uselist=False
     )
     products = db.relationship("Product", back_populates="user")
+
+    product = db.relationship(
+        "Product", secondary="users_products", back_populates="user"
+    )
+    created_at = db.Column(db.DateTime(), nullable=False, default=db.func.now())
+    updated_at = db.Column(
+        db.DateTime(), nullable=False, default=db.func.now(), onupdate=db.func.now()
+    )
 
     def password_is_valid(self, password: str) -> bool:
         """Check the password against the hashed password.
@@ -70,11 +74,11 @@ class Role(db.Model):
     id: int = db.Column(db.Integer(), primary_key=True)
     name: str = db.Column(db.String(length=20), nullable=False, unique=True)
     description: str = db.Column(db.String(length=1000), nullable=True)
+    users = db.relationship("User", back_populates="role")
     created_at = db.Column(db.DateTime(), nullable=False, default=db.func.now())
     updated_at = db.Column(
         db.DateTime(), nullable=False, default=db.func.now(), onupdate=db.func.now()
     )
-    users = db.relationship("User", back_populates="role")
 
     @property
     def get_name(self) -> str:
@@ -105,6 +109,10 @@ class Profile(db.Model):
         db.Integer(), db.ForeignKey("users.id"), nullable=False, unique=True
     )
     user = db.relationship("User", back_populates="profile")
+    created_at = db.Column(db.DateTime(), nullable=False, default=db.func.now())
+    updated_at = db.Column(
+        db.DateTime(), nullable=False, default=db.func.now(), onupdate=db.func.now()
+    )
 
     @property
     def get_profile_image(self) -> str:
@@ -143,16 +151,19 @@ class Product(db.Model):
     price = db.Column(db.Float(), nullable=False)
     stock = db.Column(db.Integer(), nullable=False)
     images = db.Column(db.String(length=500), nullable=False)
-    created_at = db.Column(db.DateTime(), nullable=False, default=db.func.now())
-    updated_at = db.Column(
-        db.DateTime(), nullable=False, default=db.func.now(), onupdate=db.func.now()
-    )
     category_id = db.Column(
         db.Integer(), db.ForeignKey("categories.id"), nullable=False
     )
     category = db.relationship("Category", back_populates="products")
     user_id = db.Column(db.Integer(), db.ForeignKey("users.id"), nullable=False)
-    user = db.relationship("User", back_populates="products")
+    product_creator = db.relationship("User", back_populates="products")
+    user = db.relationship(
+        "User", secondary="users_products", back_populates="products"
+    )
+    created_at = db.Column(db.DateTime(), nullable=False, default=db.func.now())
+    updated_at = db.Column(
+        db.DateTime(), nullable=False, default=db.func.now(), onupdate=db.func.now()
+    )
 
     @property
     def get_product_image(self) -> str:
@@ -169,3 +180,11 @@ class Product(db.Model):
 
     def __repr__(self) -> str:
         return f"Product('{self.id}')"
+
+
+# join table
+users_products = db.Table(
+    "users_products",
+    db.Column("user_id", db.Integer, db.ForeignKey("users.id")),
+    db.Column("product_id", db.Integer, db.ForeignKey("products.id")),
+)
