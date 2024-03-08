@@ -1443,6 +1443,10 @@ video {
   fill: #ea580c;
 }
 
+.hover\:stroke-orange-600:hover {
+  stroke: #ea580c;
+}
+
 .hover\:text-blue-500:hover {
   --tw-text-opacity: 1;
   color: rgb(59 130 246 / var(--tw-text-opacity));
