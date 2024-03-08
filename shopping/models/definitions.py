@@ -8,6 +8,14 @@ from flask_login import UserMixin
 from shopping import db, login_manager, app
 
 
+# join table for favorite products
+favorites = db.Table(
+    "favorites",
+    db.Column("user_id", db.Integer, db.ForeignKey("users.id"), primary_key=True),
+    db.Column("product_id", db.Integer, db.ForeignKey("products.id"), primary_key=True),
+)
+
+
 class User(db.Model, UserMixin):
     __tablename__: str = "users"
 
@@ -26,8 +34,11 @@ class User(db.Model, UserMixin):
     )
     products = db.relationship("Product", back_populates="user")
 
-    product = db.relationship(
-        "Product", secondary="users_products", back_populates="user"
+    favorites = db.relationship(
+        "Product",
+        secondary=favorites,
+        lazy="subquery",
+        backref=db.backref("users", lazy=True),
     )
     created_at = db.Column(db.DateTime(), nullable=False, default=db.func.now())
     updated_at = db.Column(
@@ -156,10 +167,7 @@ class Product(db.Model):
     )
     category = db.relationship("Category", back_populates="products")
     user_id = db.Column(db.Integer(), db.ForeignKey("users.id"), nullable=False)
-    product_creator = db.relationship("User", back_populates="products")
-    user = db.relationship(
-        "User", secondary="users_products", back_populates="products"
-    )
+    user = db.relationship("User", back_populates="products")
     created_at = db.Column(db.DateTime(), nullable=False, default=db.func.now())
     updated_at = db.Column(
         db.DateTime(), nullable=False, default=db.func.now(), onupdate=db.func.now()
@@ -180,11 +188,3 @@ class Product(db.Model):
 
     def __repr__(self) -> str:
         return f"Product('{self.id}')"
-
-
-# join table
-users_products = db.Table(
-    "users_products",
-    db.Column("user_id", db.Integer, db.ForeignKey("users.id")),
-    db.Column("product_id", db.Integer, db.ForeignKey("products.id")),
-)
