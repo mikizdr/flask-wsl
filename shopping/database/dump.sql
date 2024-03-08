@@ -12,24 +12,24 @@ VALUES(
 		1,
 		'Vegetable',
 		'Different types of vegetables',
-		'2024-03-08 21:17:28',
-		'2024-03-08 21:17:28'
+		'2024-03-08 21:45:23',
+		'2024-03-08 21:45:23'
 	);
 INSERT INTO "categories"
 VALUES(
 		2,
 		'Fruit',
 		'Different types of fruits',
-		'2024-03-08 21:17:28',
-		'2024-03-08 21:17:28'
+		'2024-03-08 21:45:23',
+		'2024-03-08 21:45:23'
 	);
 INSERT INTO "categories"
 VALUES(
 		3,
 		'Cereals',
 		'Different types of cereals',
-		'2024-03-08 21:17:28',
-		'2024-03-08 21:17:28'
+		'2024-03-08 21:45:23',
+		'2024-03-08 21:45:23'
 	);
 CREATE TABLE products (
 	id INTEGER NOT NULL,
@@ -80,24 +80,24 @@ VALUES(
 		1,
 		'Admin',
 		'Administrator',
-		'2024-03-08 21:17:28',
-		'2024-03-08 21:17:28'
+		'2024-03-08 21:45:23',
+		'2024-03-08 21:45:23'
 	);
 INSERT INTO "roles"
 VALUES(
 		2,
 		'Seller',
 		'Customer who sells product',
-		'2024-03-08 21:17:28',
-		'2024-03-08 21:17:28'
+		'2024-03-08 21:45:23',
+		'2024-03-08 21:45:23'
 	);
 INSERT INTO "roles"
 VALUES(
 		3,
 		'Buyer',
 		'Customer who buys products',
-		'2024-03-08 21:17:28',
-		'2024-03-08 21:17:28'
+		'2024-03-08 21:45:23',
+		'2024-03-08 21:45:23'
 	);
 CREATE TABLE users (
 	id INTEGER NOT NULL,
@@ -120,15 +120,18 @@ VALUES(
 		'admin',
 		'admin@email.com',
 		NULL,
-		'scrypt:32768:8:1$dhZ9YZVLPj8mSEnl$dfd5b5b3f81bf28ff980ee6d08ce2fb7f28e49bba9cb66f5c2c2817ff8b98ec74d2306cd3e9b06c73d7dab923748a70cd7144e2b84b7853df3f4c1f3e808a5d6',
+		'scrypt:32768:8:1$uYtXHqCmBf0jC58v$4dad39c1c1a291b9538b00afd64ee35317074d347416dcd598bc2026ddc3be3d7b034b1cf1b0bd58ad5a0761a01cf799bb8cacbd4f14ad5c2cfc9749d8fdcb6b',
 		NULL,
 		1,
-		'2024-03-08 21:17:28',
-		'2024-03-08 21:17:28'
+		'2024-03-08 21:45:23',
+		'2024-03-08 21:45:23'
 	);
 CREATE TABLE users_products (
-	user_id INTEGER,
-	product_id INTEGER,
+	user_id INTEGER NOT NULL,
+	product_id INTEGER NOT NULL,
+	created_at DATETIME NOT NULL,
+	updated_at DATETIME NOT NULL,
+	PRIMARY KEY (user_id, product_id),
 	FOREIGN KEY(user_id) REFERENCES users (id),
 	FOREIGN KEY(product_id) REFERENCES products (id)
 );
