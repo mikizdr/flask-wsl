@@ -12,25 +12,32 @@ VALUES(
 		1,
 		'Vegetable',
 		'Different types of vegetables',
-		'2024-03-08 21:45:23',
-		'2024-03-08 21:45:23'
+		'2024-03-08 22:36:31',
+		'2024-03-08 22:36:31'
 	);
 INSERT INTO "categories"
 VALUES(
 		2,
 		'Fruit',
 		'Different types of fruits',
-		'2024-03-08 21:45:23',
-		'2024-03-08 21:45:23'
+		'2024-03-08 22:36:31',
+		'2024-03-08 22:36:31'
 	);
 INSERT INTO "categories"
 VALUES(
 		3,
 		'Cereals',
 		'Different types of cereals',
-		'2024-03-08 21:45:23',
-		'2024-03-08 21:45:23'
+		'2024-03-08 22:36:31',
+		'2024-03-08 22:36:31'
 	);
+CREATE TABLE favorites (
+	user_id INTEGER NOT NULL,
+	product_id INTEGER NOT NULL,
+	PRIMARY KEY (user_id, product_id),
+	FOREIGN KEY(user_id) REFERENCES users (id),
+	FOREIGN KEY(product_id) REFERENCES products (id)
+);
 CREATE TABLE products (
 	id INTEGER NOT NULL,
 	name VARCHAR(100) NOT NULL,
@@ -80,24 +87,24 @@ VALUES(
 		1,
 		'Admin',
 		'Administrator',
-		'2024-03-08 21:45:23',
-		'2024-03-08 21:45:23'
+		'2024-03-08 22:36:31',
+		'2024-03-08 22:36:31'
 	);
 INSERT INTO "roles"
 VALUES(
 		2,
 		'Seller',
 		'Customer who sells product',
-		'2024-03-08 21:45:23',
-		'2024-03-08 21:45:23'
+		'2024-03-08 22:36:31',
+		'2024-03-08 22:36:31'
 	);
 INSERT INTO "roles"
 VALUES(
 		3,
 		'Buyer',
 		'Customer who buys products',
-		'2024-03-08 21:45:23',
-		'2024-03-08 21:45:23'
+		'2024-03-08 22:36:31',
+		'2024-03-08 22:36:31'
 	);
 CREATE TABLE users (
 	id INTEGER NOT NULL,
@@ -120,19 +127,10 @@ VALUES(
 		'admin',
 		'admin@email.com',
 		NULL,
-		'scrypt:32768:8:1$uYtXHqCmBf0jC58v$4dad39c1c1a291b9538b00afd64ee35317074d347416dcd598bc2026ddc3be3d7b034b1cf1b0bd58ad5a0761a01cf799bb8cacbd4f14ad5c2cfc9749d8fdcb6b',
+		'scrypt:32768:8:1$PAZnZYHarn1ELtiv$3ace91249a60d9a5f437f771bd3b8c820e6b18882f380958e9d85c0069e1c494274373cb858fb6781417874b466de15038e521b2f918b5d2b07e129670d0676a',
 		NULL,
 		1,
-		'2024-03-08 21:45:23',
-		'2024-03-08 21:45:23'
+		'2024-03-08 22:36:31',
+		'2024-03-08 22:36:31'
 	);
-CREATE TABLE users_products (
-	user_id INTEGER NOT NULL,
-	product_id INTEGER NOT NULL,
-	created_at DATETIME NOT NULL,
-	updated_at DATETIME NOT NULL,
-	PRIMARY KEY (user_id, product_id),
-	FOREIGN KEY(user_id) REFERENCES users (id),
-	FOREIGN KEY(product_id) REFERENCES products (id)
-);
 COMMIT;
