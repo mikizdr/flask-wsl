@@ -8,6 +8,4 @@ if __name__ == "__main__":
     then, put the port number to some other value than 5000, for example 8000. Port can be get from .env file or
     from the configuration file.
     """
-    app.run(
-        debug=True, port=5000
-    )  # Run the app in debug mode (for development purposes only!)
+    app.run(debug=True)  # Run the app in debug mode (for development purposes only!)
