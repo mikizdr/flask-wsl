@@ -9,9 +9,7 @@ from wtforms import (
     TextAreaField,
     DecimalField,
 )
-from wtforms.validators import ValidationError, Optional, Length, DataRequired
-
-from shopping.models.definitions import Category
+from wtforms.validators import Optional, Length, DataRequired
 
 
 class ProductForm(FlaskForm):
