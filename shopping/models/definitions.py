@@ -68,6 +68,11 @@ class User(db.Model, UserMixin):
             else self.username
         )
 
+    @property
+    def list_of_favorites(self) -> list:
+        """List of favorite products ids."""
+        return [p.id for p in self.favorites]
+
     def __repr__(self) -> str:
         return f"User('{self.username}')"
 

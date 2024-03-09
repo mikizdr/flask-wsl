@@ -178,5 +178,45 @@ function removeResource() {
         });
 }
 
+/**
+ * Add resource to favorite
+ *
+ * @param {HTMLButtonElement} element
+ *
+ * @returns {void}
+ */
+function addToFavorite(element) {
+    const id = element.getAttribute('data-resource-id');
+    const resourceType = element.getAttribute('data-type');
+    const svg = element.querySelector('svg');
+
+    fetch(`/${resourceType}/favorite/${id}`, {
+        method: 'POST'
+    })
+        .then(response => {
+            return response.json()
+        })
+        .then(response => {
+            if (response.status === 200) {
+                changeIconColor();
+                svg.classList.add('fill-orange-600', 'stroke-orange-600');
+            } else if (response.status === 204) {
+                changeIconColor(false);
+                svg.classList.remove('fill-orange-600', 'stroke-orange-600');
+            } else if (response.status !== 200 || response.status !== 204) {
+                throw TypeError("Sorry, something went wrong.");
+            }
+            // message comes from the BE, and it's capitalized, but for any case, we capitalize it here as well.
+            afterActionMessageInPopupModal.innerText = response.message.capitalize();
+        })
+        .catch(error => {
+            afterActionMessageInPopupModal.innerText = error.message.capitalize();
+        })
+        .finally(() => {
+            const button = document.getElementById('showHidePopupModal');
+            button.click();
+        });
+}
+
 
 // Path: shopping/static/js/script.js

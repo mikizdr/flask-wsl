@@ -151,3 +151,31 @@ def delete_product(id: int) -> Response:
     db.session.commit()
 
     return jsonify({"message": "Product deleted successfully!"})
+
+
+@bp.route("/favorite/<int:id>", methods=["POST"])
+@login_required
+def add_product_to_favorite(id: int) -> Response:
+    """Add/remove product to/from favorite products."""
+    try:
+        product: Product = Product.query.get_or_404(id)
+
+        if id in current_user.list_of_favorites:
+            current_user.favorites.remove(product)
+            db.session.commit()
+
+            return jsonify(
+                {"message": "Product removed from favorite products.", "status": 204}
+            )
+
+        current_user.favorites.append(product)
+        db.session.commit()
+
+        return jsonify(
+            {
+                "message": "Product added to favorite products successfully!",
+                "status": 200,
+            }
+        )
+    except Exception as e:
+        return jsonify({"message": "Product not found!", "status": 404})
