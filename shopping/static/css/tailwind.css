@@ -1127,6 +1127,14 @@ video {
   fill: #0ea5e9;
 }
 
+.fill-orange-600 {
+  fill: #ea580c;
+}
+
+.stroke-orange-600 {
+  stroke: #ea580c;
+}
+
 .p-1 {
   padding: 0.25rem;
 }
