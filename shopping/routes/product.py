@@ -105,6 +105,14 @@ def show(id: int) -> Response:
     return render_template("product/show.html", product=product)
 
 
+@bp.route("/favorites", methods=["GET"])
+def favorites() -> Response:
+    """Show user's favorite products."""
+    favorites: list[Product] = current_user.favorites
+
+    return render_template("pages/home.html", products=favorites)
+
+
 @bp.route("/<int:id>", methods=["PUT"])
 @login_required
 def update(id: int) -> Response:

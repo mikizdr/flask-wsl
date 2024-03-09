@@ -67,7 +67,7 @@ def login() -> Union[Response, str]:
                 category="green",
             )
 
-            return redirect(url_for("dashboard.index"))
+            return redirect(url_for("home.index"))
         else:
             flash(
                 "Username and password are not match! Please try again",
@@ -82,7 +82,7 @@ def logout() -> Response:
     logout_user()
     flash("You have been logged out!", category="blue")
 
-    return redirect(url_for("dashboard.index"))
+    return redirect(url_for("home.index"))
 
 
 def only_admin(view):

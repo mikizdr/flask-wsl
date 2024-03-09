@@ -107,7 +107,7 @@ def index() -> str:
         db.session.commit()
 
         flash("Profile updated successfully!", category="green")
-        return redirect(url_for("dashboard.index"))
+        return redirect(url_for("home.index"))
 
     if form.errors != {}:  # If there are errors from the validations
         for err_msg in form.errors.values():
