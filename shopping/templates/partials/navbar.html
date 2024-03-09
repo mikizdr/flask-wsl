@@ -25,20 +25,20 @@ dark:text-white md:dark:text-blue-500" %}
                 class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                 <li>
                     <a href="{{ url_for('dashboard.index') }}"
-                        class="{{ active_link if url_for(request.endpoint) == url_for('dashboard.index') else link_classes }}">
+                        class="{{ active_link if request.path == url_for('dashboard.index') else link_classes }}">
                         Home
                     </a>
                 </li>
                 {% if current_user.is_authenticated %}
                 <li>
                     <a href="{{ url_for('product.index') }}"
-                        class="{{ active_link if '/product' in url_for(request.endpoint) else link_classes }}">
+                        class="{{ active_link if '/product' in request.path else link_classes }}">
                         Products
                     </a>
                 </li>
                 <li>
                     <a href="{{ url_for('category.index') }}"
-                        class="{{ active_link if '/category' in url_for(request.endpoint) else link_classes }}">
+                        class="{{ active_link if '/category' in request.path else link_classes }}">
                         Categories
                     </a>
                 </li>
@@ -47,7 +47,7 @@ dark:text-white md:dark:text-blue-500" %}
                 {% if current_user.role_id == 1 %}
                 <li>
                     <a href="{{ url_for('role.index') }}"
-                        class="{{ active_link if '/role' in url_for(request.endpoint) else link_classes }}">
+                        class="{{ active_link if '/role' in request.path else link_classes }}">
                         Roles
                     </a>
                 </li>
