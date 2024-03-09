@@ -98,9 +98,16 @@ def create() -> Response:
     return render_template("product/create.html", form=form, categories=categories)
 
 
+@bp.route("/<int:id>", methods=["GET"])
+def show(id: int) -> Response:
+    product: Product = Product.query.get_or_404(id)
+
+    return render_template("product/show.html", product=product)
+
+
 @bp.route("/<int:id>", methods=["PUT"])
 @login_required
-def update_product(id: int) -> Response:
+def update(id: int) -> Response:
 
     try:
         product: Product = Product.query.get_or_404(id)
@@ -112,12 +119,12 @@ def update_product(id: int) -> Response:
 
         return jsonify({"message": "Product updated successfully!"})
     except Exception as e:
-        return jsonify({"message": "Product not found!"}), 404
+        return jsonify({"message": "Product not found!", "status": 404})
 
 
 @bp.route("/<int:id>", methods=["DELETE"])
 @login_required
-def delete_product(id: int) -> Response:
+def delete(id: int) -> Response:
     product: Product = Product.query.get_or_404(id)
 
     # TODO: Check if product is being associated with an order
@@ -160,4 +167,4 @@ def add_product_to_favorite(id: int) -> Response:
             }
         )
     except Exception as e:
-        return jsonify({"message": "Product not found!", "status": 404})
+        return jsonify({"message": e, "status": 404})
