@@ -45,7 +45,7 @@ def create() -> Response:
     categories: list = Category.query.all()
     form.category.choices = [(category.id, category.name) for category in categories]
 
-    if form.validate_on_submit():
+    if request.method == "POST" and form.validate_on_submit():
         try:
             if "images" not in request.files:
                 flash("No images part", category="red")
@@ -80,27 +80,10 @@ def create() -> Response:
                 files_filenames.append(unique_image_name)
 
             images: str = ",".join(files_filenames)
-
-            name: str = form.name.data
-            description: str = form.description.data
-            price: float = form.price.data
-            stock: int = form.stock.data
-            category_id: int = form.category.data
-
-            product = Product(
-                name=name,
-                description=description,
-                price=price,
-                stock=stock,
-                images=images,
-                category_id=category_id,
-                user_id=current_user.id,
-            )
-            db.session.add(product)
-            db.session.commit()
+            form.images.data = images
+            Product().create_product(form)
 
             flash("Product created successfully!", category="green")
-
             return redirect(url_for("product.index"))
         except Exception as e:
             flash(f"Error: {e}", category="red")
@@ -125,7 +108,6 @@ def update_product(id: int) -> Response:
         product.name = request.json.get("name")
         product.description = request.json.get("description")
 
-        db.session.add(product)
         db.session.commit()
 
         return jsonify({"message": "Product updated successfully!"})

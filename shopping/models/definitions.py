@@ -3,9 +3,10 @@ import uuid
 from flask import url_for
 
 from werkzeug.security import check_password_hash
-from flask_login import UserMixin
+from flask_login import UserMixin, current_user
 
 from shopping import db, login_manager, app
+from shopping.templates.components.forms.product import ProductForm
 
 
 # join table for favorite products
@@ -190,6 +191,20 @@ class Product(db.Model):
     def get_created_at(self) -> str:
         """returns the date of creation of the product"""
         return self.created_at.strftime("%d %b %Y")
+
+    def create_product(self, form: ProductForm) -> None:
+        """Create a new product in the database."""
+        product: Product = Product(
+            name=form.name.data,
+            description=form.description.data,
+            price=form.price.data,
+            stock=form.stock.data,
+            images=form.images.data,
+            category_id=form.category.data,
+            user_id=current_user.id,
+        )
+        db.session.add(product)
+        db.session.commit()
 
     def __repr__(self) -> str:
         return f"Product('{self.id}')"
