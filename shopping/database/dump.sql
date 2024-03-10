@@ -12,24 +12,24 @@ VALUES(
 		1,
 		'Vegetable',
 		'Different types of vegetables',
-		'2024-03-08 22:36:31',
-		'2024-03-08 22:36:31'
+		'2024-03-10 14:14:37',
+		'2024-03-10 14:14:37'
 	);
 INSERT INTO "categories"
 VALUES(
 		2,
 		'Fruit',
 		'Different types of fruits',
-		'2024-03-08 22:36:31',
-		'2024-03-08 22:36:31'
+		'2024-03-10 14:14:37',
+		'2024-03-10 14:14:37'
 	);
 INSERT INTO "categories"
 VALUES(
 		3,
 		'Cereals',
 		'Different types of cereals',
-		'2024-03-08 22:36:31',
-		'2024-03-08 22:36:31'
+		'2024-03-10 14:14:37',
+		'2024-03-10 14:14:37'
 	);
 CREATE TABLE favorites (
 	user_id INTEGER NOT NULL,
@@ -87,24 +87,24 @@ VALUES(
 		1,
 		'Admin',
 		'Administrator',
-		'2024-03-08 22:36:31',
-		'2024-03-08 22:36:31'
+		'2024-03-10 14:14:37',
+		'2024-03-10 14:14:37'
 	);
 INSERT INTO "roles"
 VALUES(
 		2,
 		'Seller',
 		'Customer who sells product',
-		'2024-03-08 22:36:31',
-		'2024-03-08 22:36:31'
+		'2024-03-10 14:14:37',
+		'2024-03-10 14:14:37'
 	);
 INSERT INTO "roles"
 VALUES(
 		3,
 		'Buyer',
 		'Customer who buys products',
-		'2024-03-08 22:36:31',
-		'2024-03-08 22:36:31'
+		'2024-03-10 14:14:37',
+		'2024-03-10 14:14:37'
 	);
 CREATE TABLE users (
 	id INTEGER NOT NULL,
@@ -127,10 +127,10 @@ VALUES(
 		'admin',
 		'admin@email.com',
 		NULL,
-		'scrypt:32768:8:1$PAZnZYHarn1ELtiv$3ace91249a60d9a5f437f771bd3b8c820e6b18882f380958e9d85c0069e1c494274373cb858fb6781417874b466de15038e521b2f918b5d2b07e129670d0676a',
+		'scrypt:32768:8:1$UUV0X8kpxyRICf6B$ed5e7e72f68ea659d551bae369a456a97e7646c66ff0e5d1121ed10fbefa3ab817eadaf09177e10c4464bbd45ea82bbfd0801a604cc35ebf63d3c31034ea01f9',
 		NULL,
 		1,
-		'2024-03-08 22:36:31',
-		'2024-03-08 22:36:31'
+		'2024-03-10 14:14:37',
+		'2024-03-10 14:14:37'
 	);
 COMMIT;
