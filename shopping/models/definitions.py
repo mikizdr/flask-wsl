@@ -34,13 +34,13 @@ class User(db.Model, UserMixin):
         "Profile", back_populates="user", lazy="select", uselist=False
     )
     products = db.relationship("Product", back_populates="user")
-
     favorites = db.relationship(
         "Product",
         secondary=favorites,
         lazy="subquery",
         backref=db.backref("users", lazy=True),
     )
+    carts = db.relationship("Cart", back_populates="user")
     created_at = db.Column(db.DateTime(), nullable=False, default=db.func.now())
     updated_at = db.Column(
         db.DateTime(), nullable=False, default=db.func.now(), onupdate=db.func.now()
@@ -103,6 +103,24 @@ class Role(db.Model):
 
     def __repr__(self) -> str:
         return f"Role('{self.name}')"
+
+
+class Cart(db.Model):
+    __tablename__: str = "carts"
+
+    id = db.Column(db.Integer(), primary_key=True)
+    user_id = db.Column(db.Integer(), db.ForeignKey("users.id"), nullable=False)
+    user = db.relationship("User", back_populates="carts")
+    product_id = db.Column(db.Integer(), db.ForeignKey("products.id"), nullable=False)
+    number_of_products = db.Column(db.Integer(), nullable=False, default=1)
+    total = db.Column(db.Float(), nullable=False)
+    created_at = db.Column(db.DateTime(), nullable=False, default=db.func.now())
+    updated_at = db.Column(
+        db.DateTime(), nullable=False, default=db.func.now(), onupdate=db.func.now()
+    )
+
+    def __repr__(self) -> str:
+        return f"Cart('{self.id}')"
 
 
 class Profile(db.Model):
