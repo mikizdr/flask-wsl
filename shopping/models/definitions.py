@@ -112,6 +112,7 @@ class Cart(db.Model):
     user_id = db.Column(db.Integer(), db.ForeignKey("users.id"), nullable=False)
     user = db.relationship("User", back_populates="carts")
     product_id = db.Column(db.Integer(), db.ForeignKey("products.id"), nullable=False)
+    product = db.relationship("Product", back_populates="carts")
     number_of_products = db.Column(db.Integer(), nullable=False, default=1)
     total = db.Column(db.Float(), nullable=False)
     created_at = db.Column(db.DateTime(), nullable=False, default=db.func.now())
@@ -192,6 +193,7 @@ class Product(db.Model):
     category = db.relationship("Category", back_populates="products")
     user_id = db.Column(db.Integer(), db.ForeignKey("users.id"), nullable=False)
     user = db.relationship("User", back_populates="products")
+    carts = db.relationship("Cart", back_populates="product")
     created_at = db.Column(db.DateTime(), nullable=False, default=db.func.now())
     updated_at = db.Column(
         db.DateTime(), nullable=False, default=db.func.now(), onupdate=db.func.now()
