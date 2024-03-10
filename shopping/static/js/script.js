@@ -236,7 +236,7 @@ function addToCart(element) {
             if (response.status === 200 || response.status === 201) {
                 changeIconColor();
             } else {
-                throw Error("Sorry, something went wrong.");
+                throw Error(response.message || "Sorry, product can't be added to the cart.");
             }
             afterActionMessageInPopupModal.innerText = response.message.capitalize();
         })
