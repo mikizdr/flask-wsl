@@ -204,9 +204,40 @@ function addToFavorite(element) {
                 changeIconColor(false);
                 svg.classList.remove('fill-orange-600', 'stroke-orange-600');
             } else if (response.status !== 200 || response.status !== 204) {
-                throw TypeError("Sorry, something went wrong.");
+                throw Error("Sorry, something went wrong.");
             }
             // message comes from the BE, and it's capitalized, but for any case, we capitalize it here as well.
+            afterActionMessageInPopupModal.innerText = response.message.capitalize();
+        })
+        .catch(error => {
+            afterActionMessageInPopupModal.innerText = error.message.capitalize();
+        })
+        .finally(() => {
+            const button = document.getElementById('showHidePopupModal');
+            button.click();
+        });
+}
+
+/**
+ * Add product to cart
+ *
+ * @param {HTMLButtonElement} element 
+ */
+function addToCart(element) {
+    const id = element.getAttribute('data-resource-id');
+
+    fetch(`/product/cart/${id}`, {
+        method: 'POST'
+    })
+        .then(response => {
+            return response.json()
+        })
+        .then(response => {
+            if (response.status === 200 || response.status === 201) {
+                changeIconColor();
+            } else {
+                throw Error("Sorry, something went wrong.");
+            }
             afterActionMessageInPopupModal.innerText = response.message.capitalize();
         })
         .catch(error => {

@@ -16,7 +16,7 @@ from flask_login import current_user, login_required
 from werkzeug.utils import secure_filename
 
 from shopping import db, app
-from shopping.models.definitions import Category, Product
+from shopping.models.definitions import Cart, Category, Product
 from shopping.templates.components.forms.product import ProductForm
 from shopping.utils.helper import allowed_file, make_unique_image_name
 
@@ -176,3 +176,44 @@ def add_product_to_favorite(id: int) -> Response:
         )
     except Exception as e:
         return jsonify({"message": e, "status": 404})
+
+
+@bp.route("/cart/<int:id>", methods=["POST"])
+@login_required
+def add_product_to_cart(id: int) -> Response:
+    """Add product to user's cart."""
+    try:
+        cart: Cart | None = Cart.query.filter_by(
+            user_id=current_user.id, product_id=id
+        ).first()
+        product: Product | None = Product.query.get_or_404(id)
+
+        if not product:
+            return jsonify({"message": "Product not found!", "status": 404})
+        elif product.stock == 0:
+            return jsonify({"message": "Product out of stock!", "status": 404})
+
+        if cart:
+            # TODO: increase cart's number_of_products, total amount,
+            # and decrease product stock. NOTE: hard-coded values
+            cart.number_of_products += 1
+            cart.total += product.price
+            product.stock -= 1
+            db.session.commit()
+            return jsonify(
+                {
+                    "message": "Product already in cart. Total amount updated successfully!",
+                    "status": 200,
+                }
+            )
+        else:
+            cart = Cart(user_id=current_user.id, product_id=id, total=product.price)
+            product.stock -= 1
+            db.session.add(cart)
+            db.session.commit()
+            return jsonify(
+                {"message": "Product added to cart successfully!", "status": 201}
+            )
+
+    except Exception as e:
+        return jsonify({"message": e, "status": 500})
