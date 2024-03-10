@@ -39,7 +39,7 @@ def index() -> Response:
 
 @bp.route("/create", methods=["GET", "POST"])
 @login_required
-def create_product() -> Response:
+def create() -> Response:
     form = ProductForm()
 
     categories: list = Category.query.all()
@@ -99,7 +99,7 @@ def create_product() -> Response:
 
 
 @bp.route("/<int:id>", methods=["GET"])
-def show_product(id: int) -> Response:
+def show(id: int) -> Response:
     product: Product = Product.query.get_or_404(id)
 
     return render_template("product/show.html", product=product)
@@ -115,7 +115,7 @@ def favorites() -> Response:
 
 @bp.route("/<int:id>", methods=["PUT"])
 @login_required
-def update_product(id: int) -> Response:
+def update(id: int) -> Response:
 
     try:
         product: Product = Product.query.get_or_404(id)
@@ -132,7 +132,7 @@ def update_product(id: int) -> Response:
 
 @bp.route("/<int:id>", methods=["DELETE"])
 @login_required
-def delete_product(id: int) -> Response:
+def delete(id: int) -> Response:
     product: Product = Product.query.get_or_404(id)
 
     # TODO: Check if product is being associated with an order
@@ -221,7 +221,7 @@ def add_product_to_cart(id: int) -> Response:
 
 @bp.route("/cart", methods=["GET"])
 @login_required
-def show_cart() -> Response:
+def cart() -> Response:
     """Show user's cart."""
     carts: list[Cart] = Cart.query.filter_by(user_id=current_user.id).all()
 
