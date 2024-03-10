@@ -9,6 +9,7 @@ load_dotenv()
 class Config(object):
     TESTING = False
     ENV = "development"
+    PORT = os.getenv("APP_PORT", 5000)
 
 
 class ProductionConfig(Config):
