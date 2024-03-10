@@ -221,7 +221,7 @@ function addToFavorite(element) {
 /**
  * Add product to cart
  *
- * @param {HTMLButtonElement} element 
+ * @param {HTMLButtonElement} element
  */
 function addToCart(element) {
     const id = element.getAttribute('data-resource-id');
