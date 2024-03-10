@@ -33,9 +33,11 @@
                         </p>
                     </div>
                     <hr>
+                    {% if current_user.is_authenticated %}
                     <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
                         {% include 'components/add-to-cart-button.html' %}
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
