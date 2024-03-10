@@ -32,7 +32,7 @@
 			{% if url_for(request.endpoint) == url_for('product.favorites') %}
 			<p class="text-white text-center text-2xl mt-8">You have no favorite products yet.</p>
 			{% else %}
-			<p class="text-white text-center text-2xl mt-8">No products found. You can <a href="{{ url_for('auth.register') }}">register</a> or <a href="{{ url_for('auth.register') }}">login</a> with your account, and create your products.</p>
+			<p class="text-white text-center text-2xl mt-8">No products found. You can <a href="{{ url_for('auth.register') }}" class="text-blue-700 hover:text-blue-500">register</a> or <a href="{{ url_for('auth.login') }}" class="text-blue-700 hover:text-blue-500">login</a> with your account, and create your products.</p>
 			{% endif %}
 		{% endif %}
 	</div>
