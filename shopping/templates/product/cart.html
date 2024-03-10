@@ -11,6 +11,9 @@
     <hr class="my-4">
 
     <div class="overflow-x-auto shadow-md sm:rounded-lg">
+        {% if carts|length == 0 %}
+        <p class="text-white text-center text-2xl mt-8">You have no products in your shopping cart yet.</p>
+        {% else %}
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -56,9 +59,11 @@
                     </td>
                     <td class="flex items-center px-6 py-4">
                         <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-3"
-                            data-type="product/cart" data-resource-id="{{ cart.id }}" onclick="updateResource(this)">Edit</button>
+                            data-type="product/cart" data-resource-id="{{ cart.id }}"
+                            onclick="updateResource(this)">Edit</button>
                         <button class="font-medium text-green-600 dark:text-green-500 hover:underline mr-3"
-                            data-type="product/cart" data-resource-id="{{ cart.id }}"  onclick="updateResource(this, true)" style="display: none;">Update</button>
+                            data-type="product/cart" data-resource-id="{{ cart.id }}"
+                            onclick="updateResource(this, true)" style="display: none;">Update</button>
                         <button class="font-medium text-red-600 dark:text-red-500 hover:underline"
                             onclick="setResourceIdAndType(this)" data-resource-id="{{ cart.id }}"
                             data-type="product/cart" data-modal-target="deleteModal" data-modal-toggle="deleteModal">
@@ -69,6 +74,19 @@
                 {% endfor %}
             </tbody>
         </table>
+        {% endif %}
     </div>
+
+    <hr class="my-4">
+
+    <div class="flex justify-between items-center">
+        <p class="text-white text-l">If your shopping cart looks fine, you can finish your order.</p>
+        <a href="javascript:alert('To be continued...')"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Buy Products
+        </a>
+    </div>
+
+    <hr class="my-4">
 </div>
 {% endblock %}
