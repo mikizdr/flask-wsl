@@ -39,7 +39,7 @@ def index() -> Response:
 
 @bp.route("/create", methods=["GET", "POST"])
 @login_required
-def create() -> Response:
+def create_product() -> Response:
     form = ProductForm()
 
     categories: list = Category.query.all()
@@ -99,7 +99,7 @@ def create() -> Response:
 
 
 @bp.route("/<int:id>", methods=["GET"])
-def show(id: int) -> Response:
+def show_product(id: int) -> Response:
     product: Product = Product.query.get_or_404(id)
 
     return render_template("product/show.html", product=product)
@@ -115,7 +115,7 @@ def favorites() -> Response:
 
 @bp.route("/<int:id>", methods=["PUT"])
 @login_required
-def update(id: int) -> Response:
+def update_product(id: int) -> Response:
 
     try:
         product: Product = Product.query.get_or_404(id)
@@ -132,7 +132,7 @@ def update(id: int) -> Response:
 
 @bp.route("/<int:id>", methods=["DELETE"])
 @login_required
-def delete(id: int) -> Response:
+def delete_product(id: int) -> Response:
     product: Product = Product.query.get_or_404(id)
 
     # TODO: Check if product is being associated with an order
@@ -217,3 +217,27 @@ def add_product_to_cart(id: int) -> Response:
 
     except Exception as e:
         return jsonify({"message": e, "status": 500})
+
+
+@bp.route("/cart", methods=["GET"])
+@login_required
+def show_cart() -> Response:
+    """Show user's cart."""
+    carts: list[Cart] = Cart.query.filter_by(user_id=current_user.id).all()
+
+    return render_template("product/cart.html", carts=carts)
+
+
+@bp.route("/cart/<int:id>", methods=["DELETE"])
+@login_required
+def delete_cart(id: int) -> Response:
+    """Delete product from user's cart."""
+    cart: Cart = Cart.query.get_or_404(id)
+
+    product = cart.product
+    product.stock += cart.number_of_products
+
+    db.session.delete(cart)
+    db.session.commit()
+
+    return jsonify({"message": "Cart deleted successfully!"})

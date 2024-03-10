@@ -31,8 +31,14 @@ dark:text-white md:dark:text-blue-500" %}
                 </li>
                 {% if current_user.is_authenticated %}
                 <li>
+                    <a href="{{ url_for('product.cart') }}"
+                        class="{{ active_link if '/cart' in request.path else link_classes }}">
+                        Shopping Cart
+                    </a>
+                </li>
+                <li>
                     <a href="{{ url_for('product.index') }}"
-                        class="{{ active_link if '/product' in request.path else link_classes }}">
+                        class="{{ active_link if '/product' in request.path and '/cart' not in request.path else link_classes }}">
                         Products
                     </a>
                 </li>

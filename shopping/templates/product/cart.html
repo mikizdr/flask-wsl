@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}Shopping Cart{% endblock %}
+
+{% block content %}
+<div class="px-8 sm:px-16">
+    <div class="flex justify-between items-center">
+        <h1 class="text-white text-2xl">Your Shopping Cart</h1>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th class="p-4">
+                        #
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Product name
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Number of products
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Total amount
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cart in carts %}
+                <tr
+                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <input type="hidden" name="cartId{{ cart.id }}" id="cartId{{ cart.id }}" value="{{ cart.id }}">
+                    <td class="w-4 p-4">
+                        {{ loop.index }}
+                    </td>
+                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <div>
+                            {{ cart.product.name }}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div contenteditable="">
+                            {{ cart.number_of_products }}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div>
+                            {{ cart.total }}
+                        </div>
+                    </td>
+                    <td class="flex items-center px-6 py-4">
+                        <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-3"
+                            data-type="product/cart" data-resource-id="{{ cart.id }}" onclick="updateResource(this)">Edit</button>
+                        <button class="font-medium text-green-600 dark:text-green-500 hover:underline mr-3"
+                            data-type="product/cart" data-resource-id="{{ cart.id }}"  onclick="updateResource(this, true)" style="display: none;">Update</button>
+                        <button class="font-medium text-red-600 dark:text-red-500 hover:underline"
+                            onclick="setResourceIdAndType(this)" data-resource-id="{{ cart.id }}"
+                            data-type="product/cart" data-modal-target="deleteModal" data-modal-toggle="deleteModal">
+                            Remove
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
