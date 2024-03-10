@@ -46,10 +46,7 @@
 			</div>
 			{% if current_user.is_authenticated %}
 			<div class="relative z-40 flex items-center gap-2 mt-4 sm:mt-0">
-				<button
-					class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
-					Add to cart
-				</button>
+				{% include 'components/add-to-cart-button.html' %}
 			</div>
 			{% endif %}
 		</div>
