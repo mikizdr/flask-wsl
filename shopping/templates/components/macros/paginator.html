@@ -1,0 +1,35 @@
+{% macro render_pagination(pagination, endpoint) %}
+{% if pagination.total > 0 %}
+<div class="flex justify-between items-center mt-4">
+    <div class="flex justify-between items-center w-9/12 m-auto">
+        <button
+            class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded {{ 'opacity-50 cursor-not-allowed' if pagination.prev_num == None }}"
+            {{ 'disabled' if pagination.prev_num==None }}
+            onclick="window.location.href='{{ pagination.prev_num }}'">Previous</button>
+        <div class=text-white>
+            {% for page in pagination.iter_pages() %}
+            {% if page %}
+            {% if page != pagination.page %}
+            <a class="mx-2" href="{{ url_for('category.index', page=page) }}">{{ page }}</a>
+            {% else %}
+            <span class="text-blue-500 font-bold mx-2">{{ page }}</span>
+            {% endif %}
+            {% else %}
+            <span class=ellipsis>…</span>
+            {% endif %}
+            {% endfor %}
+        </div>
+        <button
+            class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded {{ 'opacity-50 cursor-not-allowed' if pagination.next_num == None else '' }}"
+            {{ 'disabled' if pagination.next_num==None }}
+            onclick="window.location.href='{{ pagination.next_num }}'">Next</button>
+    </div>
+</div>
+<hr class="my-3">
+<div class="flex justify-center items-center text-white">
+    <div class=page-items>
+        Showing {{ pagination.first }} - {{ pagination.last }} of {{ pagination.total }} total.
+    </div>
+</div>
+{% endif %}
+{% endmacro %}
