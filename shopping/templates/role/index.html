@@ -53,12 +53,14 @@
                     </td>
                     <td class="flex items-center px-6 py-4">
                         <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-3"
-                            data-type="role" data-resource-id="{{ role.id }}" onclick="updateResource(this)">Edit</button>
+                            data-type="role" data-resource-id="{{ role.id }}"
+                            onclick="updateResource(this)">Edit</button>
                         <button class="font-medium text-green-600 dark:text-green-500 hover:underline mr-3"
-                            data-type="role" data-resource-id="{{ role.id }}" onclick="updateResource(this, true)" style="display: none;">Update</button>
+                            data-type="role" data-resource-id="{{ role.id }}" onclick="updateResource(this, true)"
+                            style="display: none;">Update</button>
                         <button class="font-medium text-red-600 dark:text-red-500 hover:underline"
-                            onclick="setResourceIdAndType(this)" data-resource-id="{{ role.id }}"
-                            data-type="role" data-modal-target="deleteModal" data-modal-toggle="deleteModal">
+                            onclick="setResourceIdAndType(this)" data-resource-id="{{ role.id }}" data-type="role"
+                            data-modal-target="deleteModal" data-modal-toggle="deleteModal">
                             Remove
                         </button>
                     </td>
@@ -67,6 +69,7 @@
             </tbody>
         </table>
     </div>
+    {{ render_pagination(roles, 'role.index')}}
 </div>
 
 {% endblock %}

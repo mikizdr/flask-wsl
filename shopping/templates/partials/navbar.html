@@ -52,7 +52,7 @@ dark:text-white md:dark:text-blue-500" %}
                 <!-- Only admin can see this link -->
                 {% if current_user.role_id == 1 %}
                 <li>
-                    <a href="{{ url_for('role.index') }}"
+                    <a href="{{ url_for('role.index', page=1) }}"
                         class="{{ active_link if '/role' in request.path else link_classes }}">
                         Roles
                     </a>

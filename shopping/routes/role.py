@@ -14,16 +14,17 @@ from shopping import db
 from shopping.models.definitions import Role, User
 from shopping.routes.auth import only_admin
 from shopping.templates.components.forms.role import RoleForm
+from shopping.utils.helper import paginator
 
 bp = Blueprint("role", __name__, url_prefix="/role")
 
 
-@bp.route("/")
+@bp.route("/<int:page>")
 @only_admin
-def index() -> Response:
-    roles: List = Role.query.all()
+def index(page=1) -> Response:
+    pagination = paginator(Role, page)
 
-    return render_template("role/index.html", roles=roles)
+    return render_template("role/index.html", roles=pagination)
 
 
 @bp.route("/create", methods=["GET", "POST"])
@@ -43,7 +44,7 @@ def create() -> Response:
 
         flash("Role created successfully!", category="green")
 
-        return redirect(url_for("role.index"))
+        return redirect(url_for("role.index", page=1))
 
     if form.errors != {}:  # If there are errors from the validations
         for err_msg in form.errors.values():
