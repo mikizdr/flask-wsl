@@ -1,6 +1,6 @@
 from shopping import app, config
 
-PORT = config.Config.PORT
+PORT = app.config["PORT"]
 
 # Compare this snippet from shopping/__init__.py:
 if __name__ == "__main__":
