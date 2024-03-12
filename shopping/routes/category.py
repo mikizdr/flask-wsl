@@ -12,18 +12,20 @@ from flask import (
 from flask_login import login_required
 
 from shopping import db
-from shopping.models.definitions import Category, User
+from shopping.models.definitions import Category, Product
 from shopping.templates.components.forms.category import CategoryForm
+
+from shopping.utils.helper import paginator
 
 bp = Blueprint("category", __name__, url_prefix="/category")
 
 
-@bp.route("/")
+@bp.route("/<int:page>", methods=["GET"])
 @login_required
-def index() -> Response:
-    categories: List = Category.query.all()
+def index(page: int = 1) -> Response:
+    pagination = paginator(Category, page)
 
-    return render_template("category/index.html", categories=categories)
+    return render_template("category/index.html", pagination=pagination)
 
 
 @bp.route("/create", methods=["GET", "POST"])
@@ -43,7 +45,7 @@ def create() -> Response:
 
         flash("Category created successfully!", category="green")
 
-        return redirect(url_for("category.index"))
+        return redirect(url_for("category.index", page=1))
 
     if form.errors != {}:  # If there are errors from the validations
         for err_msg in form.errors.values():
@@ -57,7 +59,7 @@ def create() -> Response:
 
 @bp.route("/<int:id>", methods=["PUT"])
 @login_required
-def update_role(id: int) -> Response:
+def update(id: int) -> Response:
 
     try:
         category: Category = Category.query.get_or_404(id)
@@ -75,14 +77,16 @@ def update_role(id: int) -> Response:
 
 @bp.route("/<int:id>", methods=["DELETE"])
 @login_required
-def delete_role(id: int) -> Response:
+def delete(id: int) -> Response:
     category: Category = Category.query.get_or_404(id)
 
-    user: User = User.query.filter_by(role_id=id).first()
+    product: Product = Product.query.filter_by(category_id=id).first()
 
-    if user:
+    if product:
         return (
-            jsonify({"message": "Category is being used by a user. Cannot delete!"}),
+            jsonify(
+                {"message": "Category is being used by a product. Cannot be removed!"}
+            ),
             409,
         )
 
