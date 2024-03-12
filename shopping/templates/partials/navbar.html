@@ -37,7 +37,7 @@ dark:text-white md:dark:text-blue-500" %}
                     </a>
                 </li>
                 <li>
-                    <a href="{{ url_for('product.index') }}"
+                    <a href="{{ url_for('product.index', page=1) }}"
                         class="{{ active_link if '/product' in request.path and '/cart' not in request.path else link_classes }}">
                         Products
                     </a>

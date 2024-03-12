@@ -49,7 +49,8 @@
                 {% for product in products %}
                 <tr
                     class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <input type="hidden" name="productId{{ product.id }}" id="productId{{ product.id }}" value="{{ product.id }}">
+                    <input type="hidden" name="productId{{ product.id }}" id="productId{{ product.id }}"
+                        value="{{ product.id }}">
                     <td class="w-4 p-4">
                         {{ loop.index }}
                     </td>
@@ -85,12 +86,14 @@
                     </td>
                     <td class="flex items-center px-6 py-4">
                         <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-3"
-                            data-type="product" data-resource-id="{{ product.id }}" onclick="updateResource(this)">Edit</button>
+                            data-type="product" data-resource-id="{{ product.id }}"
+                            onclick="updateResource(this)">Edit</button>
                         <button class="font-medium text-green-600 dark:text-green-500 hover:underline mr-3"
-                            data-type="product" data-resource-id="{{ product.id }}" onclick="updateResource(this, true)" style="display: none;">Update</button>
+                            data-type="product" data-resource-id="{{ product.id }}" onclick="updateResource(this, true)"
+                            style="display: none;">Update</button>
                         <button class="font-medium text-red-600 dark:text-red-500 hover:underline"
-                            onclick="setResourceIdAndType(this)" data-resource-id="{{ product.id }}"
-                            data-type="product" data-modal-target="deleteModal" data-modal-toggle="deleteModal">
+                            onclick="setResourceIdAndType(this)" data-resource-id="{{ product.id }}" data-type="product"
+                            data-modal-target="deleteModal" data-modal-toggle="deleteModal">
                             Remove
                         </button>
                     </td>
@@ -99,6 +102,7 @@
             </tbody>
         </table>
     </div>
+    {{ render_pagination(products, 'product.index')}}
 </div>
 
 {% endblock %}

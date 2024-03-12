@@ -29,10 +29,12 @@ def get_img_url() -> str:
     return requests.get("https://picsum.photos/400/400").url
 
 
-@bp.route("/", methods=["GET"])
+@bp.route("/<int:page>", methods=["GET"])
 @login_required
-def index() -> Response:
-    products: list = Product.query.filter_by(user_id=current_user.id).all()
+def index(page: int = 1) -> Response:
+    products: list = Product.query.filter_by(user_id=current_user.id).paginate(
+        page=page, per_page=5
+    )
 
     return render_template("product/index.html", products=products)
 
@@ -84,10 +86,11 @@ def create() -> Response:
             Product().create_product(form)
 
             flash("Product created successfully!", category="green")
-            return redirect(url_for("product.index"))
+
         except Exception as e:
             flash(f"Error: {e}", category="red")
-            return redirect(url_for("product.index"))
+
+        return redirect(url_for("product.index", page=1))
 
     if form.errors != {}:  # If there are errors from the validations
         for err_msg in form.errors.values():
