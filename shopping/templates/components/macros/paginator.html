@@ -10,7 +10,7 @@
             {% for page in pagination.iter_pages() %}
             {% if page %}
             {% if page != pagination.page %}
-            <a class="mx-2" href="{{ url_for('category.index', page=page) }}">{{ page }}</a>
+            <a class="mx-2" href="{{ url_for(endpoint, page=page) }}">{{ page }}</a>
             {% else %}
             <span class="text-blue-500 font-bold mx-2">{{ page }}</span>
             {% endif %}
