@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
-{% block title %}Product Categories{% endblock %}
+
+
+{% block title %}Product pagination{% endblock %}
 
 {% block content %}
 
@@ -34,10 +36,11 @@
                 </tr>
             </thead>
             <tbody>
-                {% for category in categories %}
+                {% for category in pagination.items %}
                 <tr
                     class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <input type="hidden" name="categoryId{{ category.id }}" id="categoryId{{ category.id }}" value="{{ category.id }}">
+                    <input type="hidden" name="categoryId{{ category.id }}" id="categoryId{{ category.id }}"
+                        value="{{ category.id }}">
                     <td class="w-4 p-4">
                         {{ loop.index }}
                     </td>
@@ -53,9 +56,11 @@
                     </td>
                     <td class="flex items-center px-6 py-4">
                         <button class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-3"
-                            data-type="category" data-resource-id="{{ category.id }}" onclick="updateResource(this)">Edit</button>
+                            data-type="category" data-resource-id="{{ category.id }}"
+                            onclick="updateResource(this)">Edit</button>
                         <button class="font-medium text-green-600 dark:text-green-500 hover:underline mr-3"
-                            data-type="category" data-resource-id="{{ category.id }}" onclick="updateResource(this, true)" style="display: none;">Update</button>
+                            data-type="category" data-resource-id="{{ category.id }}"
+                            onclick="updateResource(this, true)" style="display: none;">Update</button>
                         <button class="font-medium text-red-600 dark:text-red-500 hover:underline"
                             onclick="setResourceIdAndType(this)" data-resource-id="{{ category.id }}"
                             data-type="category" data-modal-target="deleteModal" data-modal-toggle="deleteModal">
@@ -67,6 +72,7 @@
             </tbody>
         </table>
     </div>
+    {{ render_pagination(pagination, 'category.index')}}
 </div>
 
 {% endblock %}
