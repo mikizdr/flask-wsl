@@ -10,6 +10,8 @@ class Config(object):
     TESTING = False
     ENV = "development"
     PORT = os.getenv("APP_PORT", 5000)
+    MAX_PER_PAGE = os.getenv("MAX_PER_PAGE", 10)
+    PER_PAGE = os.getenv("PER_PAGE", 5)
 
 
 class ProductionConfig(Config):
